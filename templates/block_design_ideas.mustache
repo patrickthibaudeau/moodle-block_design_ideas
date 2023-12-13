@@ -1,0 +1,37 @@
+<div class="alert alert-info" role="alert">
+    <p>
+        {{#str}}instructions, block_design_ideas{{/str}}
+    </p>
+</div>
+
+<button type="button" class="btn btn-outline-info btn-ai-call w-100" data-bot_id="81">
+    {{#str}}activity_artist, block_design_ideas{{/str}}
+</button>
+
+<button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="82">
+    {{#str}}assessment_assistant, block_design_ideas{{/str}}
+</button>
+
+<!--<button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="83">-->
+<!--    {{#str}}essay_topics, block_design_ideas{{/str}}-->
+<!--</button>-->
+
+<script>
+    var root = 'http://localhost:8180';
+    console.log(root);
+    const buttons = document.querySelectorAll('.btn-ai-call');
+    // button.addEventListener('click', () => {
+    //     var botId = button.getAttribute('data-bot_id');
+    //     window.open( 'http://localhost:8180/blocks/design_ideas/ai_call.php?id=' + botId,
+    //             'second-opinion', 'width=600,height=750');
+    // });
+
+
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function() {
+            var botId = this.getAttribute('data-bot_id');
+            window.open( 'http://localhost:8180/blocks/design_ideas/ai_call.php?id=' + botId,
+                    'second-opinion', 'width=600,height=750');
+        });
+    }
+</script>
