@@ -35,11 +35,13 @@ $query_string = [
 $url = $CFG->block_idi_cria_url . "/webservice/rest/server.php?";
 // Get the response
 if ($bot_id == 844) {
-    $query_string['prompt'] = 'Based on the course description, write four essay topics. Include a description for each topic.';
+    $query_string['prompt'] = 'Based on the course description, write four essay topic ideas. Include a description for each topic.' .
+        ' Add a statement that these are ideas to get you started. You can adapt as required.';
 }
 
 if ($bot_id == 841) {
-    $query_string['prompt'] = 'Based on the course description, create course topics for 13 weeks. Include a description for each topic.';
+    $query_string['prompt'] = 'Based on the course description, create course topics for 13 weeks. Include a description ' .
+        'for each topic. Add a statement that these are ideas to get you started. You can adapt as required.';
 }
 
 if ($bot_id == 842) {
