@@ -28,6 +28,14 @@ defined('MOODLE_INTERNAL') || die();
 if ($hassiteconfig) {
     $settings = new admin_settingpage('block_design_ideas_settings', new lang_string('pluginname', 'block_design_ideas'));
 
+    $settings->add(new admin_setting_configtext(
+        'cria_bot_id',
+        get_string('cria_bot_id', 'block_design_ideas'),
+        get_string('cria_bot_id_help', 'block_design_ideas'),
+        0,
+        PARAM_INT
+    ));
+
     // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
     if ($ADMIN->fulltree) {
         // TODO: Define actual plugin settings page and add it to the tree - {@link https://docs.moodle.org/dev/Admin_settings}.

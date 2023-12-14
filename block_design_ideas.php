@@ -56,8 +56,20 @@ class block_design_ideas extends block_base
         $this->content->icons = array();
         $this->content->footer = '';
 
+        // Get course object
+        $course = $DB->get_record('course', array('id' => $this->page->course->id));
+        $has_course_sumamry = false;
+        if (strip_tags($course->summary)) {
+            $has_course_sumamry = true;
+        }
 
-        $this->content->text = $OUTPUT->render_from_template('block_design_ideas/block_design_ideas', array());
+        $data = array(
+            'courseid' => $this->page->course->id,
+            'blockid' => $this->instance->id,
+            'course_sumamry' => $has_course_sumamry,
+        );
+
+        $this->content->text = $OUTPUT->render_from_template('block_design_ideas/block_design_ideas', $data);
 
 
         return $this->content;

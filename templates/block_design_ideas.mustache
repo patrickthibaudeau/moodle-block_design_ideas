@@ -3,18 +3,29 @@
         {{#str}}instructions, block_design_ideas{{/str}}
     </p>
 </div>
+{{#course_sumamry}}
+<button type="button" class="btn btn-outline-info btn-ai-call w-100" data-bot_id="841" data-course_id="{{courseid}}">
+    {{#str}}course_topics, block_design_ideas{{/str}}
+</button>
 
-<button type="button" class="btn btn-outline-info btn-ai-call w-100" data-bot_id="81">
+<button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="842" data-course_id="{{courseid}}">
     {{#str}}activity_artist, block_design_ideas{{/str}}
 </button>
 
-<button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="82">
+<button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="843" data-course_id="{{courseid}}">
     {{#str}}assessment_assistant, block_design_ideas{{/str}}
 </button>
 
-<!--<button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="83">-->
-<!--    {{#str}}essay_topics, block_design_ideas{{/str}}-->
-<!--</button>-->
+<button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="844" data-course_id="{{courseid}}">
+    {{#str}}essay_topics, block_design_ideas{{/str}}
+</button>
+{{/course_sumamry}}
+{{^course_sumamry}}
+    <div class="alert alert-danger" role="alert">
+        <p>
+            {{#str}}no_course_summary, block_design_ideas, {{config.wwwroot}}/course/edit.php?id={{courseid}}{{/str}}
+        </p>
+{{/course_sumamry}}
 
 <script>
     var root = 'http://localhost:8180';
@@ -30,7 +41,8 @@
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', function() {
             var botId = this.getAttribute('data-bot_id');
-            window.open( 'http://localhost:8180/blocks/design_ideas/ai_call.php?id=' + botId,
+            var courseId = this.getAttribute('data-course_id');
+            window.open( 'http://localhost:8180/blocks/design_ideas/ai_call.php?id=' + botId + '&courseid=' + courseId,
                     'second-opinion', 'width=600,height=750');
         });
     }
