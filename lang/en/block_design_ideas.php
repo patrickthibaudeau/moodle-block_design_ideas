@@ -30,6 +30,10 @@ $string['assessment_assistant'] = 'Assessment Assistant';
 $string['course_topics'] = 'Course Topics';
 $string['cria_bot_id'] = 'Cria bot id';
 $string['cria_bot_id_help'] = 'The bot id used to access the CRIA API.';
+$string['cria_token'] = 'Cria token';
+$string['cria_token_help'] = 'The token used to access the CRIA API.';
+$string['cria_url'] = 'Cria URL';
+$string['cria_url_help'] = 'The URL used to access the CRIA API.';
 $string['essay_topics'] = 'Essay Topics';
 $string['instructions'] = 'Want some help thinking about fun experiential activities or meaningful, authentic '.
     'assessments for your course?<br><br>Check out these supportive AI tools!';

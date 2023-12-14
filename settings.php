@@ -29,7 +29,23 @@ if ($hassiteconfig) {
     $settings = new admin_settingpage('block_design_ideas_settings', new lang_string('pluginname', 'block_design_ideas'));
 
     $settings->add(new admin_setting_configtext(
-        'cria_bot_id',
+        'block_idi_cria_url',
+        get_string('cria_url', 'block_design_ideas'),
+        get_string('cria_url_help', 'block_design_ideas'),
+        '',
+        PARAM_TEXT
+    ));
+
+    $settings->add(new admin_setting_configpasswordunmask(
+        'block_idi_cria_token',
+        get_string('cria_token', 'block_design_ideas'),
+        get_string('cria_token_help', 'block_design_ideas'),
+        0,
+        PARAM_INT
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'block_idi_cria_bot_id',
         get_string('cria_bot_id', 'block_design_ideas'),
         get_string('cria_bot_id_help', 'block_design_ideas'),
         0,

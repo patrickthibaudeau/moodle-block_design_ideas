@@ -19,23 +19,21 @@ ob_flush();
 flush();
 // Get course
 $course = $DB->get_record('course', array('id' => $course_id), '*', MUST_EXIST);
-// Preapre query string data
-$token = '6104e46ed6c7f5257413c116eef059b1';
+
+$token = $CFG->block_idi_cria_token;
 $ws_function = 'cria_get_gpt_response';
 $query_string = [
     'wstoken' => $token,
     'wsfunction' => $ws_function,
     'moodlewsrestformat' => 'json',
-    'bot_id' => $CFG->cria_bot_id,
+    'bot_id' => $CFG->block_idi_cria_bot_id,
     'chat_id' => '0',
     'prompt' => '',
     'content' => $course->summary
 ];
 
-//$url ="https://innovation.uit.yorku.ca/cria/webservice/rest/server.php?wstoken=$token&moodlewsrestformat=json&wsfunction=$ws_function&bot_id=62&chat_id=0&prompt=&content=$content";
-$url = "https://innovation.uit.yorku.ca/cria/webservice/rest/server.php?";
+$url = $CFG->block_idi_cria_url . "/webservice/rest/server.php?";
 // Get the response
-
 if ($bot_id == 844) {
     $query_string['prompt'] = 'Based on the course description, write four essay topics. Include a description for each topic.';
 }
