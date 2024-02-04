@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_design_ideas';
-$plugin->release = '0.1.0';
-$plugin->version = 2023121401;
+$plugin->release = '0.2.0';
+$plugin->version = 20234020400;
 $plugin->requires = 2022041900;
 $plugin->maturity = MATURITY_ALPHA;

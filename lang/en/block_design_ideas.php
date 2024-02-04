@@ -26,8 +26,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['activity_artist'] = 'Activity Artist';
+$string['append_to_existing_topics'] = 'Append to existing topics';
 $string['assessment_assistant'] = 'Assessment Assistant';
 $string['course_topics'] = 'Course Topics';
+$string['create_topics'] = 'Create Topics';
 $string['cria_bot_id'] = 'Cria bot id';
 $string['cria_bot_id_help'] = 'The bot id used to access the CRIA API.';
 $string['cria_token'] = 'Cria token';
@@ -41,4 +43,5 @@ $string['no_course_summary'] = '<h3>No course summary available.</h3> In order f
     'you need to add a course summary. You can do this by going to the <a href="{$a}" title="Link to course settings page">course settings</a> and adding a summary '.
     'in the Course Summary field. Once you have done this, you can refresh this page and the buttons will be avialable.';
 $string['pluginname'] = 'Instructional Design Ideas';
+$string['replace_all_existing_topics'] = 'Replace all existing topics';
 

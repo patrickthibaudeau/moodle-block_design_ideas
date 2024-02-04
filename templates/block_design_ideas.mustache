@@ -4,21 +4,37 @@
     </p>
 </div>
 {{#course_sumamry}}
-<button type="button" class="btn btn-outline-info btn-ai-call w-100" data-bot_id="841" data-course_id="{{courseid}}">
-    {{#str}}course_topics, block_design_ideas{{/str}}
-</button>
+    <div id="btn-design_ideas-topics" class=" btn-group w-100" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+            {{#str}}course_topics, block_design_ideas{{/str}}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a href="#" class="dropdown-item btn-ai-call" data-bot_id="841" data-topics="13"
+                    data-course_id="{{courseid}}">
+                Create 13 topics
+            </a>
+            <a href="#" class="dropdown-item btn-ai-call" data-bot_id="841" data-topics="24"
+                    data-course_id="{{courseid}}">
+                Create 24 topics
+            </a>
+        </div>
+    </div>
 
-<button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="842" data-course_id="{{courseid}}">
-    {{#str}}activity_artist, block_design_ideas{{/str}}
-</button>
+    <button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="842"
+            data-course_id="{{courseid}}">
+        {{#str}}activity_artist, block_design_ideas{{/str}}
+    </button>
 
-<button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="843" data-course_id="{{courseid}}">
-    {{#str}}assessment_assistant, block_design_ideas{{/str}}
-</button>
+    <button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="843"
+            data-course_id="{{courseid}}">
+        {{#str}}assessment_assistant, block_design_ideas{{/str}}
+    </button>
 
-<button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="844" data-course_id="{{courseid}}">
-    {{#str}}essay_topics, block_design_ideas{{/str}}
-</button>
+    <button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="844"
+            data-course_id="{{courseid}}">
+        {{#str}}essay_topics, block_design_ideas{{/str}}
+    </button>
 {{/course_sumamry}}
 {{^course_sumamry}}
     <div class="alert alert-danger" role="alert">
@@ -27,23 +43,28 @@
         </p>
 {{/course_sumamry}}
 
-<script>
-    var root = 'http://localhost:8180';
-    console.log(root);
-    const buttons = document.querySelectorAll('.btn-ai-call');
-    // button.addEventListener('click', () => {
-    //     var botId = button.getAttribute('data-bot_id');
-    //     window.open( 'http://localhost:8180/blocks/design_ideas/ai_call.php?id=' + botId,
-    //             'second-opinion', 'width=600,height=750');
-    // });
+
+    <script>
+        var root = M.cfg.wwwroot;
+        console.log(root);
+        const buttons = document.querySelectorAll('.btn-ai-call');
+        // button.addEventListener('click', () => {
+        //     var botId = button.getAttribute('data-bot_id');
+        //     window.open( 'http://localhost:8180/blocks/design_ideas/ai_call.php?id=' + botId,
+        //             'second-opinion', 'width=600,height=750');
+        // });
 
 
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].addEventListener('click', function() {
-            var botId = this.getAttribute('data-bot_id');
-            var courseId = this.getAttribute('data-course_id');
-            window.open( 'http://localhost:8180/blocks/design_ideas/ai_call.php?id=' + botId + '&courseid=' + courseId,
-                    'second-opinion', 'width=600,height=750');
-        });
-    }
-</script>
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', function () {
+                var botId = this.getAttribute('data-bot_id');
+                var courseId = this.getAttribute('data-course_id');
+                var numberOfTopics = this.getAttribute('data-topics');
+                window.open('http://localhost:8180/blocks/design_ideas/ai_call.php?id='
+                        + botId
+                        + '&courseid=' + courseId
+                        + '&topics=' + numberOfTopics,
+                        'second-opinion', 'width=700,height=800');
+            });
+        }
+    </script>
