@@ -43,5 +43,5 @@ $string['no_course_summary'] = '<h3>No course summary available.</h3> In order f
     'you need to add a course summary. You can do this by going to the <a href="{$a}" title="Link to course settings page">course settings</a> and adding a summary '.
     'in the Course Summary field. Once you have done this, you can refresh this page and the buttons will be avialable.';
 $string['pluginname'] = 'Instructional Design Ideas';
-$string['replace_all_existing_topics'] = 'Replace all existing topics';
+$string['replace_all_exising_topics'] = 'Replace all existing topics';
 

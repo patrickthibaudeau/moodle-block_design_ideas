@@ -57,7 +57,7 @@ if ($bot_id == 844) {
 
 $show_create_topics_button = false;
 if ($bot_id == 841) {
-    $query_string['prompt'] = "Based on the course description, create course topics for $topics weeks.\n"
+    $query_string['prompt'] = "Based on the course description, create $topics topics, no more!\n"
         . "Include a description for each topic.\n"
         . "Return the results in JSON format as per this example: \n"
         . '[
