@@ -9,7 +9,7 @@ require_login(1, false);
 
 $bot_id = required_param('id', PARAM_INT);
 $course_id = required_param('courseid', PARAM_INT);
-$topics = optional_param('topics',  4,PARAM_INT);
+$number_of_topics = optional_param('topics',  4,PARAM_INT);
 
 $context = context_system::instance();
 
@@ -57,7 +57,8 @@ if ($bot_id == 844) {
 
 $show_create_topics_button = false;
 if ($bot_id == 841) {
-    $query_string['prompt'] = "Based on the course description, create $topics topics, no more!\n"
+    $query_string['prompt'] = "---You are a University professor building your course.---\n"
+        . "Based on the course description, create $number_of_topics topics, no more!\n"
         . "Include a description for each topic.\n"
         . "Return the results in JSON format as per this example: \n"
         . '[
