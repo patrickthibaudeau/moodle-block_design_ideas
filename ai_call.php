@@ -49,10 +49,12 @@ $query_string = [
 ];
 
 $url = $CFG->block_idi_cria_url . "/webservice/rest/server.php?";
+
 // Get the response
 if ($bot_id == 844) {
-    $query_string['prompt'] = 'Based on the course description, write four essay topic ideas. Include a description for each topic.' .
-        ' Add a statement that these are ideas to get you started. You can adapt as required.';
+    $query_string['prompt'] = 'Based on the course description, write four university grade essay topic ideas. Include a description for each topic.' .
+        ' Add a statement that these are ideas to get you started. You can adapt as required.'
+        . "Always write in the same language as the course description.\n";
 }
 
 $show_create_topics_button = false;
@@ -60,6 +62,7 @@ if ($bot_id == 841) {
     $query_string['prompt'] = "---You are a University professor building your course.---\n"
         . "Based on the course description, create $number_of_topics topics, no more!\n"
         . "Include a description for each topic.\n"
+        . "Always write in the same language as the course description.\n"
         . "Return the results in JSON format as per this example: \n"
         . '[
             {"name":"Name of topic","summary":"Description of topic},
@@ -69,11 +72,13 @@ if ($bot_id == 841) {
 }
 
 if ($bot_id == 842) {
-    $query_string['prompt'] = 'What experiential learning activities may you suggest based on the learning outcomes and the course content? Please provide the answer in a list format.';
+    $query_string['prompt'] = 'What experiential learning activities may you suggest based on the learning outcomes and the course content? Please provide the answer in a list format.'
+        . "Always write in the same language as the course description.\n";
 }
 
 if ($bot_id == 843) {
-    $query_string['prompt'] = 'What authentic assessment ideas can you give me based on the learning outcomes and the course content? Please provide the answer in a list format.';
+    $query_string['prompt'] = 'What authentic assessment ideas can you give me based on the learning outcomes and the course content? Please provide the answer in a list format.'
+        . "Always write in the same language as the course description.\n";
 }
 
 $ch = curl_init($url);
