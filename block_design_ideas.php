@@ -64,6 +64,7 @@ class block_design_ideas extends block_base
         }
 
         $data = array(
+            'can_edit_prompts' => has_capability('block/design_ideas:edit_prompts', context_block::instance($this->instance->id)),
             'courseid' => $this->page->course->id,
             'blockid' => $this->instance->id,
             'course_sumamry' => $has_course_sumamry,

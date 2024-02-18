@@ -1,0 +1,37 @@
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="d-flex justify-content-end">
+            <a href="{{config.wwwroot}}/blocks/design_ideas/prompt.php?blockid={{blockid}}" class="btn btn-primary"
+            title="{{#str}}add_new_prompt, block_design_ideas{{/str}}">
+            {{#str}}new, block_design_ideas{{/str}}
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>{{#str}}name, block_design_ideas{{/str}}</th>
+                    <th>{{#str}}prompt, block_design_ideas{{/str}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#prompts}}
+                    <tr>
+                        <td>
+                            <a href="{{config.wwwroot}}/blocks/design_ideas/prompt.php?id={{id}}&blockid={{blockid}}">
+                            {{name}}
+                        </td>
+                        <td>
+                            {{prompt}}
+                        </td>
+                    </tr>
+                {{/prompts}}
+                </tbody>
+            </table>
+        </div>
+    </div>

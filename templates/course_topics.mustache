@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card">
+                <h3 class="card-header mb-2">{{#str}}pluginname, block_design_ideas{{/str}} - {{#str}}course_topics, block_design_ideas{{/str}}</h3>
+                <div class="card-body">
+                    <div class="message">
+                        {{{message}}}
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group float-right" role="group">
+                        <button
+                                type="button"
+                                class="btn btn-outline-primary btn-create-course-topics"
+                                data-replace="all"
+                                data-course_id="{{course_id}}">
+                            {{#str}}replace_all_exising_topics, block_design_ideas{{/str}}
+                        </button>
+                        <button
+                                type="button"
+                                class="btn btn-outline-primary btn-create-course-topics"
+                                data-replace="append"
+                                data-course_id="{{course_id}}">
+                            {{#str}}append_to_existing_topics, block_design_ideas{{/str}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const loader = document.querySelector('.loader');
+    setTimeout(function () {
+        // loader.style.display = 'none';
+        loader.parentNode.removeChild(loader);
+    }, 1);
+    const create_topic_button = document.querySelectorAll('.btn-create-course-topics');
+    // When create_topic button is clicked, capture the contents of message element and send to PHP page
+    for (let i = 0; i < create_topic_button.length; i++) {
+        create_topic_button[i].addEventListener('click', function () {
+            const replace = create_topic_button[i].getAttribute('data-replace');
+            const courseId = create_topic_button[i].getAttribute('data-course_id');
+            const url = M.cfg.wwwroot + '/blocks/design_ideas/create_topics.php';
+            fetch(`${url}?courseid=${courseId}&replace=${replace}`)
+                    .then(response => response.json())
+                    .then(data => {
+                                console.log(data)
+                                if (data.status === 'success') {
+                                    // Close the current window
+                                    window.close();
+                                    // Refresh the parent window
+                                    window.opener.location.reload();
+                                } else {
+                                    alert('Error creating topics');
+                                }
+                            }
+                    )
+                    .catch(error => console.error(error));
+        });
+    }
+</script>

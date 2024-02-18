@@ -1,7 +1,21 @@
 <div class="alert alert-info" role="alert">
     <p>
         {{#str}}instructions, block_design_ideas{{/str}}
+        {{#can_edit_prompts}}
+            <br>
+            <br>
+            <span class="float-right">
+        <a href="{{config.wwwroot}}/blocks/design_ideas/prompts.php?blockid={{blockid}}" class="btn btn-link">
+                {{#str}}prompts, block_design_ideas{{/str}}
+                </a>
+        <a href="{{config.wwwroot}}/blocks/design_ideas/test.php?blockid={{blockid}}" class="btn btn-link">
+                Testing
+                </a>
+    </span>
+            <br>
+        {{/can_edit_prompts}}
     </p>
+
 </div>
 {{#course_sumamry}}
     <div id="btn-design_ideas-topics" class=" btn-group w-100" role="group">
@@ -10,28 +24,28 @@
             {{#str}}course_topics, block_design_ideas{{/str}}
         </button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a href="#" class="dropdown-item btn-ai-call" data-bot_id="841" data-topics="13"
-                    data-course_id="{{courseid}}">
+            <a href="#" class="dropdown-item btn-ai-call" data-prompt_id="1" data-topics="13"
+               data-course_id="{{courseid}}">
                 Create 13 topics
             </a>
-            <a href="#" class="dropdown-item btn-ai-call" data-bot_id="841" data-topics="24"
-                    data-course_id="{{courseid}}">
+            <a href="#" class="dropdown-item btn-ai-call" data-prompt_id="1" data-topics="24"
+               data-course_id="{{courseid}}">
                 Create 24 topics
             </a>
         </div>
     </div>
 
-    <button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="842"
+    <button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-prompt_id="3"
             data-course_id="{{courseid}}">
         {{#str}}activity_artist, block_design_ideas{{/str}}
     </button>
 
-    <button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="843"
+    <button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-prompt_id="4"
             data-course_id="{{courseid}}">
         {{#str}}assessment_assistant, block_design_ideas{{/str}}
     </button>
 
-    <button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-bot_id="844"
+    <button type="button" class="btn btn-outline-info btn-ai-call mt-2 w-100" data-prompt_id="2"
             data-course_id="{{courseid}}">
         {{#str}}essay_topics, block_design_ideas{{/str}}
     </button>
@@ -45,23 +59,22 @@
 
 
     <script>
-        var root = M.cfg.wwwroot;
-        console.log(root);
+        let wwwroot = M.cfg.wwwroot;
+        console.log(wwwroot);
         const buttons = document.querySelectorAll('.btn-ai-call');
-        // button.addEventListener('click', () => {
-        //     var botId = button.getAttribute('data-bot_id');
-        //     window.open( 'http://localhost:8180/blocks/design_ideas/ai_call.php?id=' + botId,
-        //             'second-opinion', 'width=600,height=750');
-        // });
-
 
         for (var i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', function () {
-                var botId = this.getAttribute('data-bot_id');
+
+                var promptId = this.getAttribute('data-prompt_id');
                 var courseId = this.getAttribute('data-course_id');
                 var numberOfTopics = this.getAttribute('data-topics');
-                window.open('http://localhost:8180/blocks/design_ideas/ai_call.php?id='
-                        + botId
+                console.log(wwwroot + '/blocks/design_ideas/ai_call.php?promptid='
+                        + promptId
+                        + '&courseid=' + courseId
+                        + '&topics=' + numberOfTopics);
+                window.open(wwwroot + '/blocks/design_ideas/ai_call.php?promptid='
+                        + promptId
                         + '&courseid=' + courseId
                         + '&topics=' + numberOfTopics,
                         'second-opinion', 'width=700,height=800');

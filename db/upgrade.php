@@ -36,10 +36,110 @@ function xmldb_block_design_ideas_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    // For further information please read {@link https://docs.moodle.org/dev/Upgrade_API}.
-    //
-    // You will also have to create the db/install.xml file by using the XMLDB Editor.
-    // Documentation for the XMLDB Editor can be found at {@link https://docs.moodle.org/dev/XMLDB_editor}.
+    if ($oldversion < 2024021700) {
 
+        // Define table block_design_ideas_prompts to be created.
+        $table = new xmldb_table('block_design_ideas_prompts');
+
+        // Adding fields to table block_design_ideas_prompts.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('description', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('name', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('prompt', XMLDB_TYPE_TEXT, null, null, null, null, null);
+        $table->add_field('usermodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table block_design_ideas_prompts.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('usermodified', XMLDB_KEY_FOREIGN, ['usermodified'], 'user', ['id']);
+
+        // Conditionally launch create table for block_design_ideas_prompts.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Design_ideas savepoint reached.
+        upgrade_block_savepoint(true, 2024021700, 'design_ideas');
+    }
+
+    if ($oldversion < 2024021701) {
+
+        // Define field blockid to be added to block_design_ideas_prompts.
+        $table = new xmldb_table('block_design_ideas_prompts');
+        $field = new xmldb_field('blockid', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'id');
+
+        // Conditionally launch add field blockid.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define index block_id_idx (not unique) to be added to block_design_ideas_prompts.
+        $table = new xmldb_table('block_design_ideas_prompts');
+        $index = new xmldb_index('block_id_idx', XMLDB_INDEX_NOTUNIQUE, ['blockid']);
+
+        // Conditionally launch add index block_id_idx.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+
+        // Define index name_idx (not unique) to be added to block_design_ideas_prompts.
+        $table = new xmldb_table('block_design_ideas_prompts');
+        $index = new xmldb_index('name_idx', XMLDB_INDEX_NOTUNIQUE, ['name']);
+
+        // Conditionally launch add index name_idx.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Design_ideas savepoint reached.
+        upgrade_block_savepoint(true, 2024021701, 'design_ideas');
+    }
+
+    if ($oldversion < 2024021800) {
+
+        // Define field class to be added to block_design_ideas_prompts.
+        $table = new xmldb_table('block_design_ideas_prompts');
+        $field = new xmldb_field('class', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'prompt');
+
+        // Conditionally launch add field class.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Design_ideas savepoint reached.
+        upgrade_block_savepoint(true, 2024021800, 'design_ideas');
+    }
+
+    if ($oldversion < 2024021804) {
+
+        // Define field callback to be dropped from block_design_ideas_prompts.
+        $table = new xmldb_table('block_design_ideas_prompts');
+        $field = new xmldb_field('callback');
+
+        // Conditionally launch drop field callback.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Design_ideas savepoint reached.
+        upgrade_block_savepoint(true, 2024021804, 'design_ideas');
+    }
+
+    if ($oldversion < 2024021805) {
+
+        // Define field systemreserved to be added to block_design_ideas_prompts.
+        $table = new xmldb_table('block_design_ideas_prompts');
+        $field = new xmldb_field('systemreserved', XMLDB_TYPE_INTEGER, '1', null, null, null, '1', 'class');
+
+        // Conditionally launch add field systemreserved.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Design_ideas savepoint reached.
+        upgrade_block_savepoint(true, 2024021805, 'design_ideas');
+    }
     return true;
 }

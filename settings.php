@@ -52,6 +52,15 @@ if ($hassiteconfig) {
         PARAM_INT
     ));
 
+    $settings->add(new admin_setting_description(
+        'block_idi_prompts',
+        get_string('prompts', 'block_design_ideas'),
+        '<a href="' . $CFG->wwwroot . '/blocks/design_ideas/prompts.php" class="btn btn-primary mb-3">'
+        . get_string('edit_prompts', 'block_design_ideas') . '</a>',
+        0,
+        PARAM_INT
+    ));
+
     // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
     if ($ADMIN->fulltree) {
         // TODO: Define actual plugin settings page and add it to the tree - {@link https://docs.moodle.org/dev/Admin_settings}.
