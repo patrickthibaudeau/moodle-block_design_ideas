@@ -33,6 +33,7 @@ class course_topics extends gen_ai
         $topics = str_replace('<br />',"\n",$topics);
         $_SESSION[$courseid . 'ai_gen_topics'] = $topics;
         $topics = json_decode($topics);
+        $data->course_id = $courseid;
         $data->message = $OUTPUT->render_from_template('block_design_ideas/ai_generated_topics', ['topics' => $topics]);
         // Return the data
         return $OUTPUT->render_from_template('block_design_ideas/course_topics', $data);
