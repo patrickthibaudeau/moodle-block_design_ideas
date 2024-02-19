@@ -54,5 +54,6 @@ $string['prompt'] = 'Prompt';
 $string['prompt_help'] = 'Add a prompt that an LLM can use to do call with';
 $string['prompt_parameters'] = 'Prompt settings';
 $string['prompts'] = 'Prompts';
+$string['readings'] = 'Readings';
 $string['replace_all_exising_topics'] = 'Replace all existing topics';
 

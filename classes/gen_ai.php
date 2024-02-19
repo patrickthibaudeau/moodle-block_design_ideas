@@ -43,7 +43,8 @@ abstract class gen_ai
      * @param $courseid int
      * @return void
      */
-    public static function render_results($prompt_id, $courseid) {
+    public static function render_results($prompt_id, $courseid)
+    {
         global $DB;
         $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
         $PROMPT = new prompt($prompt_id);
@@ -60,9 +61,55 @@ abstract class gen_ai
      * @param $data
      * @return mixed
      */
-    private static function render_from_template($data) {
+    private static function render_from_template($data)
+    {
         global $OUTPUT;
         return $OUTPUT->render_from_template('block_design_ideas/ai_call', $data);
+    }
+
+    /**
+     * Create deafult button
+     * @param $promptid
+     * @param $courseid
+     * @return mixed
+     */
+    public static function get_button($promptid, $courseid, $name = 'Generate')
+    {
+        global $OUTPUT;
+        $data = [
+            'promptid' => $promptid,
+            'courseid' => $courseid,
+            'name' => $name
+        ];
+        return $OUTPUT->render_from_template('block_design_ideas/default_block_button', $data);
+    }
+
+
+    public static function render_buttons($courseid = 1)
+    {
+        global $OUTPUT;;
+        $PROMPTS = new prompts();
+        $prompts = $PROMPTS->get_records();
+        $html = '';
+        foreach ($prompts as $prompt) {
+            // Check to see if the prompt has a class
+            if (!empty($prompt->class)) {
+                $class = '\block_design_ideas\\' . $prompt->class;
+                $PROMPT = new $class($prompt->id);
+                // Check to see if set_button method is available
+                if (method_exists($PROMPT, 'get_button')) {
+                    $html .= $PROMPT::get_button($prompt->id, $courseid, $prompt->name) . "\n";
+                } else {
+                    unset($PROMPT);
+                    $html .= self::get_button( $prompt->id, $courseid, $prompt->name) . "\n";
+                }
+            } else {
+                $html .= self::get_button($prompt->id, $courseid, $prompt->name) . "\n";
+            }
+        }
+        unset($PROMPTS);
+        unset($PROMPT);
+        return $html;
     }
 
 }

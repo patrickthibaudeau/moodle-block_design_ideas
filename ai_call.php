@@ -10,16 +10,16 @@ global $CFG, $OUTPUT, $SESSION, $PAGE, $DB, $COURSE, $USER;
 require_login(1, false);
 
 
-$prompt_id = required_param('promptid', PARAM_INT);
-$course_id = required_param('courseid', PARAM_INT);
+$prompt_id = required_param('prompt_id', PARAM_INT);
+$course_id = required_param('course_id', PARAM_INT);
 
 $context = context_course::instance($course_id);
 
 $PAGE->set_url(new moodle_url(
         '/blocks/design_ideas/ai_call.php',
         [
-            'promptid' => $prompt_id,
-            'courseid' => $course_id
+            'prompt_id' => $prompt_id,
+            'course_id' => $course_id
         ]
     )
 );

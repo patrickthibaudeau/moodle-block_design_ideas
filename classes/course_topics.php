@@ -6,12 +6,12 @@ use block_design_ideas\gen_ai;
 
 class course_topics extends gen_ai
 {
-    public static function render_results($prompt_id, $courseid) {
+    public static function render_results($promptid, $courseid) {
         global $DB;
         $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
         // Get number of topics
         $number_of_topics = optional_param('topics', 13, PARAM_INT);
-        $PROMPT = new prompt($prompt_id);
+        $PROMPT = new prompt($promptid);
         // Get prompt
         $prompt = $PROMPT->get_prompt();
         // Replace number of topics
@@ -37,4 +37,22 @@ class course_topics extends gen_ai
         // Return the data
         return $OUTPUT->render_from_template('block_design_ideas/course_topics', $data);
     }
+
+    /**
+     * Create deafult button
+     * @param $promptid
+     * @param $courseid
+     * @return mixed
+     */
+    public static function get_button($promptid, $courseid, $name = 'Generate')
+    {
+        global $OUTPUT;
+        $data = [
+            'promptid' => $promptid,
+            'courseid' => $courseid,
+            'name' => 'Course Tpoics'
+        ];
+        return $OUTPUT->render_from_template('block_design_ideas/course_topic_button', $data);
+    }
+
 }

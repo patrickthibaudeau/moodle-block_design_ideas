@@ -68,6 +68,7 @@ class block_design_ideas extends block_base
             'courseid' => $this->page->course->id,
             'blockid' => $this->instance->id,
             'course_sumamry' => $has_course_sumamry,
+            'block_buttons' => \block_design_ideas\ai_call::render_buttons($this->page->course->id)
         );
 
         $this->content->text = $OUTPUT->render_from_template('block_design_ideas/block_design_ideas', $data);
