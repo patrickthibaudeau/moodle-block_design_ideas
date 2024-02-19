@@ -111,4 +111,18 @@ function xmldb_block_design_ideas_install()
     ];
     // Create record in block_design_ideas_prompts
     $DB->insert_record('block_design_ideas_prompts', (object)$params);
+
+    // Parameters Course Summary
+    $params = [
+        'name' => 'Final Course Summary',
+        'description' => 'Generates a course summary (description) based on the topics and topic descriptions',
+        'prompt' => "Based on the content provided, create a course description. Do not include a course title. Do not include the title \"Course description.\" Only return a description. ",
+        'systemreserved' => 1, // 1 = true, 0 = false
+        'class' => 'course_summary',
+        'usermodified' => $USER->id,
+        'timecreated' => time(),
+        'timemodified' => time()
+    ];
+    // Create record in block_design_ideas_prompts
+    $DB->insert_record('block_design_ideas_prompts', (object)$params);
 }

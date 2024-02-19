@@ -42,8 +42,7 @@ $string['cria_url_help'] = 'The URL used to access the CRIA API.';
 $string['description'] = 'Description.';
 $string['edit_prompts'] = 'Edit Prompts';
 $string['essay_topics'] = 'Essay Topics';
-$string['instructions'] = 'Want some help thinking about fun experiential activities or meaningful, authentic '.
-    'assessments for your course?<br><br>Check out these supportive AI tools!';
+$string['instructions'] = 'Check out these cool AI tools!';
 $string['name'] = 'Name';
 $string['new'] = 'New';
 $string['no_course_summary'] = '<h3>No course summary available.</h3> In order for the Instructional Design Ideas AI to work, '.
@@ -56,4 +55,5 @@ $string['prompt_parameters'] = 'Prompt settings';
 $string['prompts'] = 'Prompts';
 $string['readings'] = 'Readings';
 $string['replace_all_exising_topics'] = 'Replace all existing topics';
+$string['save_course_summary'] = 'Save Course Description';
 

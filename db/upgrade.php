@@ -142,15 +142,15 @@ function xmldb_block_design_ideas_upgrade($oldversion) {
         upgrade_block_savepoint(true, 2024021805, 'design_ideas');
     }
 
-    if ($oldversion < 2024021812) {
+    if ($oldversion < 2024021900) {
 
-        // Parameters for Readings
+        // Parameters Course Summary
         $params = [
-            'name' => 'Readings',
-            'description' => 'Generates readings ideas based on the topic and topic description.',
-            'prompt' => "Based on the content provided, please suggest relevant readings from journal articles or book chapters of at least 4000 words. ",
+            'name' => 'Final Course Summary',
+            'description' => 'Generates a course summary (description) based on the topics and topic descriptions',
+            'prompt' => "Based on the content provided, create a course description. Do not include a course title. Do not include the title \"Course description.\" Only return a description. ",
             'systemreserved' => 1, // 1 = true, 0 = false
-            'class' => 'readings_generator',
+            'class' => 'course_summary',
             'usermodified' => $USER->id,
             'timecreated' => time(),
             'timemodified' => time()
@@ -158,7 +158,24 @@ function xmldb_block_design_ideas_upgrade($oldversion) {
         // Create record in block_design_ideas_prompts
         $DB->insert_record('block_design_ideas_prompts', (object)$params);
         // Design_ideas savepoint reached.
-        upgrade_block_savepoint(true, 2024021812, 'design_ideas');
+        upgrade_block_savepoint(true, 2024021900, 'design_ideas');
     }
+
+    if ($oldversion < 2024021901) {
+
+        // Define field sortorder to be added to block_design_ideas_prompts.
+        $table = new xmldb_table('block_design_ideas_prompts');
+        $field = new xmldb_field('sortorder', XMLDB_TYPE_INTEGER, '4', null, null, null, '0', 'systemreserved');
+
+        // Conditionally launch add field sortorder.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Design_ideas savepoint reached.
+        upgrade_block_savepoint(true, 2024021901, 'design_ideas');
+    }
+
+
     return true;
 }
