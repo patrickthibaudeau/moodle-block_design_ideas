@@ -32,6 +32,7 @@ $string['assessment_assistant'] = 'Assessment Assistant';
 $string['class'] = 'Class';
 $string['class_help'] = 'Class to use for this call. Leave blank to use default class';
 $string['course_topics'] = 'Course Topics';
+$string['create_essay_topics'] = 'Create Assignments';
 $string['create_topics'] = 'Create Topics';
 $string['cria_bot_id'] = 'Cria bot id';
 $string['cria_bot_id_help'] = 'The bot id used to access the CRIA API.';
@@ -56,4 +57,5 @@ $string['prompts'] = 'Prompts';
 $string['readings'] = 'Readings';
 $string['replace_all_exising_topics'] = 'Replace all existing topics';
 $string['save_course_summary'] = 'Save Course Description';
+$string['select_section'] = 'Select Section';
 

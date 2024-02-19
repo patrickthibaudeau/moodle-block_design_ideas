@@ -1,0 +1,17 @@
+<ol>
+    {{#topics}}
+    <li>
+        <input
+                type="checkbox"
+                class="select-topic"
+                data-id="{{id}}"
+                data-course_id="{{course_id}}"
+                data-name="{{name}}"
+                data-summary="{{summary}}"
+        > <strong>{{name}}</strong>
+        <p>
+            {{summary}}
+        </p>
+    </li>
+    {{/topics}}
+</ol>

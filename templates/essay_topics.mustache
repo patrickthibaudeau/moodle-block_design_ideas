@@ -1,0 +1,108 @@
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card">
+                <h3 class="card-header mb-2">{{#str}}
+                    pluginname, block_design_ideas{{/str}} - {{#str}}course_topics, block_design_ideas{{/str}}</h3>
+                <div class="card-body">
+                    <div class="message">
+                        {{{message}}}
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <div class="float-right">
+                                <select id="block_design_ideas_sections" class="form-control">
+                                    <option value="">{{#str}}select_section, block_design_ideas{{/str}}</option>
+                                    {{#sections}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{/sections}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col">
+                            <div class="float-right">
+                                <button id="btn-create-essay-topics" class="btn btn-outline-primary"
+                                   data-prompt_id="{{prompt_id}}"
+                                   data-course_id="{{course_id}}"
+                                   disabled>
+                                    {{#str}}create_essay_topics, block_design_ideas{{/str}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const loader = document.querySelector('.loader');
+    setTimeout(function () {
+        // loader.style.display = 'none';
+        loader.parentNode.removeChild(loader);
+    }, 1);
+    // Remove disabled from the create_essay_topics button if a section is selected and a checkbox is checked
+    const section_select = document.getElementById('block_design_ideas_sections');
+    const checkboxes = document.querySelectorAll('.select-topic');
+    section_select.addEventListener('change', function () {
+        const create_essay_topic_button = document.getElementById('btn-create-essay-topics');
+        if (section_select.value !== '' && document.querySelectorAll('.select-topic:checked').length > 0) {
+            create_essay_topic_button.removeAttribute('disabled');
+        } else {
+            create_essay_topic_button.setAttribute('disabled', 'disabled');
+        }
+    });
+
+    // Get button element btn-create-essay-topics
+    const create_essay_topic_button = document.getElementById('btn-create-essay-topics');
+    // When create_topic button is clicked, capture all checked checkboxes and their attributes
+    create_essay_topic_button.addEventListener('click', function () {
+        const section_id = document.getElementById('block_design_ideas_sections').value;
+        const courseId = create_essay_topic_button.getAttribute('data-course_id');
+        // Get all checkboxes that are checked and their attricutes
+        let checkedBoxes = document.querySelectorAll('.select-topic:checked');
+        let dataAttributes = [];
+
+        checkedBoxes.forEach(box => {
+            let attributes = {};
+            for (let i = 0; i < box.attributes.length; i++) {
+                let attr = box.attributes[i];
+                if (attr.name.startsWith('data-')) {
+                    attributes[attr.name] = attr.value;
+                }
+            }
+            dataAttributes.push(attributes);
+        });
+
+        const url = M.cfg.wwwroot + '/blocks/design_ideas/create_essay_topics.php';
+        // Add dataAttributes array as query strings to url
+        let query_string = dataAttributes.map((item, index) => {
+            return Object.entries(item)
+                    .map(([key, value]) => `${key}[${index}]=${encodeURIComponent(value)}`)
+                    .join('&');
+        }).join('&');
+
+        console.log(`${url}?${query_string}&courseid=${courseId}&section=${section_id}`);
+        fetch(`${url}?${query_string}&courseid=${courseId}&section=${section_id}`)
+                .then(response => response.json())
+                .then(data => {
+                            console.log(data)
+                            if (data.status === 'success') {
+                                // Close the current window
+                                window.close();
+                                // Refresh the parent window
+                                window.opener.location.reload();
+                            } else {
+                                alert('Error creating topics');
+                            }
+                        }
+                )
+                .catch(error => console.error(error));
+    });
+
+</script>
