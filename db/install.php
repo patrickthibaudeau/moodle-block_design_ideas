@@ -97,4 +97,18 @@ function xmldb_block_design_ideas_install()
     ];
     // Create record in block_design_ideas_prompts
     $DB->insert_record('block_design_ideas_prompts', (object)$params);
+
+    // Parameters for Readings
+    $params = [
+        'name' => 'Readings',
+        'description' => 'Generates readings ideas based on the topic and topic description.',
+        'prompt' => "Based on the content provided, please suggest relevant readings from journal articles or book chapters of at least 4000 words. ",
+        'systemreserved' => 1, // 1 = true, 0 = false
+        'class' => 'readings_generator',
+        'usermodified' => $USER->id,
+        'timecreated' => time(),
+        'timemodified' => time()
+    ];
+    // Create record in block_design_ideas_prompts
+    $DB->insert_record('block_design_ideas_prompts', (object)$params);
 }

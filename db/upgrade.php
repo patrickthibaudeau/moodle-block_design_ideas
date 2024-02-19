@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function xmldb_block_design_ideas_upgrade($oldversion) {
-    global $DB;
+    global $DB, $USER;
 
     $dbman = $DB->get_manager();
 
@@ -140,6 +140,25 @@ function xmldb_block_design_ideas_upgrade($oldversion) {
 
         // Design_ideas savepoint reached.
         upgrade_block_savepoint(true, 2024021805, 'design_ideas');
+    }
+
+    if ($oldversion < 2024021812) {
+
+        // Parameters for Readings
+        $params = [
+            'name' => 'Readings',
+            'description' => 'Generates readings ideas based on the topic and topic description.',
+            'prompt' => "Based on the content provided, please suggest relevant readings from journal articles or book chapters of at least 4000 words. ",
+            'systemreserved' => 1, // 1 = true, 0 = false
+            'class' => 'readings_generator',
+            'usermodified' => $USER->id,
+            'timecreated' => time(),
+            'timemodified' => time()
+        ];
+        // Create record in block_design_ideas_prompts
+        $DB->insert_record('block_design_ideas_prompts', (object)$params);
+        // Design_ideas savepoint reached.
+        upgrade_block_savepoint(true, 2024021812, 'design_ideas');
     }
     return true;
 }
