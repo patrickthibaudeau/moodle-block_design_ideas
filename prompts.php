@@ -13,12 +13,18 @@ require_login(1, true);
 if (!has_capability('block/design_ideas:edit_prompts', $context)) {
     redirect($CFG->wwwroot);
 }
+
+if (!isset($CFG->edit_prompts_override)) {
+    $CFG->edit_prompts_override = false;
+}
+
 $PROMPTS = new prompts();
 
 $prompts = $PROMPTS->get_records();
 $prompts = array_values($prompts);
 $data = [
-    'prompts' => $prompts
+    'prompts' => $prompts,
+    'edit_prompts_override' => $CFG->edit_prompts_override
 ];
 
 base::page(

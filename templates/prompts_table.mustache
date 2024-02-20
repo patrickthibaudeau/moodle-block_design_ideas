@@ -23,8 +23,14 @@
                 {{#prompts}}
                     <tr>
                         <td>
+                            {{#edit_prompts_override}}
                             <a href="{{config.wwwroot}}/blocks/design_ideas/prompt.php?id={{id}}&blockid={{blockid}}">
                             {{name}}
+                            </a>
+                            {{/edit_prompts_override}}
+                            {{^edit_prompts_override}}
+                            {{name}}
+                            {{/edit_prompts_override}}
                         </td>
                         <td>
                             {{prompt}}

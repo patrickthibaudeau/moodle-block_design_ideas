@@ -6,6 +6,11 @@ use block_design_ideas\prompt;
 
 abstract class gen_ai
 {
+    const UNIVERSITY = 1;
+    const COLLEGE = 2;
+    const HIGH_SCHOOL = 3;
+    const ELEMENTARY = 4;
+
     public static function make_call($params)
     {
         global $CFG;
@@ -281,6 +286,27 @@ abstract class gen_ai
             $modinfo = @add_moduleinfo($data, $course);
 
             return $modinfo;
+        }
+    }
+
+    /**
+     * The institution prompt is always prepended to the prompt
+     * @return void
+     * @throws \dml_exception
+     */
+    public static function get_institution_prompt()
+    {
+        global $CFG;
+
+        switch ($CFG->block_idi_institution) {
+            case self::UNIVERSITY:
+                return '---You are a University professor building your course.--- ';
+            case self::COLLEGE:
+                return '---You are a College instructor building your course.--- ';
+            case self::HIGH_SCHOOL:
+                return '---You are a High School teacher building your course.--- ';
+            case self::ELEMENTARY:
+                return '---You are an Elementary School teacher building your course.--- ';
         }
     }
 }

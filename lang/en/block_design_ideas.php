@@ -32,6 +32,7 @@ $string['assessment_assistant'] = 'Assessment Assistant';
 $string['class'] = 'Class';
 $string['class_help'] = 'Class to use for this call. Leave blank to use default class';
 $string['course_topics'] = 'Course Topics';
+$string['course_summary'] = 'Course Summary';
 $string['create_essay_topics'] = 'Create Assignments';
 $string['create_topics'] = 'Create Topics';
 $string['cria_bot_id'] = 'Cria bot id';
@@ -42,6 +43,7 @@ $string['cria_url'] = 'Cria URL';
 $string['cria_url_help'] = 'The URL used to access the CRIA API.';
 $string['description'] = 'Description.';
 $string['edit_prompts'] = 'Edit Prompts';
+$string['essay'] = 'Essay';
 $string['essay_topics'] = 'Essay Topics';
 $string['instructions'] = 'Check out these cool AI tools!';
 $string['name'] = 'Name';
@@ -58,4 +60,12 @@ $string['readings'] = 'Readings';
 $string['replace_all_exising_topics'] = 'Replace all existing topics';
 $string['save_course_summary'] = 'Save Course Description';
 $string['select_section'] = 'Select Section';
+
+// School settings
+$string['institution_type'] = 'Institution type';
+$string['institution_type_help'] = 'Select the type of institution you are at.';
+$string['university'] = 'University';
+$string['college'] = 'College';
+$string['high_school'] = 'High School';
+$string['elementary'] = 'Elementary';
 

@@ -33,8 +33,7 @@ function xmldb_block_design_ideas_install()
     $params = [
         'name' => 'Course Topics',
         'description' => 'Generates course topics based on the course description (summary).',
-        'prompt' => "You are a University professor building your course. "
-            . "Based on the course description, create [number_of_topics] topics, no more! "
+        'prompt' => "Based on the course description, create [number_of_topics] topics, no more! "
             . "Include a description for each topic. "
             . "Always write in the same language as the course description. "
             . "Return the results in JSON format as per this example:
@@ -55,12 +54,15 @@ function xmldb_block_design_ideas_install()
     $params = [
         'name' => 'Essay Topics',
         'description' => 'Generates essay topics based on the course description (summary).',
-        'prompt' => "Based on the course description, write four university-grade essay topic ideas. "
-            . "Include a description for each topic. "
-            . "Add a statement that these are ideas to get you started. "
-            . "You can adapt as required. "
-            . "Always write in the same language as the course description.",
+        'prompt' => "Based on the course description, write four essay topic ideas. Include a description for each topic."
+            . "lways write in the same language as the course description. "
+            . "Return the results in JSON format as per this example:
+[
+    {\"name\":\"Name of topic\",\"summary\":\"Description of topic\"},
+    {\"name\":\"Name of topic\",\"summary\":\"Description of topic\"},
+]",
         'systemreserved' => 1, // 1 = true, 0 = false
+        'class' => 'essay_topics',
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()

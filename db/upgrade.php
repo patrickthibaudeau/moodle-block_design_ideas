@@ -176,6 +176,29 @@ function xmldb_block_design_ideas_upgrade($oldversion) {
         upgrade_block_savepoint(true, 2024021901, 'design_ideas');
     }
 
+    if ($oldversion < 2024022000) {
+ // Update essay topics
+        // Parameters Course Summary
+        $params = [
+            'id' => 2,
+            'prompt' => "Based on the course description, write four university-grade essay topic ideas. Include a description for each topic."
+                . "lways write in the same language as the course description. "
+                . "Return the results in JSON format as per this example:
+[
+    {\"name\":\"Name of topic\",\"summary\":\"Description of topic\"},
+    {\"name\":\"Name of topic\",\"summary\":\"Description of topic\"},
+]",
+            'systemreserved' => 1, // 1 = true, 0 = false
+            'class' => 'essay_topics',
+            'usermodified' => $USER->id,
+            'timecreated' => time(),
+            'timemodified' => time()
+        ];
+        // Create record in block_design_ideas_prompts
+        $DB->update_record('block_design_ideas_prompts', (object)$params);
+        // Design_ideas savepoint reached.
+        upgrade_block_savepoint(true, 2024022000, 'design_ideas');
+    }
 
     return true;
 }

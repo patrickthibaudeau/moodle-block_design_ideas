@@ -28,7 +28,7 @@ $topics = [];
 for ($i = 0; $i < count($data_id); $i++) {
     // Add assignment module
     \block_design_ideas\ai_call::add_assign_module(
-        'Essay: ' . $data_name[$i],
+        get_string('essay', 'blocks_design_ideas') . ': ' . $data_name[$i],
         $data_summary[$i],
         $course_id,
         $section,

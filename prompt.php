@@ -48,6 +48,7 @@ if ($mform->is_cancelled()) {
     } else {
         $PROMPT = new prompt();
         $data->id = $PROMPT->insert_record($data);
+        $data->systemreserved = 0;
     }
 //save editor text
     $draftid = file_get_submitted_draft_itemid('description_editor');
