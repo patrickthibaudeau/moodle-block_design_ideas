@@ -16,6 +16,19 @@ $context = context_system::instance();
 
 require_login(1, false);
 
+if (!isset($CFG->edit_prompts_override)) {
+    $CFG->edit_prompts_override = false;
+}
+
+// If you don't have permission to edit, return to home page
+if (!has_capability('block/design_ideas:edit_prompts', $context)) {
+    redirect($CFG->wwwroot, get_string('no_permission', 'block_design_ideas'), 3);
+}
+// If the edit prompts override is not set, return to home page
+if (!$CFG->edit_prompts_override) {
+    redirect($CFG->wwwroot, get_string('no_permission', 'block_design_ideas'), 3);
+}
+
 if ($id) {
     $PROMPT = new prompt($id);
     $formdata = $PROMPT->get_record();

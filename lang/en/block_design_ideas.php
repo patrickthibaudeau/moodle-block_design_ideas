@@ -51,6 +51,7 @@ $string['new'] = 'New';
 $string['no_course_summary'] = '<h3>No course summary available.</h3> In order for the Instructional Design Ideas AI to work, '.
     'you need to add a course summary. You can do this by going to the <a href="{$a}" title="Link to course settings page">course settings</a> and adding a summary '.
     'in the Course Summary field. Once you have done this, you can refresh this page and the buttons will be avialable.';
+$string['no_permission'] = 'You do not have permission to edit this prompt.';
 $string['pluginname'] = 'Instructional Design Ideas';
 $string['prompt'] = 'Prompt';
 $string['prompt_help'] = 'Add a prompt that an LLM can use to do call with';
