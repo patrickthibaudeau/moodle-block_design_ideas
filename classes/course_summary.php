@@ -11,18 +11,28 @@ class course_summary extends gen_ai
         $course_id = optional_param('course_id', 0, PARAM_INT);
         $modinfo = get_fast_modinfo($courseid);
         $sections = $modinfo->get_section_info_all();
-        $content = '';
+        $topics = '';
+        $description = '';
         // Add section name and summary to content
         foreach ($sections as $section) {
-            $content .= $section->name . ': ' . $section->summary;
+            $topics .= $section->name . "\n";
+            $description = $section->summary . "\n";
         }
+        // get course record
+        $course = $DB->get_record('course', ['id' => $course_id]);
         $PROMPT = new prompt($prompt_id);
         // Get prompt
         $prompt = $PROMPT->get_prompt();
+        // Replace the prompt with topics ancourse summary
+        $prompt = str_replace('[course_topics]', $topics, $prompt);
+        $prompt = str_replace('[course_description]', $description, $prompt);
+        // Replace course name and course_description
+        $prompt = str_replace('[course_title]', $course->fullname, $prompt);
+        $prompt = str_replace('[course_description]', $course->summary, $prompt);
         // Make the call
         $params = [
             'prompt' => $prompt,
-            'content' => $content
+            'content' => ''
         ];
 
         $results = parent::make_call($params);
