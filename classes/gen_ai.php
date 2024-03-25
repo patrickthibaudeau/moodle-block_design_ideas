@@ -189,7 +189,7 @@ abstract class gen_ai
      * @throws \dml_exception
      * @throws \moodle_exception
      */
-    public static function add_page_module($name, $content, $course_id, $text = '', $section_id = 0)
+    public static function add_page_module($name, $content, $course_id, $section_id = 0, $text = '')
     {
         global $CFG, $DB;
         if ($module = $DB->get_record('modules', ['name' => 'page'])) {
@@ -207,6 +207,8 @@ abstract class gen_ai
                 'format' => FORMAT_HTML,
             ];
             $data->content = $content;
+            $data->contentformat = 1;
+            $data->displayoptions = 'a:2:{s:10:"printintro";s:1:"0";s:17:"printlastmodified";s:1:"1";}';
             $data->showdescription = 1;
             $data->visible = 1;
             $data->visibleoncoursepage = 1;

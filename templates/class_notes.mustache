@@ -1,0 +1,72 @@
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card">
+                <h3 class="card-header mb-2">{{#str}}
+                    pluginname, block_design_ideas{{/str}} - {{#str}}class_notes, block_design_ideas{{/str}}</h3>
+
+                <div class="card-body">
+                    <div class="message">
+                        {{{message}}}
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group float-right" role="group">
+                            <button
+                                    id="btn-create-class-notes"
+                                    type="button"
+                                    class="btn btn-outline-primary btn-create-class-notes"
+                                    data-section="{{section}}"
+                                    data-course_id="{{course_id}}">
+                                {{#str}}create_class_notes_for_topic, block_design_ideas{{/str}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loader = document.querySelector('.loader');
+        setTimeout(function () {
+            // loader.style.display = 'none';
+            loader.parentNode.removeChild(loader);
+        }, 1);
+        // When button with id btn-create-readings is clicked, loop through all checkbox elements with class select-array. If the element is checked,
+        // make a call to create_readings.php page with the course_id, section, url, title, and year as parameters.
+        const btn_create_class_notes = document.getElementById('btn-create-class-notes');
+        btn_create_class_notes.addEventListener('click', function () {
+            // Add spinner to the button
+            btn_create_class_notes.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {{#str}}creating_readings, block_design_ideas{{/str}}...';
+            const course_id = btn_create_class_notes.getAttribute('data-course_id');
+            const section = btn_create_class_notes.getAttribute('data-section');
+            // get HTML from div with class .message
+            const message = document.querySelector('.message').innerHTML;
+            // make call to create_readings.php
+            const create_class_notes_url = M.cfg.wwwroot + '/blocks/design_ideas/create_class_notes.php';
+            const params = new URLSearchParams({
+                course_id: `${course_id}`,
+                section: `${section}`,
+                message: `${message}`
+            });
+            const query_string = params.toString();
+
+            // Create all records
+            fetch(`${create_class_notes_url}?${query_string}`)
+                    .then(response => response.json())
+                    .then(data => {
+                                console.log(data)
+                                if (data.status === 'success') {
+                                    // Close the current window
+                                    window.close();
+                                    // Refresh the parent window
+                                    window.opener.location.reload();
+                                } else {
+                                    alert('Error creating topics');
+                                }
+                            }
+                    )
+                    .catch(error => console.error(error));
+        });
+
+    </script>

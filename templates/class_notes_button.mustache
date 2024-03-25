@@ -1,0 +1,13 @@
+<div id="btn-design_ideas-topics" class=" btn-group mt-2 w-100" role="group">
+    <button id="btnClassnotesGroupDrop1" type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+        {{#str}}class_notes, block_design_ideas{{/str}}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnClassNotesGroupDrop1">
+        {{#buttons}}
+        <a href="#" class="dropdown-item btn-ai-call" data-prompt_id="{{promptid}}" data-topic_id="{{topicid}}" data-course_id="{{courseid}}">
+            {{topic_name}}
+        </a>
+        {{/buttons}}
+    </div>
+</div>
