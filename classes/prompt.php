@@ -157,7 +157,7 @@ class prompt extends crud
     public function get_prompt(): string
     {
         $institution = \block_design_ideas\ai_call::get_institution_prompt();
-        return $institution . $this->prompt;
+        return $this->prompt;
     }
 
     /**

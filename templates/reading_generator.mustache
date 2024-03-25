@@ -1,64 +1,146 @@
-<div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col">
-            <div class="card">
-                <h3 class="card-header mb-2">{{#str}}pluginname, block_design_ideas{{/str}} - {{#str}}readings, block_design_ideas{{/str}}</h3>
-                <div class="card-body">
-                    <div class="message">
-                        {{{message}}}
+{{#nothing_found}}
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header mb-2">{{#str}}
+                        pluginname, block_design_ideas{{/str}} - {{#str}}readings, block_design_ideas{{/str}}</h3>
+                    <div class="card-body">
+                        <div class="alert alert-danger" role="alert">
+                            Call to GPT was interupted. Clear your browser cache, refresh the page and retry again.
+                        </div>
                     </div>
                 </div>
-<!--                <div class="card-footer">-->
-<!--                    <div class="btn-group float-right" role="group">-->
-<!--                        <button-->
-<!--                                type="button"-->
-<!--                                class="btn btn-outline-primary btn-create-course-topics"-->
-<!--                                data-replace="all"-->
-<!--                                data-course_id="{{course_id}}">-->
-<!--                            {{#str}}replace_all_exising_topics, block_design_ideas{{/str}}-->
-<!--                        </button>-->
-<!--                        <button-->
-<!--                                type="button"-->
-<!--                                class="btn btn-outline-primary btn-create-course-topics"-->
-<!--                                data-replace="append"-->
-<!--                                data-course_id="{{course_id}}">-->
-<!--                            {{#str}}append_to_existing_topics, block_design_ideas{{/str}}-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </div>-->
             </div>
         </div>
     </div>
-</div>
+{{/nothing_found}}
+{{^nothing_found}}
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header mb-2">{{#str}}
+                        pluginname, block_design_ideas{{/str}} - {{#str}}readings, block_design_ideas{{/str}}</h3>
 
-<script>
-    const loader = document.querySelector('.loader');
-    setTimeout(function () {
-        // loader.style.display = 'none';
-        loader.parentNode.removeChild(loader);
-    }, 1);
-    // const create_topic_button = document.querySelectorAll('.btn-create-course-topics');
-    // // When create_topic button is clicked, capture the contents of message element and send to PHP page
-    // for (let i = 0; i < create_topic_button.length; i++) {
-    //     create_topic_button[i].addEventListener('click', function () {
-    //         const replace = create_topic_button[i].getAttribute('data-replace');
-    //         const courseId = create_topic_button[i].getAttribute('data-course_id');
-    //         const url = M.cfg.wwwroot + '/blocks/design_ideas/create_topics.php';
-    //         fetch(`${url}?courseid=${courseId}&replace=${replace}`)
-    //                 .then(response => response.json())
-    //                 .then(data => {
-    //                             console.log(data)
-    //                             if (data.status === 'success') {
-    //                                 // Close the current window
-    //                                 window.close();
-    //                                 // Refresh the parent window
-    //                                 window.opener.location.reload();
-    //                             } else {
-    //                                 alert('Error creating topics');
-    //                             }
-    //                         }
-    //                 )
-    //                 .catch(error => console.error(error));
-    //     });
-    // }
-</script>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <h6>{{#str}}total_papers_found, block_design_ideas{{/str}}: {{total}}</h6>
+                        </div>
+                        <div class="message">
+                            {{> block_design_ideas/ai_generated_readings}}
+                        </div>
+                        {{#more}}
+                            <div class="d-flex justify-content-center align-content-center mt-2 mb-2">
+                                <button id="btn-load-more-readings"
+                                        class="btn btn-outline-primary"
+                                        data-course_id="{{course_id}}"
+                                        data-topic_id={{topic_id}}"
+                                data-offset="{{next}}"
+                                >
+                                {{#str}}more, block_design_ideas{{/str}}
+                                </button>
+                            </div>
+                        {{/more}}
+                        <div class="card-footer">
+                            <div class="btn-group float-right" role="group">
+                                <button
+                                        id="btn-create-readings"
+                                        type="button"
+                                        class="btn btn-outline-primary btn-create-readings"
+                                        data-section="{{section}}"
+                                        data-course_id="{{course_id}}">
+                                    {{#str}}create_readings_for_topic, block_design_ideas{{/str}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const loader = document.querySelector('.loader');
+            setTimeout(function () {
+                // loader.style.display = 'none';
+                loader.parentNode.removeChild(loader);
+            }, 1);
+            {{#more}}
+            // When the btn-load-more-readings is clicked, make an ajax call to ajax/load_more_readings.php and append the HTML results to the .message div
+            const btn_load_more_readings = document.getElementById('btn-load-more-readings');
+            btn_load_more_readings.addEventListener('click', function () {
+                // Add a spinner to the button
+                btn_load_more_readings.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {{#str}}loading, block_design_ideas{{/str}}...';
+                const course_id = btn_load_more_readings.getAttribute('data-course_id');
+                const topic_id = btn_load_more_readings.getAttribute('data-topic_id');
+                const offset = btn_load_more_readings.getAttribute('data-offset');
+                const data = {
+                    course_id: course_id,
+                    topic_id: topic_id,
+                    offset: offset
+                };
+                const url = 'ajax/load_more_readings.php?course_id=' + course_id + '&topic_id=' + topic_id + '&offset=' + offset;
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        const message = document.querySelector('.message');
+                        message.innerHTML += response.html;
+                        btn_load_more_readings.setAttribute('data-offset', response.next);
+                        // Remove the spinner from the button
+                        btn_load_more_readings.innerHTML = '{{#str}}more, block_design_ideas{{/str}}';
+                    }
+                };
+                xhr.send(JSON.stringify(data));
+            });
+            {{/more}}
+            // When button with id btn-create-readings is clicked, loop through all checkbox elements with class select-array. If the element is checked,
+            // make a call to create_readings.php page with the course_id, section, url, title, and year as parameters.
+            const btn_create_readings = document.getElementById('btn-create-readings');
+            btn_create_readings.addEventListener('click', function () {
+                // Add spinner to the button
+                btn_create_readings.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {{#str}}creating_readings, block_design_ideas{{/str}}...';
+                const course_id = btn_create_readings.getAttribute('data-course_id');
+                const section = btn_create_readings.getAttribute('data-section');
+                const checkboxes = document.querySelectorAll('.select-reading');
+                checkboxes.forEach(function (checkbox) {
+                    if (checkbox.checked) {
+                        const url = checkbox.getAttribute('data-url');
+                        const title = checkbox.getAttribute('data-title');
+                        const year = checkbox.getAttribute('data-year');
+                        const author = checkbox.getAttribute('data-author');
+                        const isOpenAccess = checkbox.getAttribute('data-isOpenAccess');
+                        const pdf = checkbox.getAttribute('data-pdf');
+                        // make call to create_readings.php
+                        const create_readings_url = M.cfg.wwwroot + '/blocks/design_ideas/create_readings.php';
+                        $title = encodeURIComponent(title);
+                        var query_string = `course_id=${course_id}&section=${section}&url=${url}&title=${title}&year=${year}&author=${author}&isopenaccess=${isOpenAccess}&pdf=${pdf}`;
+                        console.log(`${create_readings_url}?${query_string}`)
+                        // Create all records
+                        fetch(`${create_readings_url}?${query_string}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                            console.log(data)
+                                            if (data.status === 'success') {
+
+                                            } else {
+                                                alert('Error creating topics');
+                                            }
+                                        }
+                                )
+                                .catch(error => console.error(error));
+                    }
+                });
+
+                setTimeout(function () {
+                    // Close the current window
+                    window.close();
+                    // Refresh the parent window
+                    window.opener.location.reload();
+                }, 2000);
+            });
+
+        </script>
+{{/nothing_found}}

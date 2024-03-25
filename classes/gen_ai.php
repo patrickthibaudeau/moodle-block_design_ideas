@@ -23,15 +23,24 @@ abstract class gen_ai
             'bot_id' => $CFG->block_idi_cria_bot_id,
             'chat_id' => 'none'
         ];
+        //Clean up the prompt and content
+        $params['prompt'] = html_entity_decode(strip_tags($params['prompt']), ENT_QUOTES, 'UTF-8');
+        $params['content'] = html_entity_decode(strip_tags($params['content']), ENT_QUOTES, 'UTF-8');
+
         // Merge params with query string
-        $query_string = array_merge($query_string, $params);
+//        $query_string = array_merge($query_string, $params);
+//        $query_string = str_replace('&amp;', '&', $query_string);
         // Build the URL
-        $url = $CFG->block_idi_cria_url . "/webservice/rest/server.php?";
+        $query_string = http_build_query($query_string);
+        $query_string = str_replace('&amp;', '&', $query_string);
+        $query_string = str_replace('&nbsp;', '&', $query_string);
+        $url = $CFG->block_idi_cria_url . "/webservice/rest/server.php?" . $query_string . "&prompt=" . urlencode($params['prompt']) . "&content=" . urlencode($params['content']);
+
         // Make the call
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_VERBOSE, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $query_string);
+//        curl_setopt($ch, CURLOPT_POSTFIELDS, $query_string);
         curl_setopt($ch, CURLOPT_USERAGENT, '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36');
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
         // get the response
@@ -106,7 +115,7 @@ abstract class gen_ai
                     $html .= $PROMPT::get_button($prompt->id, $courseid, $prompt->name) . "\n";
                 } else {
                     unset($PROMPT);
-                    $html .= self::get_button( $prompt->id, $courseid, $prompt->name) . "\n";
+                    $html .= self::get_button($prompt->id, $courseid, $prompt->name) . "\n";
                 }
             } else {
                 $html .= self::get_button($prompt->id, $courseid, $prompt->name) . "\n";
@@ -284,6 +293,52 @@ abstract class gen_ai
             $data->competency_rule = 0;
 
             $modinfo = @add_moduleinfo($data, $course);
+
+            return $modinfo;
+        }
+    }
+
+    /**
+     * Add a url to a course sections
+     * @param $name
+     * @param $url
+     * @param $course_id
+     * @param $section_id
+     * @param string $description
+     * @return object|\stdClass|void
+     * @throws \dml_exception
+     * @throws \moodle_exception
+     */
+    public static function add_url_module($name, $url, $course_id, $section_id, $description = '')
+    {
+        global $CFG, $DB;
+        if ($module = $DB->get_record('modules', ['name' => 'url'])) {
+            require_once($CFG->dirroot . '/course/modlib.php');
+            $course = $DB->get_record('course', ['id' => $course_id]);
+            $context = \context_system::instance();
+
+            $mod = new \stdClass();
+            $mod->name = $name;
+            $mod->course = $course_id;
+            $mod->coursemodule = 0;
+            $mod->externalurl = trim($url);
+            $mod->section = $section_id;
+            $mod->introeditor['format'] = 1;
+            $mod->introeditor['text'] = $description;
+            $mod->introeditor['itemid'] = -1;
+            $mod->showdescription = false;
+            $mod->popupwidth = 620;
+            $mod->popupheight = 450;
+            $mod->display = 6;
+            $mod->displayoptions = 'a:2:{s:10:"popupwidth";i:620;s:11:"popupheight";i:450;}';
+            $mod->visibleoncoursepage = 1;
+            $mod->availability = null;
+            $mod->visible = 1;
+            $mod->module = $module->id;
+            $mod->modulename = 'url';
+            $mod->add = 'url';
+
+            $modinfo = @add_moduleinfo($mod, $course);
 
             return $modinfo;
         }

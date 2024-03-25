@@ -87,7 +87,7 @@
                     .join('&');
         }).join('&');
 
-        console.log(`${url}?${query_string}&courseid=${courseId}&section=${section_id}`);
+        // console.log(`${url}?${query_string}&courseid=${courseId}&section=${section_id}`);
         fetch(`${url}?${query_string}&courseid=${courseId}&section=${section_id}`)
                 .then(response => response.json())
                 .then(data => {

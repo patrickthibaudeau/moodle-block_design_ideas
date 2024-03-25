@@ -1,0 +1,23 @@
+<ul class="list-group">
+    {{#data}}
+    <li class="list-group-item">
+        <input
+                type="checkbox"
+                class="select-reading"
+                data-section="{{section}}"
+                data-course_id="{{course_id}}"
+                data-url="{{url}}"
+                data-title="{{title}}"
+                data-year="{{year}}"
+                data-author="{{authorText}}"
+                data-isOpenAccess="{{isOpenAccess}}"
+                data-pdf="{{#openAccessPdf}}{{url}}{{/openAccessPdf}}"
+        >
+            {{authorText}} ({{year}}). <span style="font-size: 1.1rem;">{{title}}</span>. <i>{{#journal}}{{name}}, {{pages}}, {{volume}}.{{/journal}}</i>
+        <br><br>
+        <p>
+            {{abstract}}
+        </p>
+    </li>
+    {{/data}}
+</ul>

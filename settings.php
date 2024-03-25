@@ -52,6 +52,22 @@ if ($hassiteconfig) {
         PARAM_INT
     ));
 
+    $settings->add(new admin_setting_configtext(
+        'block_idi_semantic_scholar_api_url',
+        get_string('semantic_scholar_api_url', 'block_design_ideas'),
+        get_string('semantic_scholar_api_url_help', 'block_design_ideas'),
+        'https://api.semanticscholar.org/graph/v1',
+        PARAM_TEXT
+    ));
+
+    $settings->add(new admin_setting_configpasswordunmask(
+        'block_idi_semantic_scholar_api_key',
+        get_string('semantic_scholar_api_key', 'block_design_ideas'),
+        get_string('semantic_scholar_api_key_help', 'block_design_ideas'),
+        '',
+        PARAM_TEXT
+    ));
+
     $settings->add(new admin_setting_configselect(
         'block_idi_institution',
         get_string('institution_type', 'block_design_ideas'),

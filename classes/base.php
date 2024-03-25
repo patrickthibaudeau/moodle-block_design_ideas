@@ -34,7 +34,7 @@ class base
      */
     public static function page($url, $pagetitle, $pageheading, $context, $pagelayout = 'base')
     {
-        global  $PAGE;
+        global $PAGE;
 
         $PAGE->set_url($url);
         $PAGE->set_title($pagetitle);
@@ -83,7 +83,6 @@ class base
         return array('subdirs' => 1, 'maxbytes' => $CFG->maxbytes, 'maxfiles' => -1,
             'changeformat' => 1, 'context' => $context, 'noclean' => 1, 'trusttext' => 0);
     }
-
 
 
     /**
@@ -259,5 +258,57 @@ class base
 
         $out = str_replace('%%', '%', $out);
         return $out;
+    }
+
+    /**
+     * To be used to make calls to other APIs
+     * @param $service_url string
+     * @param $api_key string
+     * @param $data array
+     * @param $call string
+     * @param $method string
+     * @return mixed
+     * @throws \dml_exception
+     */
+    public static function make_api_call(
+        $service_url,
+        $api_key,
+        $data,
+        $call = '',
+        $method = 'GET'
+    )
+    {
+        // Define the API endpoint URL
+        $url = $service_url . $call . '?' . http_build_query($data);
+        // Define headers with API key
+        $headers = array(
+            'Content-Type: application/json',
+            'x-api-key: ' . $api_key
+        );
+
+        // Initialize cURL
+        $ch = curl_init();
+
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+// Send the API request
+        $response = curl_exec($ch);
+
+// Check response status
+        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) == 200) {
+            $response_data = json_decode($response, true);
+            // Process and print the response data as needed
+            return $response_data;
+        } else {
+            echo "Request failed with status code " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . ": $response";
+        }
+
+// Close cURL
+        curl_close($ch);
     }
 }

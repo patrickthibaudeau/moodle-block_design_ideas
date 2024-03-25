@@ -25,9 +25,9 @@ if (!has_capability('block/design_ideas:edit_prompts', $context)) {
     redirect($CFG->wwwroot, get_string('no_permission', 'block_design_ideas'), 3);
 }
 // If the edit prompts override is not set, return to home page
-if (!$CFG->edit_prompts_override) {
-    redirect($CFG->wwwroot, get_string('no_permission', 'block_design_ideas'), 3);
-}
+//if (!$CFG->edit_prompts_override) {
+//    redirect($CFG->wwwroot, get_string('no_permission', 'block_design_ideas'), 3);
+//}
 
 if ($id) {
     $PROMPT = new prompt($id);
