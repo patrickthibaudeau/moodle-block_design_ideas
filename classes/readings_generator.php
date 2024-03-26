@@ -50,7 +50,7 @@ class readings_generator extends gen_ai
             foreach ($params as $key => $value) {
                 $keywords .= $value->keyword . ' + ';
                 $i++;
-                if ($i > 1) {
+                if ($i > 2) {
                     break;
                 }
             }
