@@ -24,7 +24,7 @@ class prompts
     public function __construct()
     {
         global $DB;
-        $this->results = $DB->get_records('block_design_ideas_prompts', null, 'name');
+        $this->results = $DB->get_records('block_design_ideas_prompts', null, 'sortorder');
     }
 
     /**

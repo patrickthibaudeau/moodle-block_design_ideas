@@ -60,13 +60,7 @@ echo json_encode($status);
 
 function clean_message($message)
 {
-//    // Clean the message by removing the <title> and all css
-//    $message = preg_replace('/<title>.*?<\/title>/', '', $message);
-//    $message = preg_replace('/<style>.*?<\/style>/', '', $message);
-//    // Remove all <script> tags and content inbetween them
-//    $message = preg_replace('/<script>.*?<\/script>/', '', $message);
-//    // Remove all <link> tags and content inbetween them
-/*    $message = preg_replace('/<link.*?>/', '', $message);*/
+    // Remove <html> and <body> tags
     $message = str_replace('<html>', '', $message);
     $message = str_replace('</html>', '', $message);
     $message = str_replace('<body>', '', $message);
