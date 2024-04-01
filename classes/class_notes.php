@@ -44,6 +44,7 @@ class class_notes extends gen_ai
         $data['message'] = $message;
         $data['course_id'] = $course_id;
         $data['section'] = $topic->section;
+        $data['section_name'] = $topic->name;
 
         return self::render_from_template($data, $course->id);
 

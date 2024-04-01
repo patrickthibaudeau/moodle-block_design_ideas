@@ -196,8 +196,6 @@ abstract class gen_ai
             require_once($CFG->dirroot . '/course/modlib.php');
             // Get course object
             $course = $DB->get_record('course', ['id' => $course_id]);
-
-
             $context = \context_system::instance();
 
             $data = new \stdClass();
@@ -232,7 +230,7 @@ abstract class gen_ai
             $data->sr = 0;
             $data->competencies = [];
             $data->competency_rule = 0;
-
+//            print_object($data);
             $modinfo = @add_moduleinfo($data, $course);
 
             return $modinfo;
