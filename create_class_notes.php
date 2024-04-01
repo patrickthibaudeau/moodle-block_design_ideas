@@ -75,6 +75,6 @@ function clean_message($message)
     $message = preg_replace('/<p>Essay written by Professor AI Bot<\/p>/', '', $message);
     $message = preg_replace('/<p>Written by Professor AI Bot<\/p>/', '', $message);
     $message = str_replace('CLASS NOTES: ', '', $message);
-
+    $message = str_replace('Class Notes: ', '', $message);
     return $message;
 }
