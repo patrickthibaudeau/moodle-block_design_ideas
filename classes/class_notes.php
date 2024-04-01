@@ -37,10 +37,11 @@ class class_notes extends gen_ai
         ];
 
         $results = parent::make_call($params);
+        $message =  json_decode($results->message);
 
         // Get the data
         $data = [];
-        $data['message'] = $results->message;
+        $data['message'] = $message;
         $data['course_id'] = $course_id;
         $data['section'] = $topic->section;
 

@@ -7,7 +7,17 @@
 
                 <div class="card-body">
                     <div class="message">
-                        {{{message}}}
+                        <div class="alert alert-info" role="alert">
+                            {{#str}}class_notes_intro, block_design_ideas{{/str}}
+                        </div>
+                        <ul class="list-group">
+                        {{#message}}
+                            <li class="list-group-item">
+                                <input type="checkbox" class="class-note-subjects"  value="{{subject}}">
+                            {{subject}}
+                            </li>
+                        {{/message}}
+                        </ul>
                     </div>
                     <div class="card-footer">
                         <div class="btn-group float-right" role="group">
@@ -37,17 +47,25 @@
         const btn_create_class_notes = document.getElementById('btn-create-class-notes');
         btn_create_class_notes.addEventListener('click', function () {
             // Add spinner to the button
-            btn_create_class_notes.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {{#str}}creating_readings, block_design_ideas{{/str}}...';
+            btn_create_class_notes.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {{#str}}creating_notes, block_design_ideas{{/str}}...';
             const course_id = btn_create_class_notes.getAttribute('data-course_id');
             const section = btn_create_class_notes.getAttribute('data-section');
-            // get HTML from div with class .message
-            const message = document.querySelector('.message').innerHTML;
+            // Loop through all checkbox elements with class class-note-subjects
+            const class_note_subjects = document.querySelectorAll('.class-note-subjects');
+            const message = [];
+            class_note_subjects.forEach(function (element) {
+                if (element.checked) {
+                    message.push(element.value);
+                }
+            });
+            // convert message to json
+            message_json = JSON.stringify(message);
             // make call to create_readings.php
             const create_class_notes_url = M.cfg.wwwroot + '/blocks/design_ideas/create_class_notes.php';
             const params = new URLSearchParams({
                 course_id: `${course_id}`,
                 section: `${section}`,
-                message: `${message}`
+                message: `${message_json}`
             });
             const query_string = params.toString();
 

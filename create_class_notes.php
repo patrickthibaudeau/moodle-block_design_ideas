@@ -23,23 +23,30 @@ if (!has_capability('moodle/course:update', context_course::instance($course_id)
     die();
 }
 
+// Conert message to array
+$messages = json_decode($message);
 
-// Get the text between the forst <h1> tag and store it in the $name variable
-preg_match('/<h1>(.*?)<\/h1>/', $message, $matches);
-$name = $matches[1];
-// Now remove the <h1> tag from the message
-$message = preg_replace('/<h1>.*?<\/h1>/', '', $message);
-// Clean the message by removing the <title> and all css
-$message = preg_replace('/<title>.*?<\/title>/', '', $message);
-$message = preg_replace('/<style>.*?<\/style>/', '', $message);
+$html = '';
+$prompt = 'You are a professor. Provide class notes on the specific subject of [subject] in point form using full sentences. Return the results as formatted HTML.';
+for ($i = 0; $i < count($messages); $i++) {
+    // Make call to AI and retrieve the message
+    $prompt = str_replace('[subject]', $messages[$i], $prompt);
 
-if (empty($name)) {
-    $name = get_string('class_notes', 'block_design_ideas');
+    $result = ai_call::make_call(
+        [
+            'prompt' => $prompt,
+            'content' => ''
+        ]
+    );
+    $html .= clean_message($result->message);
+    $prompt = 'You are a professor. Provide class notes on the specific subject of [subject] in point form using full sentences. Never identify who wrote the essay. Return the results as formatted HTML.';
 }
+
+$name = get_string('class_notes', 'block_design_ideas');
 
 ai_call::add_page_module(
     $name,
-    trim($message),
+    trim($html),
     $course_id,
     $section
 );
@@ -48,3 +55,26 @@ $status = [
     'status' => 'success'
 ];
 echo json_encode($status);
+
+function clean_message($message)
+{
+    // Remove <head...></head> tags and remove all content inbetween them
+    $message = preg_replace('/<head>.*?<\/head>/', '', $message);
+    // Clean the message by removing the <title> and all css
+    $message = preg_replace('/<title>.*?<\/title>/', '', $message);
+    $message = preg_replace('/<style>.*?<\/style>/', '', $message);
+    // Remove all <script> tags and content inbetween them
+    $message = preg_replace('/<script>.*?<\/script>/', '', $message);
+    // Remove all <link> tags and content inbetween them
+    $message = preg_replace('/<link.*?>/', '', $message);
+    $message = str_replace('<html>', '', $message);
+    $message = str_replace('</html>', '', $message);
+    $message = str_replace('<body>', '', $message);
+    $message = str_replace('</body>', '', $message);
+    // Remove <p>Essay written by Professor AI Bot</p>
+    $message = preg_replace('/<p>Essay written by Professor AI Bot<\/p>/', '', $message);
+    $message = preg_replace('/<p>Written by Professor AI Bot<\/p>/', '', $message);
+    $message = str_replace('CLASS NOTES: ', '', $message);
+
+    return $message;
+}
