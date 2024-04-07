@@ -36,11 +36,11 @@ class readings_generator extends gen_ai
 
         // Only display if message has been returned
         if (!empty($results->message)) {
-        // Get the data
-        $json = $results->message;
-        $json = str_replace('&quot;', '"', $json);
-        $json = str_replace('<br />', "\n", $json);
-        $params = json_decode($json);
+            // Get the data
+            $json = $results->message;
+            $json = str_replace('&quot;', '"', $json);
+            $json = str_replace('<br />', "\n", $json);
+            $params = json_decode($json);
 
 
             // Prepare keywords for semantic scholar query
@@ -66,7 +66,7 @@ class readings_generator extends gen_ai
                 'courseid' => $course->id,
                 'nothing_found' => 'No results found. Please try again.'
             ];
-           return self::render_from_template($data, $course->id);
+            return self::render_from_template($data, $course->id);
         }
     }
 
@@ -131,6 +131,7 @@ class readings_generator extends gen_ai
             'query' => $query,
             'fields' => 'title,year,abstract,authors.name,journal,publicationTypes,isOpenAccess,openAccessPdf,url,externalIds',
             'publicationTypes' => 'JournalArticle,""',
+            'isOpenAccess' => true,
             'offset' => $offset,
             'limit' => $limit
         ];
@@ -166,7 +167,7 @@ class readings_generator extends gen_ai
         $papers = $paper_data['data'];
 
         // Format the data
-        foreach($papers as $paper_key => $paper) {
+        foreach ($papers as $paper_key => $paper) {
             // Get authors. foreach author, reverse the name so that the last name is first.
             // If there is one author, just display the name.
             // If there are two authors, display the names separated by ' & '.
@@ -193,6 +194,11 @@ class readings_generator extends gen_ai
                     break;
             }
             $paper_data['data'][$paper_key]['authorText'] = $author_text;
+            if (isset($paper_data['data'][$paper_key]['openAccessPdf']['url'])) {
+                $paper_data['data'][$paper_key]['openAccessPdfAvailable'] = $paper_data['data'][$paper_key]['openAccessPdf']['url'];
+            } else {
+                $paper_data['data'][$paper_key]['openAccessPdfAvailable'] = false;
+            }
         }
 
         return $paper_data;

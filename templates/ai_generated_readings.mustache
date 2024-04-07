@@ -14,6 +14,7 @@
                 data-pdf="{{#openAccessPdf}}{{url}}{{/openAccessPdf}}"
         >
             {{authorText}} ({{year}}). <span style="font-size: 1.1rem;">{{title}}</span>. <i>{{#journal}}{{name}}, {{pages}}, {{volume}}.{{/journal}}</i>
+        {{#openAccessPdfAvailable}}<a href="{{openAccessPdfAvailable}}" target="_blank" title="URL to PDF">PDF</a>{{/openAccessPdfAvailable}}
         <br><br>
         <p>
             {{abstract}}
