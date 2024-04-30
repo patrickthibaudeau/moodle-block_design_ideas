@@ -23,9 +23,11 @@ class learning_outcomes extends gen_ai
         // Make the call
         $params = [
             'prompt' => $prompt,
-            'content' => $content
+            'content' => $content,
         ];
         $results = parent::make_call($params);
+        // Add course id to results
+        $results->course_id = $courseid;
         return self::render_from_template($results);
     }
 
@@ -36,6 +38,6 @@ class learning_outcomes extends gen_ai
     private static function render_from_template($data)
     {
         global $OUTPUT;
-        return $OUTPUT->render_from_template('block_design_ideas/ai_call', $data);
+        return $OUTPUT->render_from_template('block_design_ideas/learning_outcomes', $data);
     }
 }
