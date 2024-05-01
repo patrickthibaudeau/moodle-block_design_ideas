@@ -102,12 +102,13 @@ class quiz_questions extends gen_ai
                 $context = \context_module::instance($course_module->id);
                 // Get the files
                 $files = $fs->get_area_files($context->id, 'mod_resource', 'content', 0);
+//                print_object($files);
                 // Loop through the files
                 foreach ($files as $file) {
                     // Get the file info using finfo
                     $file_type = $file->get_mimetype();
                     $file_order = $file->get_sortorder();
-                    if ($file_order == 0 && $file_type != '') {
+                    if ($file_type != '.' && $file_type != '') {
                         // Copy the file to the path
                         $file->copy_content_to($path . '/' . $file->get_filename());
                         // add to available files array
