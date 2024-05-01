@@ -99,7 +99,7 @@ class quiz_questions extends gen_ai
                 // Files associated with the resource
                 $fs = get_file_storage();
                 //Context for the resource
-                $context = context_module::instance($course_module->id);
+                $context = \context_module::instance($course_module->id);
                 // Get the files
                 $files = $fs->get_area_files($context->id, 'mod_resource', 'content', 0);
                 // Loop through the files
