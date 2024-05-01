@@ -1,0 +1,42 @@
+[
+    {
+        "question": "What major breakthrough in artificial intelligence occurred in 1997?",
+        "answers": {
+            "answer1": "Deep Blue defeating the world chess champion",
+            "answer2": "Google's AlphaGo defeating world champions of Go",
+            "answer3": "John McCarthy mentioning the concept of artificial intelligence at the Dartmouth conference",
+            "answer4": "Alan Turing posing the question 'Can machines think?'"
+        },
+        "correct_answer": "answer1"
+    },
+    {
+        "question": "Based on the information provided, what are some of the current environmental problems facing humanity in relation to water management?",
+        "answers": {
+            "answer1": "Uneven distribution of water resources leading to water shortage",
+            "answer2": "Increased water pollution due to industrialization",
+            "answer3": "Failure to meet water content requirements set by international organizations",
+            "answer4": "All of the above"
+        },
+        "correct_answer": "answer4"
+    },
+    {
+        "question": "What are the main sources of sulfides in air pollution?",
+        "answers": {
+            "answer1": "Decomposition of animal carcasses",
+            "answer2": "Unprocessed soot emitted by factories",
+            "answer3": "Exhaust gas emitted by cars",
+            "answer4": "All of the above"
+        },
+        "correct_answer": "answer4"
+    },
+    {
+        "question": "How can artificial intelligence be applied in different environmental fields?",
+        "answers": {
+            "answer1": "By using its profound learning base and the running speed of human beings to develop improvement or maintenance programs",
+            "answer2": "By investing a lot of data to build its learning library",
+            "answer3": "By predicting changeable environments with strong computational logic",
+            "answer4": "By monitoring different environments in real-time"
+        },
+        "correct_answer": "answer1"
+    }
+]

@@ -1,0 +1,23 @@
+<div class="alert alert-info">
+    {{#str}}quiz_questions_help, block_design_ideas{{/str}}
+</div>
+<ul class="list-group">
+    {{#files}}
+        <li class="list-group-item">
+            <input
+                    type="checkbox"
+                    class="available-file"
+                    data-path="{{path}}"
+                    data-course_id="{{course_id}}"
+                    data-prompt_id="{{prompt_id}}"
+                    data-file_type="{{file_type}}"
+                    data-file_name="{{file_name}}"
+            > {{file_name}}
+        </li>
+    {{/files}}
+</ul>
+
+
+<script>
+
+</script>
