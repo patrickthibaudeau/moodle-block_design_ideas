@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 $string['activity_artist'] = 'Activity Artist';
 $string['add_new_prompt'] = 'Add New Prompt';
 $string['ai_placement_editor_disabled'] = 'An AI Provider or editor is not enabled. Please contact your administrator.';
+$string['ai_policy_not_accepted'] = 'You must accept the AI policy to use this feature.';
 $string['append_to_existing_topics'] = 'Append to existing topics';
 $string['assessment_assistant'] = 'Assessment Assistant';
 $string['class'] = 'Class';

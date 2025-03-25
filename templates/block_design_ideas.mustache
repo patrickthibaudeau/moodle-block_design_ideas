@@ -1,39 +1,50 @@
-<input type="hidden" id="ai_policy_status" value="{{ai_policy_status}}">
+<input type="hidden" id="ai-policy-status" value="{{ai_policy_status}}">
+<input type="hidden" id="userid" value="{{userid}}">
+<input type="hidden" id="contextid" value="{{course_contextid}}">
 
-{{#ai_placement_editor_enabled}}
-    <div class="alert alert-info" role="alert">
-        <p>
-            {{#str}}instructions, block_design_ideas{{/str}}
-        </p>
+<!--AI Policy must be accepted-->
+{{#ai_policy_status}}
+    {{#ai_placement_editor_enabled}}
+        <div class="alert alert-info" role="alert">
+            <p>
+                {{#str}}instructions, block_design_ideas{{/str}}
+            </p>
 
-    </div>
-    {{#course_sumamry}}
-        course context id = {{course_contextid}}<br>
-        <button id="btn-ai-summary" class="btn btn-primary" data-action="generate" data-courseid="{{courseid}}" data-cm="0">
-            {{#str}}generate_summary, block_design_ideas{{/str}}
-        </button>
-        {{{block_buttons}}}
-    {{/course_sumamry}}
-    {{^course_sumamry}}
+        </div>
+        {{#course_sumamry}}
+            course context id = {{course_contextid}}<br>
+            <button id="btn-ai-summary" class="btn btn-primary" data-action="generate" data-courseid="{{courseid}}"
+                    data-cm="0">
+                {{#str}}generate_summary, block_design_ideas{{/str}}
+            </button>
+            {{{block_buttons}}}
+        {{/course_sumamry}}
+        {{^course_sumamry}}
+            <div class="alert alert-danger" role="alert">
+                <p>
+                    {{#str}}no_course_summary, block_design_ideas, {{config.wwwroot}}
+                        /course/edit.php?id={{courseid}}{{/str}}
+                </p>
+            </div>
+        {{/course_sumamry}}
+    {{/ai_placement_editor_enabled}}
+
+    {{^ai_placement_editor_enabled}}
         <div class="alert alert-danger" role="alert">
             <p>
-                {{#str}}no_course_summary, block_design_ideas, {{config.wwwroot}}/course/edit.php?id={{courseid}}{{/str}}
+                {{#str}}ai_placement_editor_disabled, block_design_ideas{{/str}}
             </p>
         </div>
-    {{/course_sumamry}}
-{{/ai_placement_editor_enabled}}
+    {{/ai_placement_editor_enabled}}
+{{/ai_policy_status}}
 
-{{^ai_placement_editor_enabled}}
+{{^ai_policy_status}}
     <div class="alert alert-danger" role="alert">
         <p>
-            {{#str}}ai_placement_editor_disabled, block_design_ideas{{/str}}
+            {{#str}}ai_policy_not_accepted, block_design_ideas{{/str}}
         </p>
     </div>
-{{/ai_placement_editor_enabled}}
-
-
-
-
+{{/ai_policy_status}}
 
 
 <script>
@@ -45,8 +56,7 @@
         buttons[i].addEventListener('click', function () {
             let data = this.dataset;
             let query_string = [];
-            for (let key in data)
-            {
+            for (let key in data) {
                 query_string.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
             }
             console.log(query_string.join('&'));

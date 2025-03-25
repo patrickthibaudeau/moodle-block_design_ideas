@@ -63,9 +63,6 @@ class block_design_ideas extends block_base
 
        $policy_status = manager::get_user_policy_status($USER->id);
 
-
-
-
         $this->content = new stdClass();
         $this->content->items = array();
         $this->content->icons = array();
@@ -79,11 +76,12 @@ class block_design_ideas extends block_base
         }
         $course_context = context_course::instance($this->page->course->id);
 
-        $this->page->requires->js_call_amd('block_design_ideas/test', 'init');
+        $this->page->requires->js_call_amd('block_design_ideas/ai_policy', 'init');
 
         $data = array(
             'ai_placement_editor_enabled' => $is_html_editor_placement_action_available,
             'can_edit_prompts' => has_capability('block/design_ideas:edit_prompts', context_block::instance($this->instance->id)),
+            'userid' => $USER->id,
             'courseid' => $this->page->course->id,
             'blockid' => $this->instance->id,
             'course_contextid' => $course_context->id,
@@ -92,7 +90,6 @@ class block_design_ideas extends block_base
             'ai_policy_status' => $policy_status,
         );
 
-        print_object($data);
         $this->content->text = $OUTPUT->render_from_template('block_design_ideas/block_design_ideas', $data);
 
 
