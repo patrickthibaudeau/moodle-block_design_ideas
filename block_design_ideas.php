@@ -13,7 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
-
 /**
  * Block design_ideas is defined here.
  *
@@ -21,6 +20,10 @@
  * @copyright   2023 UIT Innovation  <thibaud@yorku.ca>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+use aiplacement_editor\utils;
+use core_ai\manager;
+
 class block_design_ideas extends block_base
 {
 
@@ -40,7 +43,7 @@ class block_design_ideas extends block_base
      */
     public function get_content()
     {
-        global $OUTPUT, $DB, $CFG;
+        global $OUTPUT, $DB, $USER;
 
         if ($this->content !== null) {
             return $this->content;
@@ -50,6 +53,18 @@ class block_design_ideas extends block_base
             $this->content = '';
             return $this->content;
         }
+
+        // Check if AI generate_text is available
+        $is_html_editor_placement_action_available = utils::is_html_editor_placement_action_available(
+            context_course::instance($this->page->course->id),
+            'generate_text',
+            \core_ai\aiactions\generate_text::class
+        );
+
+       $policy_status = manager::get_user_policy_status($USER->id);
+
+
+
 
         $this->content = new stdClass();
         $this->content->items = array();
@@ -62,15 +77,22 @@ class block_design_ideas extends block_base
         if (strip_tags($course->summary)) {
             $has_course_sumamry = true;
         }
+        $course_context = context_course::instance($this->page->course->id);
+
+        $this->page->requires->js_call_amd('block_design_ideas/test', 'init');
 
         $data = array(
+            'ai_placement_editor_enabled' => $is_html_editor_placement_action_available,
             'can_edit_prompts' => has_capability('block/design_ideas:edit_prompts', context_block::instance($this->instance->id)),
             'courseid' => $this->page->course->id,
             'blockid' => $this->instance->id,
+            'course_contextid' => $course_context->id,
             'course_sumamry' => $has_course_sumamry,
-            'block_buttons' => \block_design_ideas\ai_call::render_buttons($this->page->course->id)
+            'block_buttons' => \block_design_ideas\ai_call::render_buttons($this->page->course->id),
+            'ai_policy_status' => $policy_status,
         );
 
+        print_object($data);
         $this->content->text = $OUTPUT->render_from_template('block_design_ideas/block_design_ideas', $data);
 
 
