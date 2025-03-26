@@ -12,11 +12,6 @@
 
         </div>
         {{#course_sumamry}}
-            course context id = {{course_contextid}}<br>
-            <button id="btn-ai-summary" class="btn btn-primary" data-action="generate" data-courseid="{{courseid}}"
-                    data-cm="0">
-                {{#str}}generate_summary, block_design_ideas{{/str}}
-            </button>
             {{{block_buttons}}}
         {{/course_sumamry}}
         {{^course_sumamry}}

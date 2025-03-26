@@ -1,16 +1,26 @@
-<div id="btn-design_ideas-topics" class=" btn-group mt-2 w-100" role="group">
-    <button id="btnGroupDrop1" type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-        {{#str}}course_topics, block_design_ideas{{/str}}
-    </button>
-    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-        <a href="#" class="dropdown-item btn-ai-call" data-prompt_id="{{promptid}}" data-topics="13"
-           data-course_id="{{courseid}}">
-            Create 13 topics
-        </a>
-        <a href="#" class="dropdown-item btn-ai-call" data-prompt_id="{{promptid}}" data-topics="24"
-           data-course_id="{{courseid}}">
-            Create 24 topics
-        </a>
+<div id="btn-design_ideas-topics" class="btn-group mt-2 w-100" role="group">
+    <div class="btn-group w-100" role="group">
+        <button type="button"
+                class="btn btn-outline-info dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+            {{#str}}course_topics, block_design_ideas{{/str}}
+        </button>
+        <ul class="dropdown-menu">
+            <a href="#"
+               class="dropdown-item block-design-ideas-btn-ai-call"
+               data-prompt_id="{{promptid}}"
+               data-topics="13"
+               data-course_id="{{courseid}}">
+                Create 13 topics
+            </a>
+            <a href="#"
+               class="dropdown-item block-design-ideas-btn-ai-call"
+               data-prompt_id="{{promptid}}"
+               data-topics="24"
+               data-course_id="{{courseid}}">
+                Create 24 topics
+            </a>
+        </ul>
     </div>
 </div>
