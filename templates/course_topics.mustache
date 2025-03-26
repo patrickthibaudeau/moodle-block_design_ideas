@@ -1,42 +1,47 @@
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col">
-            <div class="card">
-                <h3 class="card-header mb-2">{{#str}}pluginname, block_design_ideas{{/str}} - {{#str}}course_topics, block_design_ideas{{/str}}</h3>
-                <div class="card-body">
-                    <div class="message">
-                        <ul class="list-group">
-                            {{#data}}
-                                <li class="list-group-item">
-                                    <b>{{name}}</b><br>
-                                    {{summary}}
-                                </li>
-                            {{/data}}
-                        </ul>
+            <div class="message">
+                <!-- Add select all/ deselect all checkbox -->
+                <input type="checkbox"
+                       class="form-check-input ml-2"
+                       id="block-design-ideas-topic-select-all"> {{#str}}select_all, block_design_ideas{{/str}}
 
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="btn-group float-right" role="group">
-                        <button
-                                type="button"
-                                class="btn btn-outline-primary btn-create-course-topics"
-                                data-replace="all"
-                                data-course_id="{{course_id}}">
-                            {{#str}}replace_all_exising_topics, block_design_ideas{{/str}}
-                        </button>
-                        <button
-                                type="button"
-                                class="btn btn-outline-primary btn-create-course-topics"
-                                data-replace="append"
-                                data-course_id="{{course_id}}">
-                            {{#str}}append_to_existing_topics, block_design_ideas{{/str}}
-                        </button>
-                    </div>
-                </div>
+                <ul class="list-group">
+                    {{#data}}
+                        <li class="list-group-item">
+                            <input type="checkbox"
+                                   class="form-check-input block-design-ideas-topic-select"
+                                   data-name="{{name}}"
+                                   data-summary="{{summary}}">
+                            <b>{{name}}</b><br>
+                            {{summary}}
+                        </li>
+                    {{/data}}
+                </ul>
+
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <div class="btn-group float-right mt-2 w-75" role="group">
+                <button
+                        type="button"
+                        class="btn btn-outline-primary block-design-ideas-btn-create-course-topics"
+                        data-replace="all"
+                        data-course_id="{{course_id}}">
+                    {{#str}}replace_all_exising_topics, block_design_ideas{{/str}}
+                </button>
+                <button
+                        type="button"
+                        class="btn btn-outline-primary block-design-ideas-btn-create-course-topics"
+                        data-replace="append"
+                        data-course_id="{{course_id}}">
+                    {{#str}}append_to_existing_topics, block_design_ideas{{/str}}
+                </button>
+            </div>
+        </div>
 </div>
 
 <!--<script>-->

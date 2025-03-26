@@ -109,4 +109,80 @@ class block_design_ideas_course_topics extends external_api
             )
         );
     }
+
+
+    // Create course topics
+    public static function create_parameters() {
+        return new external_function_parameters(
+            array(
+                'courseid' => new external_value(PARAM_INT, 'Course id', VALUE_REQUIRED),
+                'topics' => new external_value(PARAM_RAW, 'JSON of Topics', VALUE_REQUIRED),
+                'replace' => new external_value(PARAM_TEXT, 'Replace topics or append', VALUE_OPTIONAL,
+                    'all')
+            )
+        );
+    }
+
+    public static function create($course_id, $topics, $replace = 'all') {
+        global $DB, $USER;
+
+        //Parameter validation
+        $params = self::validate_parameters(
+            self::create_parameters(),
+            array(
+                'courseid' => $course_id,
+                'topics' => $topics,
+                'replace' => $replace
+            )
+        );
+
+        //Context validation
+        $context = \context_course::instance($course_id);
+        self::validate_context($context);
+        file_put_contents('/var/www/moodledata/temp/topics.log', print_r($topics, true));
+
+        // Get all sections for this course
+        $course_sections = $DB->get_records(
+            'course_sections',
+            array('course' => $course_id),
+            'section');
+
+        $course_sections = array_values($course_sections);
+
+        $topics = json_decode($topics);
+        // Convert topics to an array
+        if (is_object($topics)) {
+            $topics = array_values((array)$topics);
+        } else {
+            $topics = array_values($topics);
+        }
+// Unset section 0
+        unset($course_sections[0]);
+// Reset array values
+        $course_sections = array_values($course_sections);
+
+        if ($replace == 'all') {
+            foreach ($topics as $key => $topic) {
+                if (!empty($course_sections[$key])) {
+                    course_update_section($course_id, $course_sections[$key], $topic);
+                } else {
+                    $new_section = course_create_section($course_id, $key);
+                    // Update new section
+                    course_update_section($course_id, $new_section, $topic);
+                }
+            }
+        } else {
+            foreach ($topics as $key => $topic) {
+                $new_section = course_create_section($course_id, 0);
+                // Update new section
+                course_update_section($course_id, $new_section, $topic);
+            }
+        }
+
+        return true;
+    }
+
+    public static function create_returns() {
+        return new external_value(PARAM_BOOL, 'Status');
+    }
 }

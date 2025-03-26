@@ -6,7 +6,6 @@ import ajax from 'core/ajax';
 export const init = async () => {
     // Get element with id ai-policy-status
     const policyStatus = document.getElementById('ai-policy-status');
-console.log('policyStatus', policyStatus.value);
     // Show modal pop-up for poliucy acceptance if policyStatus is empty
     if (policyStatus.value === '0') {
         const modal = await ModalSaveCancel.create({
@@ -20,7 +19,7 @@ console.log('policyStatus', policyStatus.value);
             show: true,
         });
 
-        modal.getRoot().on(ModalEvents.save, (e) => {
+        modal.getRoot().on(ModalEvents.save, () => {
             // Get context id element
             const contextId = document.getElementById('contextid');
             // Set policy status
@@ -35,8 +34,8 @@ console.log('policyStatus', policyStatus.value);
             setPolicyStatus[0].done(() => {
                 window.location.reload();
             }).fail((error) => {
-                console.error('Error setting policy status:', error);
+                alert('Error setting policy status:', error);
             });
-        })
+        });
     }
 };
