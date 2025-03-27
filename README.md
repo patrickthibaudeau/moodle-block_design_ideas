@@ -1,8 +1,11 @@
 # Instructional Design Ideas #
 
-TODO Describe the plugin shortly here.
+Instructional Design Ideas is a Moodle block plugin that allows instructors to use Generative AI
+to generate course topics, content, readings and activities.
 
-TODO Provide more detailed description here.
+The plugin uses the nuilt-in Moolde AI to generate content based on the course title and description.
+Course topics, class notes, essay topics and more can be created automaitcally based on generated content.
+As you use the farious features, you can select in which section the activities you add are created in.
 
 ## Installing via uploaded ZIP file ##
 
@@ -29,7 +32,8 @@ to complete the installation from the command line.
 
 ## License ##
 
-2023 UIT Innovation  <thibaud@yorku.ca>
+2025 Patrick Thibaudeau  <patrick.thibaudeau@gmail.com>
+Developed for York University
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
