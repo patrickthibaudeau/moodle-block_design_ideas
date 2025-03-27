@@ -69,30 +69,12 @@ class class_notes extends gen_ai
      * @return mixed
      */
     public
-    static function get_button($promptid, $courseid, $name = 'Generate')
+    static function get_button($promptid, $courseid, $name = 'Class notes')
     {
         global $OUTPUT;
-        // Get all course topics.
-        $modinfo = get_fast_modinfo($courseid);
-        $sections = $modinfo->get_section_info_all();
-        $buttons = [];
-        $i = 0;
-        foreach ($sections as $section) {
-            // Do something with each section
-            // For example, you can access the section's name and summary like this:
-            $buttons[$i]['topic_name'] = $section->name;
-            $buttons[$i]['topicid'] = $section->id;
-            $buttons[$i]['courseid'] = $courseid;
-            $buttons[$i]['topic_description'] = $section->summary;
-            $i++;
-        }
-        $data = [
-            'promptid' => $promptid,
-            'courseid' => $courseid,
-            'name' => 'Readings',
-            'buttons' => $buttons
-        ];
 
+        $data = base::get_course_topics($courseid, $pomptid, get_string('class_notes', 'block_design_ideas'));
+        // Render buttons
         return $OUTPUT->render_from_template('block_design_ideas/class_notes_button', $data);
     }
 }

@@ -18,5 +18,14 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
+    'block_design_ideas_get_section_subjects' => array(
+        'classname' => 'block_design_ideas_class_notes',
+        'methodname' => 'execute',
+        'classpath' => 'blocks/design_ideas/classes/external/class_notes.php',
+        'description' => 'Returns a list of subjects.',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
 
 );

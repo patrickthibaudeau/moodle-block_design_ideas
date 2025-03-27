@@ -10,13 +10,12 @@
 
 use block_design_ideas\prompt;
 use block_design_ideas\gen_ai;
-use aiplacement_editor\external;
 
 require_once($CFG->libdir . "/externallib.php");
 require_once("$CFG->dirroot/config.php");
 
 
-class block_design_ideas_course_topics extends external_api
+class block_design_ideas_class_notes extends external_api
 {
     /**
      * Returns description of method parameters
@@ -28,7 +27,7 @@ class block_design_ideas_course_topics extends external_api
             array(
                 'courseid' => new external_value(PARAM_INT, 'Course id', VALUE_REQUIRED),
                 'promptid' => new external_value(PARAM_INT, 'Prompt id', VALUE_REQUIRED),
-                'number_of_topics' => new external_value(PARAM_INT, 'Number of topics', VALUE_OPTIONAL, 13),
+                'sectionid' => new external_value(PARAM_INT, 'Topic section id', VALUE_OPTIONAL, 13),
             )
         );
     }
@@ -37,12 +36,13 @@ class block_design_ideas_course_topics extends external_api
      * Displays course topics
      * @param int $course_id
      * @param int $prompt_id
+     * @param int $section_id
      * @return array
      * @throws dml_exception
      * @throws invalid_parameter_exception
      * @throws restricted_context_exception
      */
-    public static function execute($course_id, $prompt_id, $number_of_topics = 13)
+    public static function execute($course_id, $prompt_id, $ection_id)
     {
         global $DB, $USER;
 
@@ -52,7 +52,7 @@ class block_design_ideas_course_topics extends external_api
             array(
                 'courseid' => $course_id,
                 'promptid' => $prompt_id,
-                'number_of_topics' => $number_of_topics,
+                'sectionid' => $section_id
             )
         );
 
@@ -60,44 +60,47 @@ class block_design_ideas_course_topics extends external_api
         $context = \context_course::instance($course_id);
         self::validate_context($context);
 
-        $course = $DB->get_record('course', array('id' => $course_id), '*', MUST_EXIST);
+        // Get information from query string
+        $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+        $topic = $DB->get_record('course_sections', array('id' => $section_id), '*', MUST_EXIST);
+        $topic_name = $topic->name;
+        $topic_description = $topic->summary;
 
+        // Get prompt
         $PROMPT = new prompt($prompt_id);
+        // Get prompt
+        $prompt = $PROMPT->get_prompt();
+        $prompt = str_replace('[course_title]', $course->fullname, $prompt);
+        $prompt = str_replace('[course_description]', $course->summary, $prompt);
+        $prompt = str_replace('[course_topic]', $topic_name, $prompt);
+        $prompt = str_replace('[topic_description]', $topic_description, $prompt);
+        $prompt = html_entity_decode($prompt);
+        // Make the call
+        $content = gen_ai::make_call($context, strip_tags($prompt));
 
-        $course_summary = strip_tags($course->summary);
-        $course_summary = str_replace(['<br>', '<br />'], "\n", $course_summary);
-        $prompt = 'Summary: ' . $course_summary . "\n\n Q: ";
 
-        // Add prompt
-        $prompt .= $PROMPT->get_prompt();
-        // Replace number of topics
-        $prompt = str_replace('[number_of_topics]', $number_of_topics, $prompt);
-
-        $content = gen_ai::make_call($context, $prompt);
-
-        $topics = [];
-        $topics['data'] = [];
-        foreach ($content as $topic) {
-            $topics['data'][] = [
-                'name' => $topic->name,
-                'summary' => $topic->summary,
+        // Get the data
+        $subjects = [];
+        $subjects['data'] = [];
+        foreach ($content as $subject) {
+            $subjects['data'][] = [
+                'name' => $subject->subject,
             ];
         }
-        return $topics;
+
+        return $subjects;
     }
 
-    public static function execute_returns()
-    {
+    public static function execute_returns() {
         return new external_single_structure(
             array(
                 'data' => new external_multiple_structure(
                     new external_single_structure(
                         array(
                             'name' => new external_value(PARAM_TEXT, 'Topic name'),
-                            'summary' => new external_value(PARAM_TEXT, 'Topic summary'),
                         )
                     )
-                ),
+                )
             )
         );
     }
@@ -131,6 +134,7 @@ class block_design_ideas_course_topics extends external_api
         //Context validation
         $context = \context_course::instance($course_id);
         self::validate_context($context);
+        file_put_contents('/var/www/moodledata/temp/topics.log', print_r($topics, true));
 
         // Get all sections for this course
         $course_sections = $DB->get_records(

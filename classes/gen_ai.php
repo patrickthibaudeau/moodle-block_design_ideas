@@ -11,44 +11,28 @@ abstract class gen_ai
     const HIGH_SCHOOL = 3;
     const ELEMENTARY = 4;
 
-    public static function make_call($params)
+    /**
+     * This function uses the built in Moodle AI providers and placements
+     * @param $context \stdClass
+     * @param $prompt string
+     * @return mixed
+     */
+    public static function make_call($context, $prompt)
     {
-        global $CFG;
-        $token = $CFG->block_idi_cria_token;
-        $ws_function = 'cria_get_gpt_response';
-        $query_string = [
-            'wstoken' => $token,
-            'wsfunction' => $ws_function,
-            'moodlewsrestformat' => 'json',
-            'bot_id' => $CFG->block_idi_cria_bot_id,
-            'chat_id' => 'none'
-        ];
-        //Clean up the prompt and content
-        $params['prompt'] = html_entity_decode(strip_tags($params['prompt']), ENT_QUOTES, 'UTF-8');
-        $params['content'] = html_entity_decode(strip_tags($params['content']), ENT_QUOTES, 'UTF-8');
+        global $USER;
 
-        // Merge params with query string
-//        $query_string = array_merge($query_string, $params);
-//        $query_string = str_replace('&amp;', '&', $query_string);
-        // Build the URL
-        $query_string = http_build_query($query_string);
-        $query_string = str_replace('&amp;', '&', $query_string);
-        $query_string = str_replace('&nbsp;', '&', $query_string);
-        $url = $CFG->block_idi_cria_url . "/webservice/rest/server.php?" . $query_string . "&prompt=" . urlencode($params['prompt']) . "&content=" . urlencode($params['content']);
+        $action = new \core_ai\aiactions\generate_text(
+            contextid: $context->id,
+            userid: $USER->id,
+            prompttext: $prompt,
+        );
 
-        // Make the call
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, $query_string);
-        curl_setopt($ch, CURLOPT_USERAGENT, '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-        // get the response
-        $results = curl_exec($ch);
-        // close the connection
-        curl_close($ch);
-        // decode the response and return it
-        return json_decode($results);
+// Send the action to the AI manager.
+        $manager = \core\di::get(\core_ai\manager::class);
+        $response = $manager->process_action($action);
+        $content = json_decode($response->get_response_data()['generatedcontent']);
+
+        return $content;
     }
 
     /**

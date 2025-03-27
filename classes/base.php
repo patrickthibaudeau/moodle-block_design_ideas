@@ -311,4 +311,36 @@ class base
 // Close cURL
         curl_close($ch);
     }
+
+    /**
+     * Get all course topics
+     * @param $courseid int
+     * @param $promptid int
+     * @param string $name string
+     * @return array
+     */
+    public static function get_course_topics($courseid, $promptid, $name = 'CLick') {
+        // Get all course topics.
+        $modinfo = get_fast_modinfo($courseid);
+        $sections = $modinfo->get_section_info_all();
+        $buttons = [];
+        $i = 0;
+        foreach ($sections as $section) {
+            // Do something with each section
+            // For example, you can access the section's name and summary like this:
+            $buttons[$i]['topic_name'] = $section->name;
+            $buttons[$i]['topicid'] = $section->id;
+            $buttons[$i]['courseid'] = $courseid;
+            $buttons[$i]['topic_description'] = $section->summary;
+            $i++;
+        }
+        $data = [
+            'promptid' => $promptid,
+            'courseid' => $courseid,
+            'name' => $name,
+            'buttons' => $buttons
+        ];
+
+        return $data;
+    }
 }
