@@ -1,5 +1,5 @@
 import ModalFactory from 'core/modal_factory';
-import {get_string as getString} from 'core/str';
+//import {get_string as getString} from 'core/str';
 import ajax from 'core/ajax';
 import Templates from 'core/templates';
 
@@ -37,7 +37,7 @@ export const init = async () => {
 
                     // Show results.generatedcontent in a modal
                     ModalFactory.create({
-                        title: getString('class_notes', 'block_design_ideas') + ': ' + results.section_name,
+                        title: results.section_name,
                         body: Templates.render('block_design_ideas/class_notes', results),
                         large: true
                     }).then(function (modal) {
