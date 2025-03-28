@@ -73,7 +73,7 @@ class block_design_ideas_course_topics extends external_api
         // Replace number of topics
         $prompt = str_replace('[number_of_topics]', $number_of_topics, $prompt);
 
-        $content = gen_ai::make_call($context, $prompt);
+        $content = gen_ai::make_call($context, $prompt, true);
 
         $topics = [];
         $topics['data'] = [];

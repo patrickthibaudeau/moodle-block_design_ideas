@@ -1,36 +1,33 @@
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col">
-            <div class="card">
-                <h3 class="card-header mb-2">{{#str}}
-                    pluginname, block_design_ideas{{/str}} - {{#str}}class_notes, block_design_ideas{{/str}} : {{section_name}}</h3>
+            <div class="message">
+                <div class="alert alert-info" role="alert">
+                    {{#str}}class_notes_intro, block_design_ideas{{/str}}
+                </div>
 
-                <div class="card-body">
-                    <div class="message">
-                        <div class="alert alert-info" role="alert">
-                            {{#str}}class_notes_intro, block_design_ideas{{/str}}
-                        </div>
-                        <ul class="list-group">
-                        {{#message}}
-                            <li class="list-group-item">
-                                <input type="checkbox" class="class-note-subjects"  value="{{subject}}">
-                            {{subject}}
-                            </li>
-                        {{/message}}
-                        </ul>
-                    </div>
-                    <div class="card-footer">
-                        <div class="btn-group float-right" role="group">
-                            <button
-                                    id="btn-create-class-notes"
-                                    type="button"
-                                    class="btn btn-outline-primary btn-create-class-notes"
-                                    data-section="{{section}}"
-                                    data-course_id="{{course_id}}">
-                                {{#str}}create_class_notes_for_topic, block_design_ideas{{/str}}
-                            </button>
-                        </div>
-                    </div>
+                <input type="checkbox" class="form-check-input ml-2 mb-2"
+                       id="block-design-ideas-subject-select-all"> {{#str}}select_all, block_design_ideas{{/str}}
+
+                <ul class="list-group">
+                    {{#data}}
+                        <li class="list-group-item">
+                            <input type="checkbox" class="block-design-ideas-subject-select" data-name="{{name}}">
+                            {{name}}
+                        </li>
+                    {{/data}}
+                </ul>
+            </div>
+            <div class="card-footer">
+                <div class="btn-group float-right" role="group">
+                    <button
+                            id="btn-create-class-notes"
+                            type="button"
+                            class="btn btn-outline-primary block-design-ideas-btn-create-class-notes"
+                            data-section="{{section}}"
+                            data-course_id="{{course_id}}">
+                        {{#str}}create_class_notes_for_topic, block_design_ideas{{/str}}
+                    </button>
                 </div>
             </div>
         </div>

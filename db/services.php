@@ -27,5 +27,14 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
+    'block_design_ideas_create_class_notes' => array(
+        'classname' => 'block_design_ideas_class_notes',
+        'methodname' => 'create',
+        'classpath' => 'blocks/design_ideas/classes/external/class_notes.php',
+        'description' => 'Create a page module for class notes.',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
 
 );

@@ -43,12 +43,34 @@ function xmldb_block_design_ideas_install()
 ]",
         'class' => 'course_topics',
         'systemreserved' => 1, // 1 = true, 0 = false
+        'sortorder' => 0,
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()
     ];
     // Create record in block_design_ideas_prompts
     $DB->insert_record('block_design_ideas_prompts', (object)$params);
+
+
+    // Parameters for Class notes
+    $params = [
+        'name' => 'Course Notes',
+        'description' => 'Generate class notes based on the section title and description.',
+        'prompt' => 'You are a professor offering a course entitled [course_title] with the following description: ' .
+            '[course_description]. Create class note subjects with no description on the specific topic of ' .
+            '[course_topic] and the following topic description [topic_description]. ' .
+            'Return the results in JSON format as per this example: ' .
+            '[ {"subject":"the subject"}, {"subject":"the second subject"} ]',
+        'class' => 'class_notes',
+        'systemreserved' => 1, // 1 = true, 0 = false
+        'sortorder' => 1,
+        'usermodified' => $USER->id,
+        'timecreated' => time(),
+        'timemodified' => time()
+    ];
+    // Create record in block_design_ideas_prompts
+    $DB->insert_record('block_design_ideas_prompts', (object)$params);
+
 
     // Parameters for Essay topics
     $params = [
@@ -63,6 +85,7 @@ function xmldb_block_design_ideas_install()
 ]",
         'systemreserved' => 1, // 1 = true, 0 = false
         'class' => 'essay_topics',
+        'sortorder' => 4,
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()
@@ -78,6 +101,7 @@ function xmldb_block_design_ideas_install()
             . "Please provide the answer in a list format. "
             . "Always write in the same language as the course description.",
         'systemreserved' => 1, // 1 = true, 0 = false
+        'sortorder' => 5,
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()
@@ -93,6 +117,7 @@ function xmldb_block_design_ideas_install()
             . "Please provide the answer in a list format. "
             . "Always write in the same language as the course description.",
         'systemreserved' => 1, // 1 = true, 0 = false
+        'sortorder' => 6,
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()
@@ -107,6 +132,7 @@ function xmldb_block_design_ideas_install()
         'prompt' => "Based on the content provided, please suggest relevant readings from journal articles or book chapters of at least 4000 words. ",
         'systemreserved' => 1, // 1 = true, 0 = false
         'class' => 'readings_generator',
+        'sortorder' => 2,
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()
@@ -121,6 +147,7 @@ function xmldb_block_design_ideas_install()
         'prompt' => "Based on the content provided, create a course description. Do not include a course title. Do not include the title \"Course description.\" Only return a description. ",
         'systemreserved' => 1, // 1 = true, 0 = false
         'class' => 'course_summary',
+        'sortorder' => 3,
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()

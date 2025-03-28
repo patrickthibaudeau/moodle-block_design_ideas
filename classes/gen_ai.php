@@ -15,9 +15,10 @@ abstract class gen_ai
      * This function uses the built in Moodle AI providers and placements
      * @param $context \stdClass
      * @param $prompt string
+     * @param bool $decode bool Wheter to JSON decode the response or not
      * @return mixed
      */
-    public static function make_call($context, $prompt)
+    public static function make_call($context, $prompt, $decode = false)
     {
         global $USER;
 
@@ -30,9 +31,12 @@ abstract class gen_ai
 // Send the action to the AI manager.
         $manager = \core\di::get(\core_ai\manager::class);
         $response = $manager->process_action($action);
-        $content = json_decode($response->get_response_data()['generatedcontent']);
 
-        return $content;
+        if ($decode) {
+            return json_decode($response->get_response_data()['generatedcontent']);
+        } else {
+            return $response->get_response_data()['generatedcontent'];
+        }
     }
 
     /**

@@ -7,6 +7,9 @@ use block_design_ideas\gen_ai;
 
 global $CFG, $OUTPUT, $USER, $PAGE, $DB;
 
+
+$courseid = 5;
+$context = context_course::instance($courseid);
 require_login($context->instanceid, false);
 
 
@@ -19,30 +22,45 @@ base::page(
 
 echo $OUTPUT->header();
 
-$courseid = 2;
-$prompt_id = 7;
-$section_id = 2;
 
-$context = context_course::instance($courseid);
 
-// Get information from query string
-$course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
-$topic = $DB->get_record('course_sections', array('id' => $section_id), '*', MUST_EXIST);
-$topic_name = $topic->name;
-$topic_description = $topic->summary;
+
+
+
 
 // Get prompt
-$PROMPT = new prompt($prompt_id);
-// Get prompt
-$prompt = $PROMPT->get_prompt();
-$prompt = str_replace('[course_title]', $course->fullname, $prompt);
-$prompt = str_replace('[course_description]', $course->summary, $prompt);
-$prompt = str_replace('[course_topic]', $topic_name, $prompt);
-$prompt = str_replace('[topic_description]', $topic_description, $prompt);
-$prompt = html_entity_decode($prompt);
+$prompt = 'You are a professor. Provide class notes on the specific subject of Introduction to Database Management in point form using full sentences. Return the results as formatted HTML. Omit adding styles in the head tag. Do not include the author of the notes.';
 // Make the call
-$content = gen_ai::make_call($context, strip_tags($prompt));
+$content = gen_ai::make_call($context, $prompt);
 
 print_object($content);
+
+// Split the text into lines
+$lines = explode("\n", $content);
+
+// Initialize arrays for points and other text
+$points = [];
+$otherText = [];
+
+// Process each line
+foreach ($lines as $line) {
+    // Check if the line starts with a number followed by a period
+    if (preg_match('/^(\d+\.)|(-)/', $line)) {
+        $points[] = $line;
+    } else {
+        $otherText[] = $line;
+    }
+}
+
+$html = '<ol>';
+foreach ($points as $point) {
+    $html .= '<li>' . $point . '</li>';
+}
+$html .= '</ol>';
+
+// Combine other text into a single string
+$otherTextString = implode("\n", $otherText);
+
+echo $html;
 
 echo $OUTPUT->footer();

@@ -10,6 +10,7 @@
 
 use block_design_ideas\prompt;
 use block_design_ideas\gen_ai;
+use block_design_ideas\class_notes;
 
 require_once($CFG->libdir . "/externallib.php");
 require_once("$CFG->dirroot/config.php");
@@ -42,7 +43,7 @@ class block_design_ideas_class_notes extends external_api
      * @throws invalid_parameter_exception
      * @throws restricted_context_exception
      */
-    public static function execute($course_id, $prompt_id, $ection_id)
+    public static function execute($course_id, $prompt_id, $section_id)
     {
         global $DB, $USER;
 
@@ -61,7 +62,7 @@ class block_design_ideas_class_notes extends external_api
         self::validate_context($context);
 
         // Get information from query string
-        $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+        $course = $DB->get_record('course', array('id' => $course_id), '*', MUST_EXIST);
         $topic = $DB->get_record('course_sections', array('id' => $section_id), '*', MUST_EXIST);
         $topic_name = $topic->name;
         $topic_description = $topic->summary;
@@ -76,13 +77,16 @@ class block_design_ideas_class_notes extends external_api
         $prompt = str_replace('[topic_description]', $topic_description, $prompt);
         $prompt = html_entity_decode($prompt);
         // Make the call
-        $content = gen_ai::make_call($context, strip_tags($prompt));
+        $content = gen_ai::make_call($context, strip_tags($prompt), true);
 
 
         // Get the data
         $subjects = [];
         $subjects['data'] = [];
         foreach ($content as $subject) {
+            $subjects['course_id'] = $course_id;
+            $subjects['section'] = $topic->section;
+            $subjects['section_name'] = $topic->name;
             $subjects['data'][] = [
                 'name' => $subject->subject,
             ];
@@ -91,9 +95,13 @@ class block_design_ideas_class_notes extends external_api
         return $subjects;
     }
 
-    public static function execute_returns() {
+    public static function execute_returns()
+    {
         return new external_single_structure(
             array(
+                'course_id' => new external_value(PARAM_INT, 'Course id'),
+                'section' => new external_value(PARAM_INT, 'Topic section'),
+                'section_name' => new external_value(PARAM_TEXT, 'Topic name'),
                 'data' => new external_multiple_structure(
                     new external_single_structure(
                         array(
@@ -107,77 +115,100 @@ class block_design_ideas_class_notes extends external_api
 
 
     // Create course topics
-    public static function create_parameters() {
+    public static function create_parameters()
+    {
         return new external_function_parameters(
             array(
+                'section' => new external_value(PARAM_INT, 'Topic section number', VALUE_REQUIRED),
                 'courseid' => new external_value(PARAM_INT, 'Course id', VALUE_REQUIRED),
-                'topics' => new external_value(PARAM_RAW, 'JSON of Topics', VALUE_REQUIRED),
-                'replace' => new external_value(PARAM_TEXT, 'Replace topics or append', VALUE_OPTIONAL,
-                    'all')
+                'subjects' => new external_value(PARAM_RAW, 'JSON of subjects', VALUE_REQUIRED),
             )
         );
     }
 
-    public static function create($course_id, $topics, $replace = 'all') {
+    public static function create($section, $course_id, $subjects)
+    {
         global $DB, $USER;
 
         //Parameter validation
         $params = self::validate_parameters(
             self::create_parameters(),
             array(
+                'section' => $section,
                 'courseid' => $course_id,
-                'topics' => $topics,
-                'replace' => $replace
+                'subjects' => $subjects
             )
         );
 
         //Context validation
         $context = \context_course::instance($course_id);
         self::validate_context($context);
-        file_put_contents('/var/www/moodledata/temp/topics.log', print_r($topics, true));
 
-        // Get all sections for this course
-        $course_sections = $DB->get_records(
-            'course_sections',
-            array('course' => $course_id),
-            'section');
+        $messages = json_decode($subjects);
+        $message_count = count($messages);
+        $html = '';
+        $prompt = 'You are a professor. Provide class notes on subject "[subject]" in point form using full sentences. '
+            . 'Return the results as formatted HTML. Do not include the author of the notes.';
+        $i = 0;
+        foreach ($messages as $message) {
+            // Make call to AI and retrieve the message
+            $prompt_message = str_replace('[subject]', $message->name, $prompt);
 
-        $course_sections = array_values($course_sections);
+            $result = gen_ai::make_call($context, $prompt_message);
 
-        $topics = json_decode($topics);
-        // Convert topics to an array
-        if (is_object($topics)) {
-            $topics = array_values((array)$topics);
-        } else {
-            $topics = array_values($topics);
-        }
-// Unset section 0
-        unset($course_sections[0]);
-// Reset array values
-        $course_sections = array_values($course_sections);
+            // Moodle returns the results in plain text. Convert the plain text to an ordered list.
+            // Split the text into lines
+            $lines = explode("\n", $result);
 
-        if ($replace == 'all') {
-            foreach ($topics as $key => $topic) {
-                if (!empty($course_sections[$key])) {
-                    course_update_section($course_id, $course_sections[$key], $topic);
+// Initialize arrays for points and other text
+            $points = [];
+            $otherText = [];
+
+// Process each line
+            foreach ($lines as $line) {
+                // Check if the line starts with a number followed by a period
+                if (preg_match('/^(\d+\.)|(-)/', $line)) {
+                    $points[] = $line;
                 } else {
-                    $new_section = course_create_section($course_id, $key);
-                    // Update new section
-                    course_update_section($course_id, $new_section, $topic);
+                    $otherText[] = $line;
                 }
             }
-        } else {
-            foreach ($topics as $key => $topic) {
-                $new_section = course_create_section($course_id, 0);
-                // Update new section
-                course_update_section($course_id, $new_section, $topic);
+            $html .= '<h3>' . $message->name . '</h3>';
+            $html .= '<ol>';
+            foreach ($points as $point) {
+                // If the point starts with a number, example 1., Remove the number followed by the period.
+                if (preg_match('/^\d+\./', $point)) {
+                    $point = preg_replace('/^\d+\.\s*/', '', $point);
+                }
+                // Also remove any leading dashes (-)
+                $point = preg_replace('/^\s*-\s*/', '', $point);
+                $html .= '<li>' . $point . '</li>';
             }
+            $html .= '</ol>';
+
+            $html .= '<br><br>';
+            $i++;
         }
+// Get section name
+        $section_record = $DB->get_record('course_sections', ['section' => $section, 'course' => $course_id], '*', MUST_EXIST);
+
+        $name = get_string('class_notes', 'block_design_ideas') . ' - ' . $section_record->name;
+
+        if ($message_count === $i) {
+            gen_ai::add_page_module(
+                $name,
+                trim($html),
+                $course_id,
+                $section
+            );
+        }
+
 
         return true;
     }
 
-    public static function create_returns() {
+    public static function create_returns()
+    {
         return new external_value(PARAM_BOOL, 'Status');
     }
 }
