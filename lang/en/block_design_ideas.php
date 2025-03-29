@@ -40,7 +40,7 @@ $string['copied_to_clipboard'] = 'Copied to clipboard';
 $string['copy_to_clipboard'] = 'Copy to clipboard';
 $string['copy_to_clipboard_failed'] = 'Copy to clipboard failed';
 $string['course_topics'] = 'Course Sections';
-$string['course_topics_help'] = 'Course sections will be created based on the course summary. '.
+$string['course_topics_help'] = 'Course sections will be created based on the course summary. ' .
     'Select how many topics you would like displayed.';
 $string['course_summary'] = 'Course Summary';
 $string['create_13_sections'] = 'Display 13 sections';
@@ -68,14 +68,17 @@ $string['loading'] = 'Loading';
 $string['more'] = 'More';
 $string['name'] = 'Name';
 $string['new'] = 'New';
-$string['no_course_summary'] = '<h3>No course summary available.</h3> In order for the Instructional Design Ideas AI to work, '.
-    'you need to add a course summary. You can do this by going to the <a href="{$a}" title="Link to course settings page">course settings</a> and adding a summary '.
+$string['no_course_summary'] = '<h3>No course summary available.</h3> In order for the Instructional Design Ideas AI to work, ' .
+    'you need to add a course summary. You can do this by going to the <a href="{$a}" title="Link to course settings page">course settings</a> and adding a summary ' .
     'in the Course Summary field. Once you have done this, you can refresh this page and the buttons will be avialable.';
 $string['no_permission'] = 'You do not have permission to edit this prompt.';
 $string['pluginname'] = 'Instructional Design Ideas';
 $string['prompt'] = 'Prompt';
 $string['prompt_help'] = 'Add a prompt that an LLM can use to do call with';
 $string['prompt_parameters'] = 'Prompt settings';
+$string['prompt_warning'] = 'We strongly suggest that you do not edit the default prompts. Do so at your own risk. ' .
+    'If you do not know what you are doing, ' . 'you may break the plugin. If you do break the plugin, '.
+    'please contact your administrator.';
 $string['prompts'] = 'Prompts';
 $string['quiz_questions'] = 'Quiz Questions';
 $string['quiz_questions_help'] = 'Select all files from which you would like to generate quiz questions. Once you have selected the files, click the Generate Questions button.';

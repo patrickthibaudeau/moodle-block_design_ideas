@@ -24,7 +24,6 @@ $prompts = $PROMPTS->get_records();
 $prompts = array_values($prompts);
 $data = [
     'prompts' => $prompts,
-    'edit_prompts_override' => $CFG->edit_prompts_override
 ];
 
 base::page(
