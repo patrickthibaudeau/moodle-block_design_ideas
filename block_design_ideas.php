@@ -76,6 +76,7 @@ class block_design_ideas extends block_base
         }
         $course_context = context_course::instance($this->page->course->id);
 
+        $this->page->requires->js_call_amd('block_design_ideas/general_prompt', 'init');
         $this->page->requires->js_call_amd('block_design_ideas/ai_policy', 'init');
         $this->page->requires->js_call_amd('block_design_ideas/course_topics', 'init');
         $this->page->requires->js_call_amd('block_design_ideas/class_notes', 'init');
