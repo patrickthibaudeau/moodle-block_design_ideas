@@ -11,8 +11,7 @@ class class_notes extends gen_ai
      * @param $courseid
      * @return mixed
      */
-    public
-    static function get_button($promptid, $courseid, $name = 'Class notes')
+    public static function get_button($promptid, $courseid, $name = 'Class notes')
     {
         global $OUTPUT;
 

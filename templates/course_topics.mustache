@@ -42,36 +42,5 @@
                 </button>
             </div>
         </div>
+    </div>
 </div>
-
-<!--<script>-->
-<!--    const loader = document.querySelector('.loader');-->
-<!--    setTimeout(function () {-->
-<!--        // loader.style.display = 'none';-->
-<!--        loader.parentNode.removeChild(loader);-->
-<!--    }, 1);-->
-<!--    const create_topic_button = document.querySelectorAll('.btn-create-course-topics');-->
-<!--    // When create_topic button is clicked, capture the contents of message element and send to PHP page-->
-<!--    for (let i = 0; i < create_topic_button.length; i++) {-->
-<!--        create_topic_button[i].addEventListener('click', function () {-->
-<!--            const replace = create_topic_button[i].getAttribute('data-replace');-->
-<!--            const courseId = create_topic_button[i].getAttribute('data-course_id');-->
-<!--            const url = M.cfg.wwwroot + '/blocks/design_ideas/create_topics.php';-->
-<!--            fetch(`${url}?courseid=${courseId}&replace=${replace}`)-->
-<!--                    .then(response => response.json())-->
-<!--                    .then(data => {-->
-<!--                                console.log(data)-->
-<!--                                if (data.status === 'success') {-->
-<!--                                    // Close the current window-->
-<!--                                    window.close();-->
-<!--                                    // Refresh the parent window-->
-<!--                                    window.opener.location.reload();-->
-<!--                                } else {-->
-<!--                                    alert('Error creating topics');-->
-<!--                                }-->
-<!--                            }-->
-<!--                    )-->
-<!--                    .catch(error => console.error(error));-->
-<!--        });-->
-<!--    }-->
-<!--</script>-->

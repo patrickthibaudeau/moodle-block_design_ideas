@@ -45,5 +45,23 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
+    'block_design_ideas_get_learning_outcomes' => array(
+        'classname' => 'block_design_ideas_learning_outcomes',
+        'methodname' => 'execute',
+        'classpath' => 'blocks/design_ideas/classes/external/learning_outcomes.php',
+        'description' => 'Returns learning outcomes based on course summary and all subjects',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
+    'block_design_ideas_create_learning_outcomes' => array(
+        'classname' => 'block_design_ideas_learning_outcomes',
+        'methodname' => 'create',
+        'classpath' => 'blocks/design_ideas/classes/external/learning_outcomes.php',
+        'description' => 'Create a page module for the leaning outcomes',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
 
 );
