@@ -77,7 +77,7 @@ class block_design_ideas_class_notes extends external_api
         $prompt = str_replace('[topic_description]', $topic_description, $prompt);
         $prompt = html_entity_decode($prompt);
         // Make the call
-        $content = gen_ai::make_call($context, strip_tags($prompt), true);
+        $content = gen_ai::make_call($context, strip_tags($prompt), $course->lang, true);
 
 
         // Get the data
@@ -144,6 +144,9 @@ class block_design_ideas_class_notes extends external_api
         $context = \context_course::instance($course_id);
         self::validate_context($context);
 
+        // Get course
+        $course = $DB->get_record('course', array('id' => $course_id), '*', MUST_EXIST);
+
         $messages = json_decode($subjects);
         $message_count = count($messages);
         $html = '';
@@ -154,7 +157,7 @@ class block_design_ideas_class_notes extends external_api
             // Make call to AI and retrieve the message
             $prompt_message = str_replace('[subject]', $message->name, $prompt);
 
-            $result = gen_ai::make_call($context, $prompt_message);
+            $result = gen_ai::make_call($context, $prompt_message, $course->lang);
 
             // Moodle returns the results in plain text. Convert the plain text to an ordered list.
             // Split the text into lines

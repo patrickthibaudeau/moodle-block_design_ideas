@@ -27,9 +27,8 @@ echo $OUTPUT->header();
 
 
 
-
-
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+
 
 $PROMPT = new prompt($prompt_id);
 
@@ -40,7 +39,7 @@ $prompt = 'Summary: ' . $course_summary . "\n\n Q: ";
 // Add prompt
 $prompt .= $PROMPT->get_prompt();
 
-$content = gen_ai::make_call($context, $prompt);
+$content = gen_ai::make_call($context, $prompt, 'en');
 
 echo base::convert_string_to_html_list($content);
 

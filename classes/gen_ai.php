@@ -18,9 +18,12 @@ abstract class gen_ai
      * @param bool $decode bool Wheter to JSON decode the response or not
      * @return mixed
      */
-    public static function make_call($context, $prompt, $decode = false)
+    public static function make_call($context, $prompt, $lang = 'en', $decode = false)
     {
         global $USER;
+
+        // Always return he response in the language of the course
+        $prompt .= "\n\nYou must return the response in the language based on this language code: $lang.\n\n";
 
         $action = new \core_ai\aiactions\generate_text(
             contextid: $context->id,

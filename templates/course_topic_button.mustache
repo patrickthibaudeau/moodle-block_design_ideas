@@ -7,20 +7,29 @@
             {{#str}}course_topics, block_design_ideas{{/str}}
         </button>
         <ul class="dropdown-menu">
-            <a href="#"
-               class="dropdown-item block-design-ideas-btn-ai-call-course-topics"
-               data-prompt_id="{{promptid}}"
-               data-topics="13"
-               data-course_id="{{courseid}}">
-                Create 13 topics
-            </a>
-            <a href="#"
-               class="dropdown-item block-design-ideas-btn-ai-call-course-topics"
-               data-prompt_id="{{promptid}}"
-               data-topics="24"
-               data-course_id="{{courseid}}">
-                Create 24 topics
-            </a>
+            <li class="dropdown-item">
+                <div class="alert alert-warning ml-1 mr-1 mb-0">
+                    {{#str}}course_topics_help, block_design_ideas{{/str}}
+                </div>
+            </li>
+            <li class="dropdown-item">
+                <a href="#"
+                   class="block-design-ideas-btn-ai-call-course-topics"
+                   data-prompt_id="{{promptid}}"
+                   data-topics="13"
+                   data-course_id="{{courseid}}">
+                    {{#str}}create_13_sections, block_design_ideas{{/str}}
+                </a>
+            </li>
+            <li class="dropdown-item">
+                <a href="#"
+                   class="block-design-ideas-btn-ai-call-course-topics"
+                   data-prompt_id="{{promptid}}"
+                   data-topics="24"
+                   data-course_id="{{courseid}}">
+                    {{#str}}create_24_sections, block_design_ideas{{/str}}
+                </a>
+            </li>
         </ul>
     </div>
 </div>
