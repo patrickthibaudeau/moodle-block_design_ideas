@@ -40,36 +40,6 @@ abstract class gen_ai
     }
 
     /**
-     *
-     * @param $prompt_id int
-     * @param $courseid int
-     * @return void
-     */
-    public static function render_results($prompt_id, $courseid)
-    {
-        global $DB;
-        $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
-        $PROMPT = new prompt($prompt_id);
-        $params = [
-            'prompt' => $PROMPT->get_prompt(),
-            'content' => $course->summary
-        ];
-        $results = self::make_call($params);
-
-        return self::render_from_template($results);
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    private static function render_from_template($data)
-    {
-        global $OUTPUT;
-        return $OUTPUT->render_from_template('block_design_ideas/ai_call', $data);
-    }
-
-    /**
      * Create deafult button
      * @param $promptid
      * @param $courseid
@@ -329,27 +299,6 @@ abstract class gen_ai
             $modinfo = @add_moduleinfo($mod, $course);
 
             return $modinfo;
-        }
-    }
-
-    /**
-     * The institution prompt is always prepended to the prompt
-     * @return void
-     * @throws \dml_exception
-     */
-    public static function get_institution_prompt()
-    {
-        global $CFG;
-
-        switch ($CFG->block_idi_institution) {
-            case self::UNIVERSITY:
-                return '---You are a University professor building your course.--- ';
-            case self::COLLEGE:
-                return '---You are a College instructor building your course.--- ';
-            case self::HIGH_SCHOOL:
-                return '---You are a High School teacher building your course.--- ';
-            case self::ELEMENTARY:
-                return '---You are an Elementary School teacher building your course.--- ';
         }
     }
 }
