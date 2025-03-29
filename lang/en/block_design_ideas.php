@@ -60,6 +60,7 @@ $string['essay'] = 'Essay';
 $string['essay_topics'] = 'Essay Topics';
 $string['generate_questions'] = 'Generate Questions';
 $string['generated_content'] = 'Generated content';
+$string['generated_learning_outcomes'] = 'Generated learning outcomes';
 $string['generated_topics'] = 'AI Generated topics';
 $string['instructions'] = 'Check out these cool AI tools!';
 $string['learning_outcomes'] = 'Learning Outcomes';
