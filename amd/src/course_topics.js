@@ -6,7 +6,7 @@ import Templates from 'core/templates';
 export const init = async () => {
     document.addEventListener('click', function (event) {
 
-        if (event.target.classList.contains('block-design-ideas-btn-ai-call')) {
+        if (event.target.classList.contains('block-design-ideas-btn-ai-call-course-topics')) {
             var clickedElement = event.target;
             // Get the data attributes
             var promptId = clickedElement.getAttribute('data-prompt_id');

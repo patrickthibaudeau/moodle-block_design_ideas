@@ -36,5 +36,14 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
+    'block_design_ideas_get_generic_content' => array(
+        'classname' => 'block_design_ideas_general_prompt',
+        'methodname' => 'execute',
+        'classpath' => 'blocks/design_ideas/classes/external/general_prompt.php',
+        'description' => 'Return content based on a prompt',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
 
 );
