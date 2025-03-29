@@ -343,4 +343,47 @@ class base
 
         return $data;
     }
+
+    /**
+     * Convert a string to an HTML list
+     * @param $content
+     * @return string
+     */
+    public static function convert_string_to_html_list($content) {
+        // Moodle returns the results in plain text. Convert the plain text to an ordered list.
+        // Split the text into lines
+        $lines = explode("\n", $content);
+
+// Initialize arrays for points and other text
+        $points = [];
+        $otherText = [];
+
+// Process each line
+        foreach ($lines as $line) {
+            // Check if the line starts with a number followed by a period
+            if (preg_match('/^(\d+\.)|(-)/', $line)) {
+                $points[] = $line;
+            } else {
+                $otherText[] = $line;
+            }
+        }
+       // Glue all $otherText into a single string
+        $otherText = implode(' ', $otherText);
+
+        $html = '<p>' . $otherText . '</p>';
+        // Put all points into an ordered list
+        $html .= '<ol>';
+        foreach ($points as $point) {
+            // If the point starts with a number, example 1., Remove the number followed by the period.
+            if (preg_match('/^\d+\./', $point)) {
+                $point = preg_replace('/^\d+\.\s*/', '', $point);
+            }
+            // Also remove any leading dashes (-)
+            $point = preg_replace('/^\s*-\s*/', '', $point);
+            $html .= '<li>' . $point . '</li>';
+        }
+        $html .= '</ol>';
+
+        return $html;
+    }
 }

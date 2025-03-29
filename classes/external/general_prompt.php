@@ -10,7 +10,7 @@
 
 use block_design_ideas\prompt;
 use block_design_ideas\gen_ai;
-use aiplacement_editor\external;
+use block_design_ideas\base;
 
 require_once($CFG->libdir . "/externallib.php");
 require_once("$CFG->dirroot/config.php");
@@ -72,7 +72,7 @@ class block_design_ideas_general_prompt extends external_api
         $content = gen_ai::make_call($context, $prompt);
 
         $response = [];
-        $response['content'] = $content;
+        $response['content'] = base::convert_string_to_html_list($content);
 
         return $response;
     }

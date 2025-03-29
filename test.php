@@ -9,6 +9,7 @@ global $CFG, $OUTPUT, $USER, $PAGE, $DB;
 
 
 $courseid = 5;
+$prompt_id = 4;
 $context = context_course::instance($courseid);
 require_login($context->instanceid, false);
 
@@ -28,39 +29,19 @@ echo $OUTPUT->header();
 
 
 
-// Get prompt
-$prompt = 'You are a professor. Provide class notes on the specific subject of Introduction to Database Management in point form using full sentences. Return the results as formatted HTML. Omit adding styles in the head tag. Do not include the author of the notes.';
-// Make the call
+$course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+
+$PROMPT = new prompt($prompt_id);
+
+$course_summary = strip_tags($course->summary);
+$course_summary = str_replace(['<br>', '<br />'], "\n", $course_summary);
+$prompt = 'Summary: ' . $course_summary . "\n\n Q: ";
+
+// Add prompt
+$prompt .= $PROMPT->get_prompt();
+
 $content = gen_ai::make_call($context, $prompt);
 
-print_object($content);
-
-// Split the text into lines
-$lines = explode("\n", $content);
-
-// Initialize arrays for points and other text
-$points = [];
-$otherText = [];
-
-// Process each line
-foreach ($lines as $line) {
-    // Check if the line starts with a number followed by a period
-    if (preg_match('/^(\d+\.)|(-)/', $line)) {
-        $points[] = $line;
-    } else {
-        $otherText[] = $line;
-    }
-}
-
-$html = '<ol>';
-foreach ($points as $point) {
-    $html .= '<li>' . $point . '</li>';
-}
-$html .= '</ol>';
-
-// Combine other text into a single string
-$otherTextString = implode("\n", $otherText);
-
-echo $html;
+echo base::convert_string_to_html_list($content);
 
 echo $OUTPUT->footer();

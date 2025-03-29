@@ -11,6 +11,7 @@ export const init = async () => {
             // Get the data attributes
             var promptId = clickedElement.getAttribute('data-prompt_id');
             var courseId = clickedElement.getAttribute('data-course_id');
+            var name = clickedElement.getAttribute('data-name');
 
             ModalFactory.create({
                 title: '',
@@ -32,6 +33,7 @@ export const init = async () => {
 
                     // Close the modal
                     loaderModal.hide();
+                    results.name = name;
 
                     // Show results.generatedcontent in a modal
                     ModalFactory.create({
@@ -43,8 +45,25 @@ export const init = async () => {
                         modal.show();
                         // Set a timeout so that the element can be discovered in the DOM
                         setTimeout(function () {
-
-                            // For future features
+                            // When buttin block-design-ideas-btn-copy-to-clipboard is clicked,
+                            // copy the content from id block-design-ideas-content to the clipboard
+                            var copyButton = document.querySelector('.block-design-ideas-btn-copy-to-clipboard');
+                            if (copyButton) {
+                                copyButton.addEventListener('click', function () {
+                                    var content = document.getElementById('block-design-ideas-content');
+                                    if (content) {
+                                        navigator.clipboard.writeText(content.innerText).then(function () {
+                                            getString('copied_to_clipboard', 'block_design_ideas').then(function (message) {
+                                                alert(message);
+                                            });
+                                        }, function () {
+                                            getString('copy_to_clipboard_failed', 'block_design_ideas').then(function (message) {
+                                                alert(message);
+                                            });
+                                        });
+                                    }
+                                });
+                            }
 
                         }, 1000);
                     });
