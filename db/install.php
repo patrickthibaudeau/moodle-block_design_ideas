@@ -127,7 +127,7 @@ Based on the content provided above, create a course description. Do not include
     $params = [
         'name' => 'Essay Topics',
         'description' => 'Generates essay topics based on the section descriptions.',
-        'prompt' => "[topic]: [topic_description]\n\nBased on the topic description above, write four essay topic ideas. Include a description for each topic."
+        'prompt' => "[topic]: [topic_description]\n\nBased on the topic description above, write up to ten essay topic ideas. Include a detailed assignment description for university-based essays for each topic."
             . "Return the results in JSON format as per this example:
 [
     {\"name\":\"Name of topic\",\"summary\":\"Description of topic\"},
