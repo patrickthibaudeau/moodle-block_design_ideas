@@ -81,5 +81,23 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
+    'block_design_ideas_get_essay_topics' => array(
+        'classname' => 'block_design_ideas_essay_topics',
+        'methodname' => 'execute',
+        'classpath' => 'blocks/design_ideas/classes/external/essay_topics.php',
+        'description' => 'Returns a list of essay topics based on the section descriptions.',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
+    'block_design_ideas_create_essay_topics' => array(
+        'classname' => 'block_design_ideas_essay_topics',
+        'methodname' => 'create',
+        'classpath' => 'blocks/design_ideas/classes/external/essay_topics.php',
+        'description' => 'Creates assignment based on the essay topics.',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
 
 );

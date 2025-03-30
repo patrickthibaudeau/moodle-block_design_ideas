@@ -1,0 +1,26 @@
+<div id="btn-design_ideas-topics" class=" btn-group mt-2 w-100" role="group">
+    <button id="btnClassnotesGroupDrop1" type="button" class="btn btn-outline-info dropdown-toggle"
+            data-bs-toggle="dropdown" aria-expanded="false">
+        {{#str}}essay_topics, block_design_ideas{{/str}}
+    </button>
+    <ul class="dropdown-menu">
+        <li class="dropdown-item">
+            <div class="alert alert-warning ml-1 mr-1 mb-0">
+                {{#str}}essay_topics_help, block_design_ideas{{/str}}
+            </div>
+        </li>
+        {{#buttons}}
+            <li class="dropdown-item">
+                <a href="#"
+                   class="block-design-ideas-btn-ai-call-essay-topics"
+                   data-prompt_id="{{promptid}}"
+                   data-topic_id="{{topicid}}"
+                   data-course_id="{{courseid}}">
+                    {{topic_name}}
+                </a>
+            </li>
+        {{/buttons}}
+    </ul>
+</div>
+
+

@@ -61,4 +61,19 @@ class essay_topics extends gen_ai
         return $OUTPUT->render_from_template('block_design_ideas/essay_topics', $data);
     }
 
+    /**
+     * Create deafult button
+     * @param $promptid
+     * @param $courseid
+     * @return mixed
+     */
+    public static function get_button($promptid, $courseid, $name = 'Essay Topics')
+    {
+        global $OUTPUT;
+
+        $data = base::get_course_topics($courseid, $promptid, get_string('class_notes', 'block_design_ideas'));
+        // Render buttons
+        return $OUTPUT->render_from_template('block_design_ideas/essay_topics_button', $data);
+    }
+
 }

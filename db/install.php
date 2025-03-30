@@ -113,7 +113,7 @@ Sections:\n
 ---\n
 Based on the content provided above, create a course description. Do not include a course title. Do not include the title \"Course description.\" Only return a description. ",
         'systemreserved' => 1, // 1 = true, 0 = false
-        'class' => 'course_summary',
+        'class' => 'final_course_summary',
         'sortorder' => 4,
         'usermodified' => $USER->id,
         'timecreated' => time(),
@@ -126,9 +126,8 @@ Based on the content provided above, create a course description. Do not include
     // Parameters for Essay topics
     $params = [
         'name' => 'Essay Topics',
-        'description' => 'Generates essay topics based on the course description (summary).',
-        'prompt' => "Based on the course description, write four essay topic ideas. Include a description for each topic."
-            . "lways write in the same language as the course description. "
+        'description' => 'Generates essay topics based on the section descriptions.',
+        'prompt' => "[topic]: [topic_description]\n\nBased on the topic description above, write four essay topic ideas. Include a description for each topic."
             . "Return the results in JSON format as per this example:
 [
     {\"name\":\"Name of topic\",\"summary\":\"Description of topic\"},

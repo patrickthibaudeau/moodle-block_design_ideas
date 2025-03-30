@@ -58,6 +58,9 @@ $string['description'] = 'Description.';
 $string['edit_prompts'] = 'Edit Prompts';
 $string['essay'] = 'Essay';
 $string['essay_topics'] = 'Essay Topics';
+$string['essay_topics_help'] = 'Select a section below to have GenAI provide essay topics based on the section description.';
+$string['essay_topics_intro'] = 'Select all essay topics you would like to create. Once you have selected the topics, click the Create Essay Topics button.' .
+' This will create assignments in the selected section.';
 $string['final_course_summary'] = 'Final Course Summary';
 $string['generate_questions'] = 'Generate Questions';
 $string['generated_content'] = 'Generated content';
