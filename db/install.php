@@ -75,9 +75,10 @@ function xmldb_block_design_ideas_install()
     $params = [
         'name' => 'Readings',
         'description' => 'Generates readings ideas based on the topic and topic description.',
-        'prompt' => "Based on the content provided, please suggest relevant readings from journal articles or book chapters of at least 4000 words. ",
+        'prompt' => "[topic]: [topic_description]\n\n
+Based on the content provided above, create a comma-separated list of keywords that can be used to search a library database.",
         'systemreserved' => 1, // 1 = true, 0 = false
-        'class' => 'readings_generator',
+        'class' => 'readings',
         'sortorder' => 2,
         'usermodified' => $USER->id,
         'timecreated' => time(),
