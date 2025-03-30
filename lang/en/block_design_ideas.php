@@ -58,6 +58,7 @@ $string['description'] = 'Description.';
 $string['edit_prompts'] = 'Edit Prompts';
 $string['essay'] = 'Essay';
 $string['essay_topics'] = 'Essay Topics';
+$string['final_course_summary'] = 'Final Course Summary';
 $string['generate_questions'] = 'Generate Questions';
 $string['generated_content'] = 'Generated content';
 $string['generated_learning_outcomes'] = 'Generated learning outcomes';
@@ -68,6 +69,7 @@ $string['loading'] = 'Loading';
 $string['more'] = 'More';
 $string['name'] = 'Name';
 $string['new'] = 'New';
+$string['new_course_summary'] = 'New course summary';
 $string['no_course_summary'] = '<h3>No course summary available.</h3> In order for the Instructional Design Ideas AI to work, ' .
     'you need to add a course summary. You can do this by going to the <a href="{$a}" title="Link to course settings page">course settings</a> and adding a summary ' .
     'in the Course Summary field. Once you have done this, you can refresh this page and the buttons will be avialable.';
@@ -84,7 +86,7 @@ $string['quiz_questions'] = 'Quiz Questions';
 $string['quiz_questions_help'] = 'Select all files from which you would like to generate quiz questions. Once you have selected the files, click the Generate Questions button.';
 $string['readings'] = 'Readings';
 $string['replace_all_exising_topics'] = 'Replace all existing topics';
-$string['save_course_summary'] = 'Save Course Description';
+$string['save_course_summary'] = 'Save course summary';
 $string['select_all'] = 'Select/Deselect all';
 $string['select_section'] = 'Select Section';
 $string['semantic_scholar_api_key'] = 'Semantic API key';

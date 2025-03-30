@@ -81,6 +81,7 @@ class block_design_ideas extends block_base
         $this->page->requires->js_call_amd('block_design_ideas/course_topics', 'init');
         $this->page->requires->js_call_amd('block_design_ideas/class_notes', 'init');
         $this->page->requires->js_call_amd('block_design_ideas/learning_outcomes', 'init');
+        $this->page->requires->js_call_amd('block_design_ideas/final_course_summary', 'init');
 
         $data = array(
             'ai_placement_editor_enabled' => $is_html_editor_placement_action_available,

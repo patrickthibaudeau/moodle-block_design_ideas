@@ -41,6 +41,8 @@ $prompt .= $PROMPT->get_prompt();
 
 $content = gen_ai::make_call($context, $prompt, 'en');
 
+echo $content;
+
 echo base::convert_string_to_html_list($content);
 
 echo $OUTPUT->footer();

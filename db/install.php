@@ -105,7 +105,13 @@ function xmldb_block_design_ideas_install()
     $params = [
         'name' => 'Final Course Summary',
         'description' => 'Generates a course summary (description) based on the topics and topic descriptions',
-        'prompt' => "Based on the content provided, create a course description. Do not include a course title. Do not include the title \"Course description.\" Only return a description. ",
+        'prompt' => "Content: \n
+Course Title: [course_title]\n
+Course summary: [course_summary]\n\n
+Sections:\n
+[course_sections]\n\n
+---\n
+Based on the content provided above, create a course description. Do not include a course title. Do not include the title \"Course description.\" Only return a description. ",
         'systemreserved' => 1, // 1 = true, 0 = false
         'class' => 'course_summary',
         'sortorder' => 4,

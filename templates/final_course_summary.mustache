@@ -1,0 +1,22 @@
+<div class="row mb-4">
+    <div class="col">
+        <h3 class="mb-2">{{#str}}new_course_summary, block_design_ideas{{/str}}</h3>
+        <div id="block-design-ideas-content">
+            {{{content}}}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <!-- Div to align the button to the right -->
+        <div class="float-end w-50">
+            <button
+                    id="block-design-ideas-btn-save-course-summary"
+                    type="button"
+                    class="btn btn-outline-primary block-design-ideas-btn-save-course-summary"
+                    data-course_id="{{course_id}}">
+                {{#str}}save_course_summary, block_design_ideas{{/str}}
+            </button>
+        </div>
+    </div>
+</div>

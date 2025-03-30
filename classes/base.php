@@ -354,23 +354,26 @@ class base
         // Split the text into lines
         $lines = explode("\n", $content);
 
-// Initialize arrays for points and other text
+        // Initialize arrays for points and other text
         $points = [];
         $otherText = [];
 
-// Process each line
+        // Process each line
         foreach ($lines as $line) {
-            // Check if the line starts with a number followed by a period
-            if (preg_match('/^(\d+\.)|(-)/', $line)) {
+            // Check if the line starts with a number followed by a period or a dash
+            if (preg_match('/^(?:\d+\.)|^(?:-)/', trim($line))) {
                 $points[] = $line;
             } else {
                 $otherText[] = $line;
             }
         }
-       // Glue all $otherText into a single string
-        $otherText = implode(' ', $otherText);
 
-        $html = '<p>' . $otherText . '</p>';
+        $html = '';
+        // Glue all $otherText into a single string
+        foreach ($otherText as $text) {
+            $html .= '<p>' . $text . '</p>';
+        }
+
         // Put all points into an ordered list
         $html .= '<ol>';
         foreach ($points as $point) {
