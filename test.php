@@ -4,6 +4,7 @@ require_once("../../config.php");
 use block_design_ideas\base;
 use block_design_ideas\prompt;
 use block_design_ideas\gen_ai;
+use block_design_ideas\questions;
 
 global $CFG, $OUTPUT, $USER, $PAGE, $DB;
 
@@ -25,32 +26,40 @@ base::page(
 echo $OUTPUT->header();
 
 $course = $DB->get_record('course', array('id' => $course_id), '*', MUST_EXIST);
-$prompt = "Short answer: Answers in Short Answer question-type are all prefixed by an equal sign (=), indicating that they are all correct answers. The answers must not contain a tilde.";
-$prompt .= " Examples of a short answer format: \n
-Who's buried in Grant's tomb?{=Grant =Ulysses S. Grant =Ulysses Grant}\n";
-$prompt .= "Two plus two equals {=four =4}\n";
-$prompt .= "---\n Topic: SQL Fundamentals: Description: Introduction to SQL (Structured Query Language) for defining and manipulating databases.";
-$prompt .= "---\n Based on the topic and description, generate 10 short answer quiz questions in GIFT format as described above\n";
-$prompt .= "Format all questions into the following JSON format:\n";
-$prompt .= "[\n";
-$prompt .= "    {\n";
-$prompt .= "        \"question\": \"What is the purpose of data modelling?{=Organizes data systematically for easier understanding.}\",\n";
-$prompt .= "     },\n";
-$prompt .= "    {\n";
-$prompt .= "        \"question\": \"How do you structure data modelling?{=Identify key entities and their attributes.}\",\n";
-$prompt .= "     },\n";
-$prompt .= "    ]";
 
+$content = 'Data Modelling Basics: An overview of the key concepts and importance of database management in modern applications.';
 
+$question_type= 'gapselect';
+// Get prompt
+$prompt = questions::get_prompt($question_type, $content);
+
+// Generate questions
 
 $questions = gen_ai::make_call($context, strip_tags($prompt), $course->lang, true);
 
 print_object($questions);
 foreach ($questions as $q) {
-    // Create an array based on {=
-    $question_answer = explode('{=', $q->question);
-    echo 'Question: ' . $question_answer[0] . "<br>";
-    echo 'Answer: ' . rtrim($question_answer[1], '}') . "<br><br>";
+    if ($question_type == 'gapselect') {
+        // Find the text within curly brackets
+        preg_match('/\{(.*?)\}/', $q->question, $matches);
+
+        if (!empty($matches)) {
+            // Extract the answer part
+            $answer = $matches[0];
+
+            // Replace the text within curly brackets with underscores
+            $question = preg_replace('/\{.*?\}/', '_________', $q->question);
+
+             echo 'Question: ' . $question . '<br>';
+            echo 'Answer: ' . $answer . '<br><br>';
+
+        }
+    } else {
+        // Create an array based on {
+        $question_answer = explode('{', $q->question);
+        echo 'Question: ' . $question_answer[0] . "<br>";
+        echo 'Answer: ' . rtrim($question_answer[1], '}') . "<br><br>";
+    }
 
 }
 
