@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col">
+        <div class="alert alert-info">
+            {{#str}}question_instructions, block_design_ideas{{/str}}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <form>
+            <div class="mb-3">
+                <label for="block-design-ideas-content">{{#str}}content, block_design_ideas{{/str}}</label>
+                <textarea id="block-design-ideas-content" name="content" class="form-control" rows="5">{{{content}}}
+                </textarea>
+            </div>
+            <div class="mb-3">
+                <label for="block-design-ideas-question-type">{{#str}}question_type, block_design_ideas{{/str}}</label>
+                <select id="block-design-ideas-question-type" name="question_type" class="form-select">
+                    {{#question_types}}
+                        <option value="{{value}}">{{{name}}}</option>
+                    {{/question_types}}
+                </select>
+            </div>
+            <div class="mb-3">
+                <button id="block-design-ideas-btn-generate"
+                        type="button"
+                        class="btn btn-outline-primary"
+                        data-course_id="{{courseid}}">
+                    {{#str}}generate, block_design_ideas{{/str}}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div id="block-design-ideas-generated-questions"></div>
+    </div>
+</div>

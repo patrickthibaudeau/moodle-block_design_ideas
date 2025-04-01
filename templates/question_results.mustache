@@ -1,0 +1,31 @@
+<div class="row mb-4">
+    <div class="col">
+        <div class="message">
+            <input type="checkbox" class="form-check-input ml-2 mb-2"
+                   id="block-design-ideas-subject-select-all"> {{#str}}select_all, block_design_ideas{{/str}}
+
+            <ul class="list-group">
+                {{#questions}}
+                    <li class="list-group-item">
+                        <input type="checkbox"
+                               class="block-design-ideas-subject-select"
+                               data-gift="{{question_gift}}">
+                        {{#str}}question, block_design_ideas{{/str}}: {{question}}<br>
+                        {{#str}}answer, block_design_ideas{{/str}}: {{answer}}
+                    </li>
+                {{/questions}}
+            </ul>
+        </div>
+        <div class="mt-2">
+            <div class="btn-group float-right" role="group">
+                <button
+                        id="block-design-ideas-btn-create-questions"
+                        type="button"
+                        class="btn btn-outline-primary"
+                        data-course_id="{{course_id}}">
+                    {{#str}}create_quiz_questions, block_design_ideas{{/str}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

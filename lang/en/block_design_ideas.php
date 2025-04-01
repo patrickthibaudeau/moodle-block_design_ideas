@@ -29,6 +29,7 @@ $string['activity_artist'] = 'Activity Artist';
 $string['add_new_prompt'] = 'Add New Prompt';
 $string['ai_placement_editor_disabled'] = 'An AI Provider or text generation feature is not enabled. Please contact your administrator.';
 $string['ai_policy_not_accepted'] = 'You must accept the AI policy to use this feature.';
+$string['answer'] = 'Answer';
 $string['append_to_existing_topics'] = 'Append to existing topics';
 $string['assessment_assistant'] = 'Assessment Assistant';
 $string['class'] = 'Class';
@@ -36,6 +37,7 @@ $string['class_help'] = 'Class to use for this call. Leave blank to use default 
 $string['class_notes'] = 'Class Notes';
 $string['class_notes_help'] = 'Class notes are generated based on the section name and description. Select a section below.';
 $string['class_notes_intro'] = 'Select any subjects to create class notes';
+$string['content'] = 'Content';
 $string['copied_to_clipboard'] = 'Copied to clipboard';
 $string['copy_to_clipboard'] = 'Copy to clipboard';
 $string['copy_to_clipboard_failed'] = 'Copy to clipboard failed';
@@ -62,6 +64,7 @@ $string['essay_topics_help'] = 'Select a section below to have GenAI provide ess
 $string['essay_topics_intro'] = 'Select all essay topics you would like to create. Once you have selected the topics, click the Create Essay Topics button.' .
 ' This will create assignments in the selected section.';
 $string['final_course_summary'] = 'Final Course Summary';
+$string['generate'] = 'Generate';
 $string['generate_questions'] = 'Generate Questions';
 $string['generated_content'] = 'Generated content';
 $string['generated_learning_outcomes'] = 'Generated learning outcomes';
@@ -85,8 +88,14 @@ $string['prompt_warning'] = 'We strongly suggest that you do not edit the defaul
     'If you do not know what you are doing, ' . 'you may break the plugin. If you do break the plugin, '.
     'please contact your administrator.';
 $string['prompts'] = 'Prompts';
-$string['quiz_questions'] = 'Quiz Questions';
-$string['quiz_questions_help'] = 'Select all files from which you would like to generate quiz questions. Once you have selected the files, click the Generate Questions button.';
+$string['question'] = 'Question';
+$string['question_instructions'] = 'Use the form below to generate questions based on the content. The content field contains the current section and section ' .
+    'description. You can keep or replace the content to your needs. AI will generate questions based on the content you input.' .
+    'Select the type of question you would like to generate and click the Generate button. ';
+$string['question_type'] = 'Question type';
+$string['questions'] = 'Questions';
+$string['questions_generator'] = 'Questions Generator';
+$string['questions_help'] = 'Select the section you would like to create questions for.';
 $string['readings'] = 'Readings';
 $string['replace_all_exising_topics'] = 'Replace all existing topics';
 $string['save_course_summary'] = 'Save course summary';

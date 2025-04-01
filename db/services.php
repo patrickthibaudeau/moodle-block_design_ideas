@@ -99,5 +99,32 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
+    'block_design_ideas_get_questions' => array(
+        'classname' => 'block_design_ideas_questions',
+        'methodname' => 'execute',
+        'classpath' => 'blocks/design_ideas/classes/external/questions.php',
+        'description' => 'Returns data for a form to generate questions',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
+    'block_design_ideas_generate_questions' => array(
+        'classname' => 'block_design_ideas_questions',
+        'methodname' => 'build',
+        'classpath' => 'blocks/design_ideas/classes/external/questions.php',
+        'description' => 'Generates questions based on the content and question type',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
+    'block_design_ideas_save_questions' => array(
+        'classname' => 'block_design_ideas_questions',
+        'methodname' => 'create',
+        'classpath' => 'blocks/design_ideas/classes/external/questions.php',
+        'description' => 'Creates questions in question bank based on selected questions',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
 
 );

@@ -8,7 +8,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use block_design_ideas\prompt;
 use block_design_ideas\gen_ai;
 use block_design_ideas\questions;
 
@@ -65,6 +64,8 @@ class block_design_ideas_questions extends external_api
         $course = $DB->get_record('course', array('id' => $course_id), '*', MUST_EXIST);
         $topic = $DB->get_record('course_sections', array('id' => $section_id), '*', MUST_EXIST);
         $content = $topic->name . ': ' . $topic->summary;
+        // Remove all HTML tages include images
+        $content = trim(strip_tags($content));
 
         // Get question types
         $question_types_array = questions::get_question_types();
@@ -132,7 +133,7 @@ class block_design_ideas_questions extends external_api
      */
     public static function build($course_id, $question_type, $content)
     {
-        global $DB, $USER;
+        global $DB,$OUTPUT;
 
         //Parameter validation
         $params = self::validate_parameters(
@@ -152,8 +153,7 @@ class block_design_ideas_questions extends external_api
         $course = $DB->get_record('course', array('id' => $course_id), '*', MUST_EXIST);
 
         // Get prompt
-        $prompt = questions::get_prompt($question_type);
-        $prompt = str_replace('[content]', $content, $prompt);
+        $prompt = questions::get_prompt($question_type, $content);
 
         // Generate questions
         $questions = gen_ai::make_call($context, strip_tags($prompt), $course->lang, true);
@@ -185,8 +185,14 @@ class block_design_ideas_questions extends external_api
                 'question' => $question,
                 'answer' => $answer,
             );
-
         }
+
+        $html = $OUTPUT->render_from_template('block_design_ideas/question_results', $data);
+
+        $results = array(
+            'html' => $html,
+        );
+        return $results;
     }
 
     /**
@@ -197,15 +203,7 @@ class block_design_ideas_questions extends external_api
     {
         return new external_single_structure(
             array(
-                'questions' => new external_multiple_structure(
-                    new external_single_structure(
-                        array(
-                            'question_gift' => new external_value(PARAM_TEXT, 'Question in GIFT format'),
-                            'question' => new external_value(PARAM_TEXT, 'Question'),
-                            'answer' => new external_value(PARAM_TEXT, 'Answer'),
-                        )
-                    )
-                ),
+                'html' => new external_value(PARAM_RAW, 'HTML output'),
             )
         );
     }

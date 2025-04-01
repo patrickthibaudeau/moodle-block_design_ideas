@@ -32,7 +32,7 @@ class questions extends gen_ai
             'shortanswer' => get_string('pluginname', 'qtype_shortanswer'),
             'numerical' => get_string('pluginname', 'qtype_numerical'),
             'essay' => get_string('pluginname', 'qtype_essay'),
-            'match' => get_string('pluginname', 'qtpye_match'),
+            'match' => get_string('pluginname', 'qtype_match'),
             'gapselect' => get_string('pluginname', 'qtype_gapselect')
         ];
     }
