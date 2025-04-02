@@ -66,6 +66,8 @@ $qformat = new \qformat_gift();
 
 $coursecontext = \context_course::instance($course_id);
 
+
+
 // Use existing questions category for quiz or create the defaults.
 $contexts = new core_question\local\bank\question_edit_contexts($coursecontext);
 if (!$category = $DB->get_record('question_categories', ['contextid' => $coursecontext->id, 'sortorder' => 999])) {

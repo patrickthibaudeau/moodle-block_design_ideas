@@ -52,10 +52,15 @@ export const init = async () => {
                                 generateButton.addEventListener('click', function () {
                                     // Get current button text
                                     var buttonText = generateButton.innerHTML;
+                                    // Empty the generated content
+                                    var generatedContent = document.getElementById('block-design-ideas-generated-questions');
+                                    generatedContent.innerHTML = '';
                                     // Get the contetn from the form
                                     var content = document.getElementById('block-design-ideas-content').value;
                                     // Get the selected question type for element with id block-design-ideas-question-type
                                     var questionType = document.getElementById('block-design-ideas-question-type').value;
+                                    console.log('questionType', questionType);
+                                    console.log('content', content);
 
                                     // Replace the text of the button with a loading spinner
                                     generateButton.innerHTML = '<span class="spinner-border spinner-border-sm" ' +
@@ -74,7 +79,6 @@ export const init = async () => {
                                         // Replace the text of the button with the original text
                                         generateButton.innerHTML = buttonText;
                                         // Insert the results into element with id block-design-ideas-generated-questions
-                                        var generatedContent = document.getElementById('block-design-ideas-generated-questions');
                                         generatedContent.innerHTML = results.html;
 
                                         setTimeout(function () {
@@ -88,9 +92,40 @@ export const init = async () => {
                                                     });
                                                 });
                                             }
-                                            // When button with id
+                                            // When button with id block-design-ideas-btn-create-questions is clicked
+                                            // Run an ajax call to create the questions
+                                            var createButton = document.getElementById('block-design-ideas-btn-create-questions');
+                                            createButton.addEventListener('click', function () {
+                                                // Get the selected checkboxes
+                                                var selectedCheckboxes = document.querySelectorAll('.block-design-ideas-subject-select:checked');
+                                                // Get the ids of the selected checkboxes
+                                                var selectedIds = [];
+                                                selectedCheckboxes.forEach(function (checkbox) {
+                                                    // Add the data-gift attribute to the array
+                                                    var gift = checkbox.getAttribute('data-gift')
+                                                    selectedIds.push({question: gift});
+                                                });
+                                                // Replace the text of the button with a loading spinner
+                                                createButton.innerHTML = '<span class="spinner-border spinner-border-sm" ' +
+                                                    'role="status" aria-hidden="true"></span>';
+                                                // Json stringify the selectedIds array
+                                                selectedIds = JSON.stringify(selectedIds);
+                                                // Create questions
+                                                var create_questions = ajax.call([{
+                                                    methodname: 'block_design_ideas_save_questions',
+                                                    args: {
+                                                        'question_type': questionType,
+                                                        'courseid': courseId,
+                                                        'questions': selectedIds
+                                                    }
+                                                }]);
 
-                                        }, 1000);
+                                                create_questions[0].done(function (results) {
+                                                    // Reload page
+                                                    alert('Questions created successfully');
+                                                });
+                                            });
+                                        });
                                     });
                                 });
 
