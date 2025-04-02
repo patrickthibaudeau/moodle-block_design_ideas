@@ -59,8 +59,6 @@ export const init = async () => {
                                     var content = document.getElementById('block-design-ideas-content').value;
                                     // Get the selected question type for element with id block-design-ideas-question-type
                                     var questionType = document.getElementById('block-design-ideas-question-type').value;
-                                    console.log('questionType', questionType);
-                                    console.log('content', content);
 
                                     // Replace the text of the button with a loading spinner
                                     generateButton.innerHTML = '<span class="spinner-border spinner-border-sm" ' +
