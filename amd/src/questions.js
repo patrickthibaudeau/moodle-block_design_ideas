@@ -1,4 +1,5 @@
 import Modal from 'core/modal';
+import ModalEvents from 'core/modal_events';
 import {get_string as getString} from 'core/str';
 import ajax from 'core/ajax';
 import Templates from 'core/templates';
@@ -37,6 +38,7 @@ export const init = async () => {
                             // When thebutton with id block-design-ideas-btn-generate is clicked
                             // Run an ajax call to generate the content
                             var generateButton = document.getElementById('block-design-ideas-btn-generate');
+
                             generateButton.addEventListener('click', function () {
                                 // Get current button text
                                 var buttonText = generateButton.innerHTML;
@@ -120,7 +122,14 @@ export const init = async () => {
                                 });
                             });
 
+                            // We want to reset the form every time it is opened.
+                            modal.getRoot().on(ModalEvents.hidden, function() {
+                                // reload the page
+                                window.location.reload();
+                            });
+
                         }, 1000);
+
                     });
 
 
