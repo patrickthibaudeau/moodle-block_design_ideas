@@ -11,8 +11,9 @@
 use block_design_ideas\gen_ai;
 use block_design_ideas\questions;
 
-require_once($CFG->libdir . "/externallib.php");
 require_once("$CFG->dirroot/config.php");
+require_once($CFG->libdir . "/externallib.php");
+require_once($CFG->dirroot . "/blocks/design_ideas/classes/forms/questions_form.php");
 
 
 class block_design_ideas_questions extends external_api
@@ -44,7 +45,7 @@ class block_design_ideas_questions extends external_api
      */
     public static function execute($course_id, $prompt_id, $section_id)
     {
-        global $DB, $USER;
+        global $CFG, $DB, $USER;
 
         //Parameter validation
         $params = self::validate_parameters(
@@ -67,42 +68,43 @@ class block_design_ideas_questions extends external_api
         // Remove all HTML tages include images
         $content = trim(strip_tags($content));
 
-        // Get question types
-        $question_types_array = questions::get_question_types();
-        foreach ($question_types_array as $value => $name) {
-            $question_types[] = array(
-                'name' => $name,
-                'value' => $value,
-            );
-        }
-        // $data = [];
-        $data['content'] = $content;
-        $data['course_id'] = $course_id;
-        $data['question_types'] = $question_types;
+        $formdata = new stdClass();
+        $formdata->courseid = $course_id;
+        $formdata->content = $content;
+
+        $mform = new block_design_ideas\forms\questions_form(null, array('formdata' => $formdata));
+
+
+        $data = [];
+        $data['form'] = $mform->render();
 
         return $data;
 
 
-
-        return ;
+        return;
     }
 
     public static function execute_returns()
     {
         return new external_single_structure(
             array(
-                'course_id' => new external_value(PARAM_INT, 'Course id'),
-                'content' => new external_value(PARAM_TEXT, 'Default: Section name and description'),
-                'question_types' => new external_multiple_structure(
-                    new external_single_structure(
-                        array(
-                            'name' => new external_value(PARAM_TEXT, 'Question type name'),
-                            'value' => new external_value(PARAM_TEXT, 'Question type'),
-                        )
-                    )
-                ),
+                'form' => new external_value(PARAM_RAW, 'HTML form'),
             )
         );
+//        return new external_single_structure(
+//            array(
+//                'course_id' => new external_value(PARAM_INT, 'Course id'),
+//                'content' => new external_value(PARAM_TEXT, 'Default: Section name and description'),
+//                'question_types' => new external_multiple_structure(
+//                    new external_single_structure(
+//                        array(
+//                            'name' => new external_value(PARAM_TEXT, 'Question type name'),
+//                            'value' => new external_value(PARAM_TEXT, 'Question type'),
+//                        )
+//                    )
+//                ),
+//            )
+//        );
     }
 
 
@@ -133,7 +135,7 @@ class block_design_ideas_questions extends external_api
      */
     public static function build($course_id, $question_type, $content)
     {
-        global $DB,$OUTPUT;
+        global $DB, $OUTPUT;
 
         //Parameter validation
         $params = self::validate_parameters(
@@ -296,6 +298,10 @@ class block_design_ideas_questions extends external_api
                         $gift .= '=' . $result[$key + 1] . "\n";
                     } elseif ($value == '~') {
                         $gift .= '~' . $result[$key + 1] . "\n";
+                    } elseif ($value == 'TRUE' || $value == 'FALSE') {
+                        $gift .= $value . "\n";
+                    } elseif ($value == '#') {
+                        $gift .= $value . $result[$key + 1] . "\n";
                     } elseif ($value == '}') {
                         $gift .= "}\n";
                     }

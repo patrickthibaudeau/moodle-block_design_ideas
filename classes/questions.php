@@ -61,14 +61,13 @@ class questions extends gen_ai
                     "Based on the content provided, generate 10 multiple choice quiz questions in GIFT format as described above\n" .
                     "Format all questions into the following JSON format:\n" .
                     "[\n" .
-                    "    {\n" .
-                    "        \"question\": \"What is the capital of France?\n{\n=Paris\n ~London\n ~Berlin\n}\",\n" .
+                    "    {" .
+                    "        \"question\": \"What is the capital of France?{=Paris ~London ~Berlin}\",\n" .
                     "     },\n" .
-                    "    {\n" .
+                    "    {" .
                     "        \"question\": \"What is the largest planet in our solar system?\n{\n=Jupiter\n ~Earth\n ~Mars\n}\",\n" .
-                    "     },\n" .
-                    "    ]" .
-                    "Ensure that you add hard returns (\n) as per the examples above. ";
+                    "     }," .
+                    "    ]";
                 return $prompt;
             case 'truefalse':
                 $prompt .= "In this question-type the answer indicates whether the statement is true or false. " .
@@ -80,14 +79,13 @@ class questions extends gen_ai
                     "Based on the content provided, generate 10 true/false quiz questions in GIFT format as described above\n" .
                     "Format all questions into the following JSON format:\n" .
                     "[\n" .
-                    "    {\n" .
-                    "        \"question\": \"The sky is blue.\n{TRUE}\",\n" .
-                    "     },\n" .
-                    "    {\n" .
-                    "        \"question\": \"The Earth is flat.\n{FALSE}\",\n" .
-                    "     },\n" .
-                    "    ]" .
-                    "Ensure that you add hard returns (\n) as per the examples above. ";
+                    "    {" .
+                    "        \"question\": \"The sky is blue.{TRUE}\"," .
+                    "     }," .
+                    "    {" .
+                    "        \"question\": \"The Earth is flat.{FALSE}\"," .
+                    "     }," .
+                    "    ]";
                 return $prompt;
             case 'shortanswer':
                 $prompt .= "Answers in Short Answer question-type are all prefixed by an equal sign (=), " .
@@ -99,14 +97,13 @@ class questions extends gen_ai
                     "Based on the content provided, generate 10 short answer quiz questions in GIFT format as described above\n" .
                     "Format all questions into the following JSON format:\n" .
                     "[\n" .
-                    "    {\n" .
-                    "        \"question\": \"What is the capital of France?\n{\n=Paris\n}\",\n" .
-                    "     },\n" .
-                    "    {\n" .
-                    "        \"question\": \"What is the largest planet in our solar system?\n{\n=Jupiter\n}\",\n" .
-                    "     },\n" .
-                    "    ]" .
-                    "Ensure that you add hard returns (\n) as per the examples above. ";
+                    "    {" .
+                    "        \"question\": \"What is the capital of France?{=Paris}\"," .
+                    "     }," .
+                    "    {" .
+                    "        \"question\": \"What is the largest planet in our solar system?{=Jupiter}\"," .
+                    "     }," .
+                    "    ]";
                 return $prompt;
             case 'numerical':
                 $prompt .= "The answer section for Numerical questions must start with a number sign (#). " .
@@ -127,14 +124,13 @@ class questions extends gen_ai
                     "Based on the content provided, generate 10 numerical quiz questions in GIFT format as described above\n" .
                     "Format all questions into the following JSON format:\n" .
                     "[\n" .
-                    "    {\n" .
-                    "        \"question\": \"What is the value of pi (to 3 decimal places)?\n{#3.14159:0.0005}\",\n" .
-                    "     },\n" .
-                    "    {\n" .
-                    "        \"question\": \"When was Ulysses S. Grant born?\n{#1822:5}\",\n" .
-                    "     },\n" .
-                    "    ]" .
-                    "Ensure that you add hard returns (\n) as per the examples above. ";
+                    "    {" .
+                    "        \"question\": \"What is the value of pi (to 3 decimal places)?{#3.14159:0.0005}\"," .
+                    "     }," .
+                    "    {" .
+                    "        \"question\": \"When was Ulysses S. Grant born?{#1822:5}\"," .
+                    "     }," .
+                    "    ]";
                 return $prompt;
             case 'essay':
                 $prompt .= "An essay question is simply a question with an empty answer field. Nothing is permitted " .
@@ -146,14 +142,13 @@ class questions extends gen_ai
                     "Based on the content provided, generate 10 essay quiz questions in GIFT format as described above\n" .
                     "Format all questions into the following JSON format:\n" .
                     "[\n" .
-                    "    {\n" .
-                    "        \"question\": \"Write a short biography of Dag Hammarskjöld.\n{}\"\n" .
-                    "     },\n" .
-                    "    {\n" .
-                    "        \"question\": \"Write a short essay about France.\n{}\"\n" .
-                    "     },\n" .
-                    "    ]" .
-                    "Ensure that you add hard returns (\n) as per the examples above. ";
+                    "    {" .
+                    "        \"question\": \"Write a short biography of Dag Hammarskjöld.{}\"" .
+                    "     }," .
+                    "    {" .
+                    "        \"question\": \"Write a short essay about France.{}\"" .
+                    "     }," .
+                    "    ]";
                 return $prompt;
             case 'match':
                 $prompt .= "Matching pairs begin with an equal sign (=) and are separated by this symbol \"->\" " .
@@ -169,16 +164,15 @@ class questions extends gen_ai
                     "Based on the content provided, generate 10 match quiz questions in GIFT format as described above\n" .
                     "Format all questions into the following JSON format:\n" .
                     "[\n" .
-                    "    {\n" .
-                    "        \"question\": \"Match the following countries with their corresponding capitals.\n {\n" .
-                    "=France -> Paris\n=Germany -> Berlin\n=Italy -> Rome\n=Canada -> Ottawa\n}\"\n" .
-                    "     },\n" .
-                    "    {\n" .
-                    "        \"question\": \"Match the following Canadian provinces with their corresponding capitals.\n {\n" .
-                    "=Alberta -> Edmonton\n=British Columbia -> Victoria\n=Ontario -> Toronto\n=Quebec -> Quebec City\n}\"\n" .
-                    "     },\n" .
-                    "    ]" .
-                    "Ensure that you add hard returns (\n) as per the examples above. ";
+                    "    {" .
+                    "        \"question\": \"Match the following countries with their corresponding capitals. {" .
+                    "=France -> Paris =Germany -> Berlin =Italy -> Rome =Canada -> Ottawa}\"" .
+                    "     }," .
+                    "    {" .
+                    "        \"question\": \"Match the following Canadian provinces with their corresponding capitals. {" .
+                    "=Alberta -> Edmonton =British Columbia -> Victoria =Ontario -> Toronto =Quebec -> Quebec City}\"" .
+                    "     }," .
+                    "    ]";
                 return $prompt;
             case 'gapselect':
                 $prompt .= "The Missing Word format automatically inserts a fill-in-the-blank line (like this _____) " .
@@ -192,14 +186,13 @@ class questions extends gen_ai
                     "Make sure the answers in curly brackets ({}) are within the text. Not at the end. Never include (=...)".
                     "Format all questions into the following JSON format:\n" .
                     "[\n" .
-                    "    {\n" .
-                    "        \"question\": \"The sky is {\n=blue\n~green\n~red} during the day.\",\n" .
-                    "     },\n" .
-                    "    {\n" .
-                    "        \"question\": \"Moodle costs {\n~lots of money\n=nothing\n~a small amount} to download from moodle.org.\",\n" .
-                    "     },\n" .
-                    "    ]" .
-                    "Ensure that you add hard returns (\n) as per the examples above. ";
+                    "    {" .
+                    "        \"question\": \"The sky is {=blue ~green ~red} during the day.\"," .
+                    "     }," .
+                    "    {" .
+                    "        \"question\": \"Moodle costs { ~lots of money =nothing ~a small amount} to download from moodle.org.\"," .
+                    "     }," .
+                    "    ]";
                 return $prompt;
             default:
                 return '';
