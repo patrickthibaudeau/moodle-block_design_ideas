@@ -1,4 +1,4 @@
-import ModalFactory from 'core/modal_factory';
+import Modal from 'core/modal';
 import {get_string as getString} from 'core/str';
 import ajax from 'core/ajax';
 import Templates from 'core/templates';
@@ -12,7 +12,7 @@ export const init = async () => {
             var promptId = clickedElement.getAttribute('data-prompt_id');
             var courseId = clickedElement.getAttribute('data-course_id');
 
-            ModalFactory.create({
+            Modal.create({
                 title: '',
                 body: Templates.render('block_design_ideas/loader', {}),
                 large: false
@@ -34,7 +34,7 @@ export const init = async () => {
                     loaderModal.hide();
 
                     // Show results.generatedcontent in a modal
-                    ModalFactory.create({
+                    Modal.create({
                         title: getString('generated_learning_outcomes', 'block_design_ideas'),
                         body: Templates.render('block_design_ideas/learning_outcomes', results),
                         large: true
@@ -55,7 +55,7 @@ export const init = async () => {
                                 // Hide content modal;
                                 modal.hide();
                                 // Show loader modal
-                                ModalFactory.create({
+                                Modal.create({
                                     title: '',
                                     body: Templates.render('block_design_ideas/loader', {}),
                                     large: false
