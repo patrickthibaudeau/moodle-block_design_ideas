@@ -47,8 +47,8 @@ export const init = async () => {
                             // When button with class block-design-ideas-btn-create-course-topics is clicked, get all
                             // checkboxes with class block-design-ideas-topic-select and get their data attributes, put
                             // them in an array and call the ajax function to create topics
-                            var saveFinalCourseSummaryButton = document.querySelector(
-                                '.block-design-ideas-btn-save-course-summary');
+                            var saveFinalCourseSummaryButton = document.getElementById(
+                                'block-design-ideas-btn-save-course-summary');
                             saveFinalCourseSummaryButton.addEventListener('click', function () {
                                 // Hide content modal;
                                 modal.hide();

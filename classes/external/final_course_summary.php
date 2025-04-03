@@ -71,15 +71,11 @@ class block_design_ideas_final_course_summary extends external_api
         }
         // get course record
         $course = $DB->get_record('course', ['id' => $course_id]);
+
+        $prompt = 'Content: ' . $topics;
         $PROMPT = new prompt($prompt_id);
         // Get prompt
-        $prompt = $PROMPT->get_prompt();
-        // Replace the prompt with topics and course summary
-        $prompt = str_replace('[course_sections]', $topics, $prompt);
-        // Replace course name and course_description
-        $prompt = str_replace('[course_title]', $course->fullname, $prompt);
-        $prompt = str_replace('[course_summary]', $course->summary, $prompt);
-
+        $prompt .= $PROMPT->get_prompt();
         // Make the call
         $content = gen_ai::make_call($context, strip_tags($prompt), $course->lang);
 
