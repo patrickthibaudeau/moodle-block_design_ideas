@@ -105,7 +105,7 @@ Based on the content provided above, create a comma-separated list of keywords t
     // Parameters Course Summary
     $params = [
         'name' => 'Final Course Summary',
-        'description' => 'Generates a course summary (description) based on the topics and topic descriptions',
+        'description' => 'Based on the content provided, create a course description with as many details as possible. Do not include a course title. Do not include the title "Course description." Only return a description.',
         'prompt' => "Content: \n
 Course Title: [course_title]\n
 Course summary: [course_summary]\n\n
@@ -116,6 +116,22 @@ Based on the content provided above, create a course description. Do not include
         'systemreserved' => 1, // 1 = true, 0 = false
         'class' => 'final_course_summary',
         'sortorder' => 4,
+        'usermodified' => $USER->id,
+        'timecreated' => time(),
+        'timemodified' => time()
+    ];
+    // Create record in block_design_ideas_prompts
+    $DB->insert_record('block_design_ideas_prompts', (object)$params);
+
+
+    // Parameters for Creating Questions
+    $params = [
+        'name' => 'Questions',
+        'description' => 'This feature will generate questions based on question type and create questions within the question bank that can be used in quizzes. Note: The prompt below is not used.',
+        'prompt' => "Not used.",
+        'systemreserved' => 1, // 1 = true, 0 = false
+        'class' => 'questions',
+        'sortorder' => 5,
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()
@@ -136,7 +152,7 @@ Based on the content provided above, create a course description. Do not include
 ]",
         'systemreserved' => 1, // 1 = true, 0 = false
         'class' => 'essay_topics',
-        'sortorder' => 5,
+        'sortorder' => 6,
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()
@@ -152,7 +168,7 @@ Based on the content provided above, create a course description. Do not include
             . "Please provide the answer in a list format. "
             . "Always write in the same language as the course description.",
         'systemreserved' => 1, // 1 = true, 0 = false
-        'sortorder' => 6,
+        'sortorder' => 7,
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()
@@ -168,7 +184,7 @@ Based on the content provided above, create a course description. Do not include
             . "Please provide the answer in a list format. "
             . "Always write in the same language as the course description.",
         'systemreserved' => 1, // 1 = true, 0 = false
-        'sortorder' => 7,
+        'sortorder' => 8,
         'usermodified' => $USER->id,
         'timecreated' => time(),
         'timemodified' => time()
