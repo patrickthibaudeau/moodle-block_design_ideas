@@ -90,7 +90,7 @@ Based on the content provided above, create a comma-separated list of keywords t
     $params = [
         'name' => 'Learning Outcomes',
         'description' => 'Generates learning outcomes based on the course summary and all sections',
-        'prompt' => " 	Given the course summary above and the sections, write me a list of learning outcomes for the course",
+        'prompt' => "Given the course summary above and the sections, write me a description of the learning outcomes. Also include a list of learning outcomes.",
         'systemreserved' => 1, // 1 = true, 0 = false
         'class' => 'learning_outcomes',
         'sortorder' => 3,
