@@ -35,7 +35,6 @@ function xmldb_block_design_ideas_install()
         'description' => 'Generates course topics based on the course description (summary).',
         'prompt' => "Based on the course description, create [number_of_topics] topics, no more! "
             . "Include a description for each topic. "
-            . "Always write in the same language as the course description. "
             . "Return the results in JSON format as per this example:
 [
     {\"name\":\"Name of topic\",\"summary\":\"Description of topic\"},
@@ -112,7 +111,7 @@ Course summary: [course_summary]\n\n
 Sections:\n
 [course_sections]\n\n
 ---\n
-Based on the content provided above, create a course description. Do not include a course title. Do not include the title \"Course description.\" Only return a description. ",
+Based on the content provided above, create a detailed course description. Do not include a course title. Do not include the title \"Course description.\" Only return a description. ",
         'systemreserved' => 1, // 1 = true, 0 = false
         'class' => 'final_course_summary',
         'sortorder' => 4,
