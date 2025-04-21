@@ -151,13 +151,23 @@ class block_design_ideas_class_notes extends external_api
         $message_count = count($messages);
         $html = '';
         $prompt = 'You are a professor. Provide class notes on subject "[subject]" in point form using full sentences. '
-            . 'Return the results as formatted HTML. Do not include the author of the notes.';
+            . 'Do not include the author of the notes.';
         $i = 0;
         foreach ($messages as $message) {
             // Make call to AI and retrieve the message
             $prompt_message = str_replace('[subject]', $message->name, $prompt);
 
-            $result = gen_ai::make_call($context, $prompt_message, $course->lang);
+            // Lets try to get results up to ten times
+            // This is to avoid the AI returning empty results
+            // If the AI returns empty results, we will try again
+            for ($try = 0; $try < 10; $try++) {
+                $result = gen_ai::make_call($context, $prompt_message, $course->lang);
+                $result = trim($result);
+                file_put_contents('/var/www/moodledata/debug.txt', $message->name . "\n" . $result . "\n\n", FILE_APPEND);
+                if (!empty($result)) {
+                    break;
+                }
+            }
 
             // Moodle returns the results in plain text. Convert the plain text to an ordered list.
             // Split the text into lines
@@ -177,7 +187,14 @@ class block_design_ideas_class_notes extends external_api
                 }
             }
             $html .= '<h3>' . $message->name . '</h3>';
-            $html .= '<ol>';
+            $html .= '<ul>';
+            foreach ($otherText as $text) {
+                if (!empty($text)) {
+                    $html .= '<li>' . $text . '</li>';
+                }
+            }
+            $html .= '</ul>';
+            $html .= '<ul>';
             foreach ($points as $point) {
                 // If the point starts with a number, example 1., Remove the number followed by the period.
                 if (preg_match('/^\d+\./', $point)) {
@@ -187,7 +204,7 @@ class block_design_ideas_class_notes extends external_api
                 $point = preg_replace('/^\s*-\s*/', '', $point);
                 $html .= '<li>' . $point . '</li>';
             }
-            $html .= '</ol>';
+            $html .= '</ul>';
 
             $html .= '<br><br>';
             $i++;
