@@ -41,6 +41,7 @@ $string['content'] = 'Content';
 $string['copied_to_clipboard'] = 'Copied to clipboard';
 $string['copy_to_clipboard'] = 'Copy to clipboard';
 $string['copy_to_clipboard_failed'] = 'Copy to clipboard failed';
+$string['correct_answer'] = 'is correct!';
 $string['course_topics'] = 'Course Sections';
 $string['course_topics_help'] = 'Course sections will be created based on the course summary. ' .
     'Select how many topics you would like displayed.';
