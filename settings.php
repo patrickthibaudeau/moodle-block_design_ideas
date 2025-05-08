@@ -53,6 +53,20 @@ if ($hassiteconfig) {
         PARAM_INT
     ));
 
+    $settings->add(new admin_setting_configselect(
+        'block_idi_institution',
+        get_string('institution_type', 'block_design_ideas'),
+        get_string('institution_type_help', 'block_design_ideas'),
+        1,
+        [
+            '1' => get_string('university', 'block_design_ideas'),
+            '2' => get_string('college', 'block_design_ideas'),
+            '3' => get_string('high_school', 'block_design_ideas'),
+            '4' => get_string('elementary', 'block_design_ideas')
+        ],
+        PARAM_INT
+    ));
+
     // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
     if ($ADMIN->fulltree) {
         // TODO: Define actual plugin settings page and add it to the tree - {@link https://docs.moodle.org/dev/Admin_settings}.
