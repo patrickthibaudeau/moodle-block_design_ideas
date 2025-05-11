@@ -51,6 +51,14 @@ abstract class gen_ai
     public static function get_button($promptid, $courseid, $name = 'Generate')
     {
         global $OUTPUT;
+        // convert name to lower case and add underscores for spaces
+        $string_name = strtolower($name);
+        $string_name = str_replace(' ', '_', $string_name);
+        // Check to see if string exists in lang file
+        if (get_string_manager()->string_exists($string_name, 'block_design_ideas')) {
+            $name = get_string($string_name, 'block_design_ideas');
+        }
+
         $data = [
             'promptid' => $promptid,
             'courseid' => $courseid,

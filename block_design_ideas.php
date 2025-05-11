@@ -54,6 +54,11 @@ class block_design_ideas extends block_base
             return $this->content;
         }
 
+        $course_context = context_course::instance($this->page->course->id);
+        if (!has_capability('block/design_ideas:addinstance', $course_context)) {
+            return '';
+        }
+
         // Check if AI generate_text is available
         $is_html_editor_placement_action_available = utils::is_html_editor_placement_action_available(
             context_course::instance($this->page->course->id),
@@ -70,11 +75,10 @@ class block_design_ideas extends block_base
 
         // Get course object
         $course = $DB->get_record('course', array('id' => $this->page->course->id));
-        $has_course_sumamry = false;
+        $has_course_summary = false;
         if (strip_tags($course->summary)) {
-            $has_course_sumamry = true;
+            $has_course_summary = true;
         }
-        $course_context = context_course::instance($this->page->course->id);
 
         $this->page->requires->js_call_amd('block_design_ideas/general_prompt', 'init');
         $this->page->requires->js_call_amd('block_design_ideas/ai_policy', 'init');
@@ -92,7 +96,7 @@ class block_design_ideas extends block_base
             'courseid' => $this->page->course->id,
             'blockid' => $this->instance->id,
             'course_contextid' => $course_context->id,
-            'course_sumamry' => $has_course_sumamry,
+            'course_sumamry' => $has_course_summary,
             'block_buttons' => \block_design_ideas\ai_call::render_buttons($this->page->course->id),
             'ai_policy_status' => $policy_status,
         );

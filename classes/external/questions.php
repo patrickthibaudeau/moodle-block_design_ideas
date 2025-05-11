@@ -271,6 +271,7 @@ class block_design_ideas_questions extends external_api
 // Split questions based on blank lines.
 // Then loop through each question and create it.
         $questions = json_decode($questions, true);
+        file_put_contents('/var/www/moodledata/temp/questions.log', print_r($questions, true));
 
         foreach ($questions as $question) {
             // Convert question into GIFT format;
@@ -315,11 +316,12 @@ class block_design_ideas_questions extends external_api
 
             $qtype = $question_type;
             $q = $qformat->readquestion($singlequestion);
-            print_object($q);
+            file_put_contents('/var/www/moodledata/temp/q.log', print_r($q, true), FILE_APPEND);
             // Check if question is valid.
             if (!$q) {
                 return false;
             }
+
             $q->category = $category->id;
             $q->createdby = $USER->id;
             $q->modifiedby = $USER->id;
@@ -328,6 +330,22 @@ class block_design_ideas_questions extends external_api
             $q->questiontext = ['text' => "<p>" . $questiontext . "</p>"];
             $q->questiontextformat = 1;
 
+            // Let's loop through the answers and create feedback
+            for ($x = 0; $x < count($q->answer); $x++) {
+                // Check if the answer is the correct answer
+                if ($q->fraction[$x] == 1) {
+                    // Generate feedback for correct answer
+                    $feedback_text = $q->answer[$x]['text'] . ' ' . get_string('correct_answer', 'block_design_ideas');
+                    $q->feedback[$x]['text'] = $feedback_text;
+                    $q->feedback[$x]['format'] = 1;
+                } else {
+                    $prompt = $q->answer[$x]['text'] . ' is incorrect. Write a feedback as to why it is incorrect.';
+                    $feedback = gen_ai::make_call($context, $prompt, $course->lang);
+                    $q->feedback[$x]['text'] = $feedback;
+                    $q->answer[$x]['format'] = 1;
+                }
+            }
+            file_put_contents('/var/www/moodledata/temp/new_q.log', print_r($q, true), FILE_APPEND);
             $created = question_bank::get_qtype($qtype)->save_question($q, $q);
         }
 
