@@ -319,7 +319,7 @@ class base
      * @param string $name string
      * @return array
      */
-    public static function get_course_topics($courseid, $promptid, $name = 'CLick') {
+    public static function get_course_topics($courseid, $promptid, $name = 'Click') {
         // Get all course topics.
         $modinfo = get_fast_modinfo($courseid);
         $sections = $modinfo->get_section_info_all();

@@ -14,11 +14,16 @@ class course_topics extends gen_ai
      */
     public static function get_button($promptid, $courseid, $name = 'Generate')
     {
-        global $OUTPUT;
+        global $CFG, $OUTPUT;
+        // If block_idi_institution equals 3 or 4, then show button
+        if ($CFG->block_idi_institution == gen_ai::UNIVERSITY || $CFG->block_idi_institution == gen_ai::COLLEGE) {
+            return '';
+        }
+
         $data = [
             'promptid' => $promptid,
             'courseid' => $courseid,
-            'name' => 'Course Tpoics'
+            'name' => 'Course Topics'
         ];
         return $OUTPUT->render_from_template('block_design_ideas/course_topic_button', $data);
     }
