@@ -128,7 +128,7 @@ class block_design_ideas_class_notes extends external_api
 
     public static function create($section, $course_id, $subjects)
     {
-        global $DB, $USER;
+        global $CFG, $DB, $USER;
 
         //Parameter validation
         $params = self::validate_parameters(
@@ -149,8 +149,27 @@ class block_design_ideas_class_notes extends external_api
 
         $messages = json_decode($subjects);
         $message_count = count($messages);
-        $html = '';
-        $prompt = 'You are a professor. Provide class notes on subject "[subject]" in point form using full sentences. '
+
+        $markdown = '';
+        $institution = $CFG->block_idi_institution;
+        switch ($institution) {
+            case gen_ai::UNIVERSITY:
+                $educator = 'a university professor';
+                break;
+            case gen_ai::COLLEGE:
+                $educator = 'a college instructor';
+                break;
+            case gen_ai::HIGH_SCHOOL:
+                $educator = 'a high school teacher';
+                break;
+            case gen_ai::ELEMENTARY:
+                $educator = 'an elementary school teacher';
+                break;
+        }
+        $system_message = 'You are ' & $educator . '. You are creating class notes for students. ' .
+            'The notes must be in markdown format. The notes must be clear and easy to read. ';
+        $prompt = 'Provide class notes on subject "[subject]". The notes must be include the following sections:' .
+            'An overview, followed by highlights in point form, a paragraph on any other additional/relavent information and finally a conclusion.'
             . 'Do not include the author of the notes.';
         $i = 0;
         foreach ($messages as $message) {
@@ -161,52 +180,15 @@ class block_design_ideas_class_notes extends external_api
             // This is to avoid the AI returning empty results
             // If the AI returns empty results, we will try again
             for ($try = 0; $try < 10; $try++) {
-                $result = gen_ai::make_call($context, $prompt_message, $course->lang);
+                // Make a direct call to the AI. Do not use the moodle call.
+                $result = gen_ai::direct_call($system_message, $prompt_message, $course->lang);
                 $result = trim($result);
-                file_put_contents('/var/www/moodledata/debug.txt', $message->name . "\n" . $result . "\n\n", FILE_APPEND);
                 if (!empty($result)) {
                     break;
                 }
             }
 
-            // Moodle returns the results in plain text. Convert the plain text to an ordered list.
-            // Split the text into lines
-            $lines = explode("\n", $result);
-
-// Initialize arrays for points and other text
-            $points = [];
-            $otherText = [];
-
-// Process each line
-            foreach ($lines as $line) {
-                // Check if the line starts with a number followed by a period
-                if (preg_match('/^(\d+\.)|(-)/', $line)) {
-                    $points[] = $line;
-                } else {
-                    $otherText[] = $line;
-                }
-            }
-            $html .= '<h3>' . $message->name . '</h3>';
-            $html .= '<ul>';
-            foreach ($otherText as $text) {
-                if (!empty($text)) {
-                    $html .= '<li>' . $text . '</li>';
-                }
-            }
-            $html .= '</ul>';
-            $html .= '<ul>';
-            foreach ($points as $point) {
-                // If the point starts with a number, example 1., Remove the number followed by the period.
-                if (preg_match('/^\d+\./', $point)) {
-                    $point = preg_replace('/^\d+\.\s*/', '', $point);
-                }
-                // Also remove any leading dashes (-)
-                $point = preg_replace('/^\s*-\s*/', '', $point);
-                $html .= '<li>' . $point . '</li>';
-            }
-            $html .= '</ul>';
-
-            $html .= '<br><br>';
+            $markdown .= $result;
             $i++;
         }
 // Get section name
@@ -217,13 +199,11 @@ class block_design_ideas_class_notes extends external_api
         if ($message_count === $i) {
             gen_ai::add_page_module(
                 $name,
-                trim($html),
+                $markdown,
                 $course_id,
                 $section
             );
         }
-
-
         return true;
     }
 
