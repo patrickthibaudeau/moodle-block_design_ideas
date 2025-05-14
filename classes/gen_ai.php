@@ -3,6 +3,8 @@
 namespace block_design_ideas;
 
 use block_design_ideas\prompt;
+use core\di;
+use core_ai\manager;
 
 abstract class gen_ai
 {
@@ -40,6 +42,102 @@ abstract class gen_ai
         } else {
             return $response->get_response_data()['generatedcontent'];
         }
+    }
+
+    public static function direct_call(string $system_message, string $prompt, string $lang = 'en', bool $decode = false)
+    {
+        global $USER;
+
+        // Always return he response in the language of the course
+        $prompt .= "\n\nYou must return the response in the language based on this language code: $lang.\n\n";
+
+        $messages = array(
+            array (
+                'role' => 'system',
+                'content' => $system_message,
+            ),
+            array(
+                'role' => 'user',
+                'content' => $prompt
+            ),
+
+        );
+
+        // Get AI manager.
+        $manager = di::get(manager::class);
+
+        // Get provider instances
+        $provider_instances = $manager->get_provider_instances(['provider' => 'aiprovider_azureai\\provider']);
+
+        // Get first item in the array
+        $provider_instance = reset($provider_instances);
+
+        if (empty($provider_instance)) {
+            throw new Exception('No provider instances found');
+        }
+
+        // log to file
+        $provider_config = self::get_text_provider($provider_instance);
+        $response = self::azure_openai_chat(
+            $messages,
+            $provider_config->apikey,
+            $provider_config->endpoint,
+            $provider_config->deployment,
+            $provider_config->apiversion
+        );
+
+        return markdown_to_html($response);
+    }
+
+    /**
+     * This function returns the Azure OpenAI provider and all paramaters
+     * @param $provider_instance \core_ai\provider_instance
+     * @return \stdClass
+     */
+    private static function get_text_provider($provider_instance): \stdClass
+    {
+        $provider = new \stdClass();
+        $provider->apikey = $provider_instance->config['apikey'];
+        $provider->endpoint = $provider_instance->config['endpoint'];
+        foreach ($provider_instance->actionconfig as $key => $action_config) {
+            if ($key == 'core_ai\aiactions\generate_text') {
+                $provider->deployment = $provider_instance->actionconfig[$key]['settings']['deployment'];
+                $provider->apiversion = $provider_instance->actionconfig[$key]['settings']['apiversion'];
+            }
+        }
+        return $provider;
+    }
+
+    /**
+     * This function creates an Azure OprenAI chat session
+     */
+    public static function azure_openai_chat($messages, $api_key, $endpoint, $deployment_id, $api_version): array|string
+    {
+        $url = $endpoint . "/openai/deployments/$deployment_id/chat/completions?api-version=$api_version";
+
+        $headers = [
+            "Content-Type: application/json",
+            "api-key: $api_key"
+        ];
+
+        $data = [
+            "messages" => $messages,
+            "max_tokens" => 4096,
+            "temperature" => 0.7
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        $response = json_decode($result, true);
+        $content = $response['choices'][0]['message']['content'] ?? '';
+        return $content;
+
     }
 
     /**
