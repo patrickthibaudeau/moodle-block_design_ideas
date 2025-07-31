@@ -59,42 +59,44 @@ export const init = async () => {
                             // When button with class block-design-ideas-btn-create-course-topics is clicked, get all
                             // checkboxes with class block-design-ideas-topic-select and get their data attributes, put
                             // them in an array and call the ajax function to create topics
-                            var createTopicsButton = document.querySelector('.block-design-ideas-btn-create-course-topics');
-                            createTopicsButton.addEventListener('click', function () {
-                                // Get data attribute replace from button
-                                var replace = createTopicsButton.getAttribute('data-replace');
-                                // Get all checkboxes with class block-design-ideas-topic-select
-                                var selectedCheckboxes = document.querySelectorAll('.block-design-ideas-topic-select:checked');
-                                var topics = [];
-                                selectedCheckboxes.forEach(function (checkbox) {
-                                    // Set data attributes name and summary for topics array
-                                    var topicName = checkbox.getAttribute('data-name');
-                                    var topicSummary = checkbox.getAttribute('data-summary');
-                                    // Add to topics array
-                                    topics.push({
-                                        name: topicName,
-                                        summary: topicSummary
+                            var createTopicsButtons = document.querySelectorAll('.block-design-ideas-btn-create-course-topics');
+                            createTopicsButtons.forEach(function(createTopicsButton) {
+                                createTopicsButton.addEventListener('click', function () {
+                                    // Get data attribute replace from button
+                                    var replace = createTopicsButton.getAttribute('data-replace');
+                                    // Get all checkboxes with class block-design-ideas-topic-select
+                                    var selectedCheckboxes = document.querySelectorAll('.block-design-ideas-topic-select:checked');
+                                    var topics = [];
+                                    selectedCheckboxes.forEach(function (checkbox) {
+                                        // Set data attributes name and summary for topics array
+                                        var topicName = checkbox.getAttribute('data-name');
+                                        var topicSummary = checkbox.getAttribute('data-summary');
+                                        // Add to topics array
+                                        topics.push({
+                                            name: topicName,
+                                            summary: topicSummary
+                                        });
+
                                     });
 
-                                });
+                                    // Convert topics array to JSON string
+                                    topics = JSON.stringify(topics);
+                                    // Call the ajax function to create topics
+                                    var create_topics = ajax.call([{
+                                        methodname: 'block_design_ideas_create_course_topics',
+                                        args: {
+                                            'replace': replace,
+                                            'courseid': courseId,
+                                            'topics': topics
+                                        }
+                                    }]);
 
-                                // Convert topics array to JSON string
-                                topics = JSON.stringify(topics);
-                                // Call the ajax function to create topics
-                                var create_topics = ajax.call([{
-                                    methodname: 'block_design_ideas_create_course_topics',
-                                    args: {
-                                        'replace': replace,
-                                        'courseid': courseId,
-                                        'topics': topics
-                                    }
-                                }]);
-
-                                create_topics[0].done(function () {
-                                    // Reload window
-                                    window.location.reload();
-                                }).fail(function () {
-                                    alert('An error has occurred. Cannot create topics');
+                                    create_topics[0].done(function () {
+                                        // Reload window
+                                        window.location.reload();
+                                    }).fail(function () {
+                                        alert('An error has occurred. Cannot create topics');
+                                    });
                                 });
                             });
 

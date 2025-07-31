@@ -73,14 +73,69 @@ class block_design_ideas_course_topics extends external_api
         // Replace number of topics
         $prompt = str_replace('[number_of_topics]', $number_of_topics, $prompt);
 
-        $content = gen_ai::make_call($context, $prompt, $course->lang, true);
+        $content = gen_ai::make_call($context, $prompt, $course->lang, false);
+
+        // Debug: Log the raw response
+        file_put_contents('/var/www/moodledata/temp/course_topics_raw.txt', "Raw response:\n" . print_r($content, true));
+
+        // Debug: Log the type and content
+        file_put_contents('/var/www/moodledata/temp/course_topics_debug.txt',
+            "Type: " . gettype($content) . "\n" .
+            "Content: " . var_export($content, true) . "\n" .
+            "Is string: " . (is_string($content) ? 'yes' : 'no') . "\n"
+        );
+
+        // Try to parse the response as JSON since it should be structured data
+        $parsed_content = null;
+        if (is_string($content)) {
+            // Remove markdown code block formatting if present
+            $clean_content = $content;
+
+            // Remove ```json at the beginning and ``` at the end
+            $clean_content = preg_replace('/^```(?:json)?\s*/i', '', $clean_content);
+            $clean_content = preg_replace('/\s*```\s*$/', '', $clean_content);
+            $clean_content = trim($clean_content);
+
+            file_put_contents('/var/www/moodledata/temp/course_topics_debug.txt',
+                "Cleaned content: " . var_export($clean_content, true) . "\n", FILE_APPEND);
+
+            $parsed_content = json_decode($clean_content, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                file_put_contents('/var/www/moodledata/temp/course_topics_debug.txt',
+                    "JSON decode error: " . json_last_error_msg() . "\n", FILE_APPEND);
+                // If JSON parsing fails, try to extract topics from text format
+                $parsed_content = self::parse_topics_from_text($content);
+            } else {
+                file_put_contents('/var/www/moodledata/temp/course_topics_debug.txt',
+                    "JSON parsed successfully:\n" . print_r($parsed_content, true) . "\n", FILE_APPEND);
+            }
+        }
+
+        file_put_contents('/var/www/moodledata/temp/course_topics.txt', print_r($content, true));
 
         $topics = [];
         $topics['data'] = [];
-        foreach ($content as $topic) {
+
+        // Handle the parsed content properly
+        if (is_array($parsed_content)) {
+            foreach ($parsed_content as $topic) {
+                if (is_array($topic)) {
+                    $topics['data'][] = [
+                        'name' => $topic['name'] ?? $topic['title'] ?? 'Untitled Topic',
+                        'summary' => $topic['summary'] ?? $topic['description'] ?? 'No summary available',
+                    ];
+                } elseif (is_object($topic)) {
+                    $topics['data'][] = [
+                        'name' => $topic->name ?? $topic->title ?? 'Untitled Topic',
+                        'summary' => $topic->summary ?? $topic->description ?? 'No summary available',
+                    ];
+                }
+            }
+        } else {
+            // Fallback: create a single topic with the entire content
             $topics['data'][] = [
-                'name' => $topic->name,
-                'summary' => $topic->summary,
+                'name' => 'Generated Content',
+                'summary' => is_string($content) ? $content : 'Unable to parse content',
             ];
         }
         return $topics;
@@ -175,5 +230,59 @@ class block_design_ideas_course_topics extends external_api
 
     public static function create_returns() {
         return new external_value(PARAM_BOOL, 'Status');
+    }
+
+    /**
+     * Parse topics from text format when JSON parsing fails
+     * @param string $content
+     * @return array
+     */
+    private static function parse_topics_from_text($content) {
+        $topics = [];
+
+        // Try to find patterns like "Topic 1:", "1.", "Topic Name:" etc.
+        $lines = explode("\n", $content);
+        $current_topic = null;
+        $current_summary = '';
+
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line)) continue;
+
+            // Check if this line looks like a topic header
+            if (preg_match('/^(\d+\.?\s*|Topic\s*\d*:?\s*|[A-Z][^:]*:)\s*(.+)$/i', $line, $matches)) {
+                // Save previous topic if exists
+                if ($current_topic !== null) {
+                    $topics[] = [
+                        'name' => $current_topic,
+                        'summary' => trim($current_summary)
+                    ];
+                }
+                // Start new topic
+                $current_topic = trim($matches[2] ?? $matches[1]);
+                $current_summary = '';
+            } else {
+                // Add to current summary
+                $current_summary .= $line . ' ';
+            }
+        }
+
+        // Save last topic
+        if ($current_topic !== null) {
+            $topics[] = [
+                'name' => $current_topic,
+                'summary' => trim($current_summary)
+            ];
+        }
+
+        // If no topics found, return the entire content as one topic
+        if (empty($topics)) {
+            $topics[] = [
+                'name' => 'Generated Course Topics',
+                'summary' => $content
+            ];
+        }
+
+        return $topics;
     }
 }

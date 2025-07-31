@@ -3,19 +3,29 @@
         <div class="col">
             <div class="message">
                 <!-- Add select all/ deselect all checkbox -->
-                <input type="checkbox"
-                       class="form-check-input ml-2"
-                       id="block-design-ideas-topic-select-all"> {{#str}}select_all, block_design_ideas{{/str}}
+                <div class="form-check mb-3">
+                    <input type="checkbox"
+                           class="form-check-input"
+                           id="block-design-ideas-topic-select-all">
+                    <label class="form-check-label" for="block-design-ideas-topic-select-all">
+                        {{#str}}select_all, block_design_ideas{{/str}}
+                    </label>
+                </div>
 
                 <ul class="list-group">
                     {{#data}}
                         <li class="list-group-item">
-                            <input type="checkbox"
-                                   class="form-check-input block-design-ideas-topic-select"
-                                   data-name="{{name}}"
-                                   data-summary="{{summary}}">
-                            <b>{{name}}</b><br>
-                            {{summary}}
+                            <div class="form-check">
+                                <input type="checkbox"
+                                       class="form-check-input block-design-ideas-topic-select"
+                                       data-name="{{name}}"
+                                       data-summary="{{summary}}"
+                                       id="topic-{{@index}}">
+                                <label class="form-check-label" for="topic-{{@index}}">
+                                    <b>{{name}}</b><br>
+                                    {{summary}}
+                                </label>
+                            </div>
                         </li>
                     {{/data}}
                 </ul>
