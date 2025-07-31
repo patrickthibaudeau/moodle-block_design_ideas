@@ -21,8 +21,14 @@ abstract class gen_ai
      */
     public static function make_call($context, $prompt, $lang = 'en', $decode = false)
     {
+        file_put_contents(
+            '/var/www/moodledata/temp/azure_openai_log.txt',
+            date('Y-m-d H:i:s') . " - Prompt: $prompt\n",
+            FILE_APPEND
+        );
         // Always return the response in the language of the course
-        $prompt .= "\n\nYou must return the response in the language based on this language code: $lang.\n\n";
+        $prompt .= "\n\nYou must return the response in the language based on this language code: $lang.
+        Never return the response in any other language.\n\n";
 
         $messages = array(
             array(

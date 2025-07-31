@@ -83,7 +83,7 @@ class block_design_ideas_learning_outcomes extends external_api
         $content = gen_ai::make_call($context, strip_tags($prompt), $course->lang);
 
         $response = [];
-        $response['content'] = base::convert_string_to_html_list($content);
+        $response['content'] = markdown_to_html($content);
 
         return $response;
     }
