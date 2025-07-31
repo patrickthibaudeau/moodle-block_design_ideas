@@ -108,3 +108,26 @@ $string['college'] = 'Collège';
 $string['high_school'] = 'Lycée';
 $string['elementary'] = 'Primaire';
 
+// Azure OpenAI settings
+$string['azure_openai_endpoint'] = 'Point de terminaison Azure OpenAI';
+$string['azure_openai_endpoint_help'] = 'L\'URL du point de terminaison de votre service Azure OpenAI (ex: https://votre-ressource.openai.azure.com/)';
+$string['azure_openai_deployment'] = 'Déploiement Azure OpenAI';
+$string['azure_openai_deployment_help'] = 'Le nom du déploiement de votre modèle Azure OpenAI';
+$string['azure_openai_version'] = 'Version de l\'API Azure OpenAI';
+$string['azure_openai_version_help'] = 'La version de l\'API à utiliser pour Azure OpenAI (ex: 2023-12-01-preview)';
+$string['azure_openai_api_key'] = 'Clé API Azure OpenAI';
+$string['azure_openai_api_key_help'] = 'La clé API de votre service Azure OpenAI';
+$string['azure_openai_max_tokens'] = 'Nombre maximum de jetons';
+$string['azure_openai_max_tokens_help'] = 'Le nombre maximum de jetons à générer dans la réponse (par défaut : 4096)';
+$string['azure_openai_temperature'] = 'Température';
+$string['azure_openai_temperature_help'] = 'Contrôle le caractère aléatoire de la réponse. Des valeurs plus faibles (0,1) rendent les réponses plus ciblées et déterministes, des valeurs plus élevées (0,9) les rendent plus créatives et aléatoires (par défaut : 0,7)';
+$string['azure_openai_top_p'] = 'Top P';
+$string['azure_openai_top_p_help'] = 'Contrôle la diversité via l\'échantillonnage nucléaire. Des valeurs plus faibles (0,1) se concentrent sur les jetons les plus probables, des valeurs plus élevées (1,0) considèrent plus de possibilités (par défaut : 0,95)';
+$string['azure_openai_frequency_penalty'] = 'Pénalité de fréquence';
+$string['azure_openai_frequency_penalty_help'] = 'Réduit la répétition en pénalisant les jetons selon leur fréquence. Plage : -2,0 à 2,0 (par défaut : 0)';
+$string['azure_openai_presence_penalty'] = 'Pénalité de présence';
+$string['azure_openai_presence_penalty_help'] = 'Encourage de nouveaux sujets en pénalisant les jetons qui sont déjà apparus. Plage : -2,0 à 2,0 (par défaut : 0)';
+$string['azure_openai_stop'] = 'Séquences d\'arrêt';
+$string['azure_openai_stop_help'] = 'Jusqu\'à 4 séquences où l\'API cessera de générer d\'autres jetons. Laissez vide pour aucune séquence d\'arrêt';
+$string['azure_openai_stream'] = 'Activer le streaming';
+$string['azure_openai_stream_help'] = 'Si les progrès partiels doivent être diffusés en continu. Actuellement non pris en charge dans cette implémentation (par défaut : désactivé)';

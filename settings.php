@@ -67,6 +67,94 @@ if ($hassiteconfig) {
         PARAM_INT
     ));
 
+    // Azure OpenAI settings.
+    $settings->add(new admin_setting_configtext(
+        'block_idi_azure_openai_endpoint',
+        get_string('azure_openai_endpoint', 'block_design_ideas'),
+        get_string('azure_openai_endpoint_help', 'block_design_ideas'),
+        '',
+        PARAM_URL
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'block_idi_azure_openai_deployment',
+        get_string('azure_openai_deployment', 'block_design_ideas'),
+        get_string('azure_openai_deployment_help', 'block_design_ideas'),
+        '',
+        PARAM_TEXT
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'block_idi_azure_openai_version',
+        get_string('azure_openai_version', 'block_design_ideas'),
+        get_string('azure_openai_version_help', 'block_design_ideas'),
+        '',
+        PARAM_TEXT
+    ));
+
+    $settings->add(new admin_setting_configpasswordunmask(
+        'block_idi_azure_openai_api_key',
+        get_string('azure_openai_api_key', 'block_design_ideas'),
+        get_string('azure_openai_api_key_help', 'block_design_ideas'),
+        '',
+        PARAM_TEXT
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'block_idi_azure_openai_max_tokens',
+        get_string('azure_openai_max_tokens', 'block_design_ideas'),
+        get_string('azure_openai_max_tokens_help', 'block_design_ideas'),
+        '4096',
+        PARAM_INT
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'block_idi_azure_openai_temperature',
+        get_string('azure_openai_temperature', 'block_design_ideas'),
+        get_string('azure_openai_temperature_help', 'block_design_ideas'),
+        '0.7',
+        PARAM_FLOAT
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'block_idi_azure_openai_top_p',
+        get_string('azure_openai_top_p', 'block_design_ideas'),
+        get_string('azure_openai_top_p_help', 'block_design_ideas'),
+        '0.95',
+        PARAM_FLOAT
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'block_idi_azure_openai_frequency_penalty',
+        get_string('azure_openai_frequency_penalty', 'block_design_ideas'),
+        get_string('azure_openai_frequency_penalty_help', 'block_design_ideas'),
+        '0',
+        PARAM_FLOAT
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'block_idi_azure_openai_presence_penalty',
+        get_string('azure_openai_presence_penalty', 'block_design_ideas'),
+        get_string('azure_openai_presence_penalty_help', 'block_design_ideas'),
+        '0',
+        PARAM_FLOAT
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'block_idi_azure_openai_stop',
+        get_string('azure_openai_stop', 'block_design_ideas'),
+        get_string('azure_openai_stop_help', 'block_design_ideas'),
+        '',
+        PARAM_TEXT
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'block_idi_azure_openai_stream',
+        get_string('azure_openai_stream', 'block_design_ideas'),
+        get_string('azure_openai_stream_help', 'block_design_ideas'),
+        0
+    ));
+
     // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
     if ($ADMIN->fulltree) {
         // TODO: Define actual plugin settings page and add it to the tree - {@link https://docs.moodle.org/dev/Admin_settings}.

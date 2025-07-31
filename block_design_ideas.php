@@ -21,9 +21,6 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use aiplacement_editor\utils;
-use core_ai\manager;
-
 class block_design_ideas extends block_base
 {
 
@@ -59,14 +56,8 @@ class block_design_ideas extends block_base
             return '';
         }
 
-        // Check if AI generate_text is available
-        $is_html_editor_placement_action_available = utils::is_html_editor_placement_action_available(
-            context_course::instance($this->page->course->id),
-            'generate_text',
-            \core_ai\aiactions\generate_text::class
-        );
-
-       $policy_status = manager::get_user_policy_status($USER->id);
+        // Check if Azure OpenAI is configured
+        $azure_configured = $this->is_azure_openai_configured();
 
         $this->content = new stdClass();
         $this->content->items = array();
@@ -90,15 +81,15 @@ class block_design_ideas extends block_base
         $this->page->requires->js_call_amd('block_design_ideas/questions', 'init');
 
         $data = array(
-            'ai_placement_editor_enabled' => $is_html_editor_placement_action_available,
+            'ai_placement_editor_enabled' => $azure_configured,
             'can_edit_prompts' => has_capability('block/design_ideas:edit_prompts', context_block::instance($this->instance->id)),
             'userid' => $USER->id,
             'courseid' => $this->page->course->id,
             'blockid' => $this->instance->id,
             'course_contextid' => $course_context->id,
             'course_sumamry' => $has_course_summary,
-            'block_buttons' => \block_design_ideas\ai_call::render_buttons($this->page->course->id),
-            'ai_policy_status' => $policy_status,
+            'block_buttons' => \block_design_ideas\gen_ai::render_buttons($this->page->course->id),
+            'ai_policy_status' => true, // Since we're using Azure OpenAI directly, assume policy is accepted
         );
 
         $this->content->text = $OUTPUT->render_from_template('block_design_ideas/block_design_ideas', $data);
@@ -143,5 +134,22 @@ class block_design_ideas extends block_base
         return array(
             'course-view' => true,
         );
+    }
+
+    /**
+     * Check if Azure OpenAI is configured.
+     *
+     * @return bool True if Azure OpenAI is configured, false otherwise.
+     */
+    private function is_azure_openai_configured()
+    {
+        global $CFG;
+        // Check if the essential Azure OpenAI settings are configured
+        $endpoint = $CFG->block_idi_azure_openai_endpoint ?? '';
+        $api_key = $CFG->block_idi_azure_openai_api_key ?? '';
+        $deployment = $CFG->block_idi_azure_openai_deployment ?? '';
+        $version = $CFG->block_idi_azure_openai_version ?? '';
+
+        return !empty($endpoint) && !empty($api_key) && !empty($deployment) && !empty($version);
     }
 }

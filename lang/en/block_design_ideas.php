@@ -116,3 +116,26 @@ $string['college'] = 'College';
 $string['high_school'] = 'High School';
 $string['elementary'] = 'Elementary';
 
+// Azure OpenAI settings
+$string['azure_openai_endpoint'] = 'Azure OpenAI Endpoint';
+$string['azure_openai_endpoint_help'] = 'The endpoint URL for your Azure OpenAI service (e.g., https://your-resource.openai.azure.com/)';
+$string['azure_openai_deployment'] = 'Azure OpenAI Deployment';
+$string['azure_openai_deployment_help'] = 'The deployment name for your Azure OpenAI model';
+$string['azure_openai_version'] = 'Azure OpenAI API Version';
+$string['azure_openai_version_help'] = 'The API version to use for Azure OpenAI (e.g., 2023-12-01-preview)';
+$string['azure_openai_api_key'] = 'Azure OpenAI API Key';
+$string['azure_openai_api_key_help'] = 'The API key for your Azure OpenAI service';
+$string['azure_openai_max_tokens'] = 'Maximum Tokens';
+$string['azure_openai_max_tokens_help'] = 'The maximum number of tokens to generate in the response (default: 4096)';
+$string['azure_openai_temperature'] = 'Temperature';
+$string['azure_openai_temperature_help'] = 'Controls randomness in the response. Lower values (0.1) make responses more focused and deterministic, higher values (0.9) make them more creative and random (default: 0.7)';
+$string['azure_openai_top_p'] = 'Top P';
+$string['azure_openai_top_p_help'] = 'Controls diversity via nucleus sampling. Lower values (0.1) focus on the most likely tokens, higher values (1.0) consider more possibilities (default: 0.95)';
+$string['azure_openai_frequency_penalty'] = 'Frequency Penalty';
+$string['azure_openai_frequency_penalty_help'] = 'Reduces repetition by penalizing tokens based on their frequency. Range: -2.0 to 2.0 (default: 0)';
+$string['azure_openai_presence_penalty'] = 'Presence Penalty';
+$string['azure_openai_presence_penalty_help'] = 'Encourages new topics by penalizing tokens that have already appeared. Range: -2.0 to 2.0 (default: 0)';
+$string['azure_openai_stop'] = 'Stop Sequences';
+$string['azure_openai_stop_help'] = 'Up to 4 sequences where the API will stop generating further tokens. Leave empty for no stop sequences';
+$string['azure_openai_stream'] = 'Enable Streaming';
+$string['azure_openai_stream_help'] = 'Whether to stream back partial progress. Currently not supported in this implementation (default: disabled)';
