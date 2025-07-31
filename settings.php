@@ -104,7 +104,7 @@ if ($hassiteconfig) {
         'block_idi_azure_openai_max_tokens',
         get_string('azure_openai_max_tokens', 'block_design_ideas'),
         get_string('azure_openai_max_tokens_help', 'block_design_ideas'),
-        '4096',
+        '6553',
         PARAM_INT
     ));
 

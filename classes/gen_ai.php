@@ -75,7 +75,7 @@ abstract class gen_ai
         if ($decode) {
             return json_decode($response);
         } else {
-            return self::markdown_to_html($response);
+            return $response;
         }
     }
 
