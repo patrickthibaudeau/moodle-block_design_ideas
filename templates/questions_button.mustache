@@ -3,19 +3,20 @@
             data-bs-toggle="dropdown" aria-expanded="false">
         {{#str}}questions, block_design_ideas{{/str}}
     </button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu" style="background-color: white; color: black;">
         {{#buttons}}
-            <li class="dropdown-item">
+            <li class="dropdown-item" style="background-color: white;">
                 <a href="#"
                    class="block-design-ideas-btn-ai-call-questions"
                    data-prompt_id="{{promptid}}"
                    data-topic_id="{{topicid}}"
-                   data-course_id="{{courseid}}">
+                   data-course_id="{{courseid}}"
+                   style="color: black; text-decoration: none;"
+                   onmouseover="this.style.backgroundColor='#e9ecef'; this.style.color='black'; this.parentElement.style.backgroundColor='#e9ecef'"
+                   onmouseout="this.style.backgroundColor=''; this.style.color='black'; this.parentElement.style.backgroundColor='white'">
                     {{topic_name}}
                 </a>
             </li>
         {{/buttons}}
     </ul>
 </div>
-
-

@@ -6,27 +6,33 @@
                 aria-expanded="false">
             {{#str}}course_topics, block_design_ideas{{/str}}
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu" style="background-color: white; color: black;">
             <div class="dropdown-item">
                 <div class="alert alert-warning ml-1 mr-1 mb-0">
                     {{#str}}course_topics_help, block_design_ideas{{/str}}
                 </div>
             </div>
-            <div class="dropdown-item">
+            <div class="dropdown-item" style="background-color: white;">
                 <a href="#"
                    class="block-design-ideas-btn-ai-call-course-topics"
                    data-prompt_id="{{promptid}}"
                    data-topics="13"
-                   data-course_id="{{courseid}}">
+                   data-course_id="{{courseid}}"
+                   style="color: black; text-decoration: none;"
+                   onmouseover="this.style.backgroundColor='#e9ecef'; this.style.color='black'; this.parentElement.style.backgroundColor='#e9ecef'"
+                   onmouseout="this.style.backgroundColor=''; this.style.color='black'; this.parentElement.style.backgroundColor='white'">
                     {{#str}}create_13_sections, block_design_ideas{{/str}}
                 </a>
             </div>
-            <div class="dropdown-item">
+            <div class="dropdown-item" style="background-color: white;">
                 <a href="#"
                    class="block-design-ideas-btn-ai-call-course-topics"
                    data-prompt_id="{{promptid}}"
                    data-topics="24"
-                   data-course_id="{{courseid}}">
+                   data-course_id="{{courseid}}"
+                   style="color: black; text-decoration: none;"
+                   onmouseover="this.style.backgroundColor='#e9ecef'; this.style.color='black'; this.parentElement.style.backgroundColor='#e9ecef'"
+                   onmouseout="this.style.backgroundColor=''; this.style.color='black'; this.parentElement.style.backgroundColor='white'">
                     {{#str}}create_24_sections, block_design_ideas{{/str}}
                 </a>
             </div>

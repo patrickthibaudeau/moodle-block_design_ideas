@@ -3,19 +3,22 @@
             data-toggle="dropdown" aria-expanded="false">
         {{#str}}essay_topics, block_design_ideas{{/str}}
     </button>
-    <div class="dropdown-menu">
+    <div class="dropdown-menu" style="background-color: white; color: black;">
         <div class="dropdown-item">
             <div class="alert alert-warning ml-1 mr-1 mb-0">
                 {{#str}}essay_topics_help, block_design_ideas{{/str}}
             </div>
         </div>
         {{#buttons}}
-            <div class="dropdown-item">
+            <div class="dropdown-item" style="background-color: white;">
                 <a href="#"
                    class="block-design-ideas-btn-ai-call-essay-topics"
                    data-prompt_id="{{promptid}}"
                    data-topic_id="{{topicid}}"
-                   data-course_id="{{courseid}}">
+                   data-course_id="{{courseid}}"
+                   style="color: black; text-decoration: none;"
+                   onmouseover="this.style.backgroundColor='#e9ecef'; this.style.color='black'; this.parentElement.style.backgroundColor='#e9ecef'"
+                   onmouseout="this.style.backgroundColor=''; this.style.color='black'; this.parentElement.style.backgroundColor='white'">
                     {{topic_name}}
                 </a>
             </div>
