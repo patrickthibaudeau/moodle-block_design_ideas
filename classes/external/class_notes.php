@@ -200,9 +200,9 @@ class block_design_ideas_class_notes extends external_api
         }
         $system_message = 'You are ' . $educator . '. You are creating class notes for students. ' .
             'The notes must be in HMTL format. The notes must be clear and easy to read. ';
-        $prompt = 'Provide class notes on subject "[subject]". The notes must include the following sections:' .
-            'An overview, followed by highlights in point form, a paragraph on any other additional/relavent information and finally a conclusion.'
-            . 'If using headers always use <h4>,<h5>,<h6> tags. Never use <h1>,<h2>,<h3> tags. ';
+        $prompt = "- Provide class notes on subject [subject]. A;ways use the subject name as the title of the notes.
+- The notes must include the following sections: An overview, followed by highlights in point form, a paragraph on any other additional/relavent information and finally a conclusion.
+- If using headers always use <h4>,<h5>,<h6> tags. Never use <h1>,<h2>,<h3> tags. ";
         $i = 0;
         foreach ($messages as $message) {
             // Make call to AI and retrieve the message
