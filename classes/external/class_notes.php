@@ -182,7 +182,7 @@ class block_design_ideas_class_notes extends external_api
         $messages = json_decode($subjects);
         $message_count = count($messages);
 
-        $markdown = '';
+        $html = '';
         $institution = $CFG->block_idi_institution;
         switch ($institution) {
             case gen_ai::UNIVERSITY:
@@ -199,10 +199,10 @@ class block_design_ideas_class_notes extends external_api
                 break;
         }
         $system_message = 'You are ' . $educator . '. You are creating class notes for students. ' .
-            'The notes must be in markdown format. The notes must be clear and easy to read. ';
-        $prompt = 'Provide class notes on subject "[subject]". The notes must be include the following sections:' .
+            'The notes must be in HMTL format. The notes must be clear and easy to read. ';
+        $prompt = 'Provide class notes on subject "[subject]". The notes must include the following sections:' .
             'An overview, followed by highlights in point form, a paragraph on any other additional/relavent information and finally a conclusion.'
-            . 'Do not include the author of the notes.';
+            . 'If using headers always use <h4>,<h5>,<h6> tags. Never use <h1>,<h2>,<h3> tags. ';
         $i = 0;
         foreach ($messages as $message) {
             // Make call to AI and retrieve the message
@@ -215,12 +215,19 @@ class block_design_ideas_class_notes extends external_api
                 // Make a direct call to the AI. Do not use the moodle call.
                 $result = gen_ai::direct_call($system_message, $prompt_message, $course->lang);
                 $result = trim($result);
+
+                // Remove markdown code block formatting if present
+                // Handle various markdown code block formats using string replacement
+                $result = str_replace('```html', '', $result);
+                $result = str_replace('```', '', $result);
+                $result = trim($result);
+
                 if (!empty($result)) {
                     break;
                 }
             }
 
-            $markdown .= $result;
+            $html .= $result;
             $i++;
         }
 // Get section name
@@ -231,7 +238,7 @@ class block_design_ideas_class_notes extends external_api
         if ($message_count === $i) {
             gen_ai::add_page_module(
                 $name,
-                $markdown,
+                $html,
                 $course_id,
                 $section
             );
