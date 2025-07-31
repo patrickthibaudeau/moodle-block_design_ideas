@@ -77,18 +77,50 @@ class block_design_ideas_class_notes extends external_api
         $prompt = str_replace('[topic_description]', $topic_description, $prompt);
         $prompt = html_entity_decode($prompt);
         // Make the call
-        $content = gen_ai::make_call($context, strip_tags($prompt), $course->lang, true);
+        $content = gen_ai::make_call($context, strip_tags($prompt), $course->lang, false);
 
+        // Try to parse the response as JSON since it should be structured data
+        $parsed_content = null;
+        if (is_string($content)) {
+            // Remove markdown code block formatting if present
+            $clean_content = $content;
+
+            // Remove ```json at the beginning and ``` at the end
+            $clean_content = preg_replace('/^```(?:json)?\s*/i', '', $clean_content);
+            $clean_content = preg_replace('/\s*```\s*$/', '', $clean_content);
+            $clean_content = trim($clean_content);
+
+            $parsed_content = json_decode($clean_content, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                // If JSON parsing fails, try to extract subjects from text format
+                $parsed_content = self::parse_subjects_from_text($content);
+            }
+        }
 
         // Get the data
         $subjects = [];
         $subjects['data'] = [];
-        foreach ($content as $subject) {
-            $subjects['course_id'] = $course_id;
-            $subjects['section'] = $topic->section;
-            $subjects['section_name'] = $topic->name;
+        $subjects['course_id'] = $course_id;
+        $subjects['section'] = $topic->section;
+        $subjects['section_name'] = $topic->name;
+
+        // Handle the parsed content properly
+        if (is_array($parsed_content)) {
+            foreach ($parsed_content as $subject) {
+                if (is_array($subject)) {
+                    $subjects['data'][] = [
+                        'name' => $subject['subject'] ?? $subject['name'] ?? $subject['title'] ?? 'Untitled Subject',
+                    ];
+                } elseif (is_object($subject)) {
+                    $subjects['data'][] = [
+                        'name' => $subject->subject ?? $subject->name ?? $subject->title ?? 'Untitled Subject',
+                    ];
+                }
+            }
+        } else {
+            // Fallback: create a single subject with the entire content
             $subjects['data'][] = [
-                'name' => $subject->subject,
+                'name' => is_string($content) ? $content : 'Unable to parse content',
             ];
         }
 
@@ -210,5 +242,57 @@ class block_design_ideas_class_notes extends external_api
     public static function create_returns()
     {
         return new external_value(PARAM_BOOL, 'Status');
+    }
+
+    /**
+     * Parse subjects from text format when JSON parsing fails
+     * @param string $content
+     * @return array
+     */
+    private static function parse_subjects_from_text($content) {
+        $subjects = [];
+
+        // Try to find patterns like "Subject 1:", "1.", "Subject Name:" etc.
+        $lines = explode("\n", $content);
+        $current_subject = null;
+
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line)) continue;
+
+            // Check if this line looks like a subject header
+            if (preg_match('/^(\d+\.?\s*|Subject\s*\d*:?\s*|[A-Z][^:]*:)\s*(.+)$/i', $line, $matches)) {
+                // Save current subject if exists
+                if ($current_subject !== null) {
+                    $subjects[] = [
+                        'subject' => $current_subject,
+                        'name' => $current_subject
+                    ];
+                }
+                // Start new subject
+                $current_subject = trim($matches[2] ?? $matches[1]);
+            } else if ($current_subject === null) {
+                // If no pattern found and no current subject, treat each line as a subject
+                $current_subject = $line;
+            }
+        }
+
+        // Save last subject
+        if ($current_subject !== null) {
+            $subjects[] = [
+                'subject' => $current_subject,
+                'name' => $current_subject
+            ];
+        }
+
+        // If no subjects found, return the entire content as one subject
+        if (empty($subjects)) {
+            $subjects[] = [
+                'subject' => $content,
+                'name' => 'Generated Class Notes Subject'
+            ];
+        }
+
+        return $subjects;
     }
 }
