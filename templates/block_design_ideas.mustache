@@ -11,17 +11,17 @@
             </p>
 
         </div>
-        {{#course_sumamry}}
+        {{#course_summary}}
             {{{block_buttons}}}
-        {{/course_sumamry}}
-        {{^course_sumamry}}
+        {{/course_summary}}
+        {{^course_summary}}
             <div class="alert alert-danger" role="alert">
                 <p>
                     {{#str}}no_course_summary, block_design_ideas, {{config.wwwroot}}
                         /course/edit.php?id={{courseid}}{{/str}}
                 </p>
             </div>
-        {{/course_sumamry}}
+        {{/course_summary}}
     {{/ai_placement_editor_enabled}}
 
     {{^ai_placement_editor_enabled}}

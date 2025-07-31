@@ -86,7 +86,7 @@ class block_design_ideas extends block_base
             'courseid' => $this->page->course->id,
             'blockid' => $this->instance->id,
             'course_contextid' => $course_context->id,
-            'course_sumamry' => $has_course_summary,
+            'course_summary' => $has_course_summary,
             'block_buttons' => \block_design_ideas\gen_ai::render_buttons($this->page->course->id),
             'ai_policy_status' => true, // Since we're using Azure OpenAI directly, assume policy is accepted
         );

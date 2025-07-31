@@ -75,15 +75,6 @@ class block_design_ideas_course_topics extends external_api
 
         $content = gen_ai::make_call($context, $prompt, $course->lang, false);
 
-        // Debug: Log the raw response
-        file_put_contents('/var/www/moodledata/temp/course_topics_raw.txt', "Raw response:\n" . print_r($content, true));
-
-        // Debug: Log the type and content
-        file_put_contents('/var/www/moodledata/temp/course_topics_debug.txt',
-            "Type: " . gettype($content) . "\n" .
-            "Content: " . var_export($content, true) . "\n" .
-            "Is string: " . (is_string($content) ? 'yes' : 'no') . "\n"
-        );
 
         // Try to parse the response as JSON since it should be structured data
         $parsed_content = null;
@@ -96,22 +87,13 @@ class block_design_ideas_course_topics extends external_api
             $clean_content = preg_replace('/\s*```\s*$/', '', $clean_content);
             $clean_content = trim($clean_content);
 
-            file_put_contents('/var/www/moodledata/temp/course_topics_debug.txt',
-                "Cleaned content: " . var_export($clean_content, true) . "\n", FILE_APPEND);
-
             $parsed_content = json_decode($clean_content, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                file_put_contents('/var/www/moodledata/temp/course_topics_debug.txt',
-                    "JSON decode error: " . json_last_error_msg() . "\n", FILE_APPEND);
+
                 // If JSON parsing fails, try to extract topics from text format
                 $parsed_content = self::parse_topics_from_text($content);
-            } else {
-                file_put_contents('/var/www/moodledata/temp/course_topics_debug.txt',
-                    "JSON parsed successfully:\n" . print_r($parsed_content, true) . "\n", FILE_APPEND);
             }
         }
-
-        file_put_contents('/var/www/moodledata/temp/course_topics.txt', print_r($content, true));
 
         $topics = [];
         $topics['data'] = [];
