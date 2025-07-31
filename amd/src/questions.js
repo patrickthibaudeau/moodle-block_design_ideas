@@ -1,4 +1,4 @@
-import Modal from 'core/modal';
+import ModalFactory from 'core/modal_factory';
 import ModalEvents from 'core/modal_events';
 import {get_string as getString} from 'core/str';
 import ajax from 'core/ajax';
@@ -25,7 +25,7 @@ export const init = async () => {
 
                 get_subjects[0].done(function (results) {
                     // Show results.generatedcontent in a modal
-                    Modal.create({
+                    ModalFactory.create({
                         title: getString('questions_generator', 'block_design_ideas'),
                         body: Templates.render('block_design_ideas/questions', results),
                         large: true

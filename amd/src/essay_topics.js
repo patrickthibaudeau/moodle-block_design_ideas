@@ -1,4 +1,4 @@
-import Modal from 'core/modal';
+import ModalFactory from 'core/modal_factory';
 //import {get_string as getString} from 'core/str';
 import ajax from 'core/ajax';
 import Templates from 'core/templates';
@@ -13,7 +13,7 @@ export const init = async () => {
             var sectionId = clickedElement.getAttribute('data-topic_id');
             var courseId = clickedElement.getAttribute('data-course_id');
 
-            Modal.create({
+            ModalFactory.create({
                 title: '',
                 body: Templates.render('block_design_ideas/loader', {}),
                 large: false
@@ -36,7 +36,7 @@ export const init = async () => {
                     loaderModal.hide();
 
                     // Show results.generatedcontent in a modal
-                    Modal.create({
+                    ModalFactory.create({
                         title: results.section_name,
                         body: Templates.render('block_design_ideas/essay_topics', results),
                         large: true
@@ -60,12 +60,12 @@ export const init = async () => {
                             // When button with class block-design-ideas-btn-create-course-topics is clicked, get all
                             // checkboxes with class block-design-ideas-topic-select and get their data attributes, put
                             // them in an array and call the ajax function to create topics
-                            var createSubjectsButton = document.querySelector('.block-design-ideas-btn-create-essay-topics');
-                            createSubjectsButton.addEventListener('click', function () {
+                            var createEssayTopicsButton = document.querySelector('.block-design-ideas-btn-create-essay-topics');
+                            createEssayTopicsButton.addEventListener('click', function () {
                                 // Hide content modal;
                                 modal.hide();
                                 // Show loader modal
-                                Modal.create({
+                                ModalFactory.create({
                                     title: '',
                                     body: Templates.render('block_design_ideas/loader', {}),
                                     large: false
@@ -73,7 +73,7 @@ export const init = async () => {
                                     modal.show();
 
                                     // Get data attribute replace from button
-                                    var section = createSubjectsButton.getAttribute('data-section');
+                                    var section = createEssayTopicsButton.getAttribute('data-section');
                                     // Get all checkboxes with class block-design-ideas-topic-select
                                     var selectedCheckboxes = document.querySelectorAll(
                                         '.block-design-ideas-subject-select:checked');

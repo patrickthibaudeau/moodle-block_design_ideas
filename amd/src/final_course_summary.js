@@ -1,4 +1,4 @@
-import Modal from 'core/modal';
+import ModalFactory from 'core/modal_factory';
 import {get_string as getString} from 'core/str';
 import ajax from 'core/ajax';
 import Templates from 'core/templates';
@@ -12,7 +12,7 @@ export const init = async () => {
             var promptId = clickedElement.getAttribute('data-prompt_id');
             var courseId = clickedElement.getAttribute('data-course_id');
 
-            Modal.create({
+            ModalFactory.create({
                 title: '',
                 body: Templates.render('block_design_ideas/loader', {}),
                 large: false
@@ -34,8 +34,8 @@ export const init = async () => {
                     loaderModal.hide();
 
                     // Show results.generatedcontent in a modal
-                    Modal.create({
-                        title: getString('final_course_summary', 'block_design_ideas'),
+                    ModalFactory.create({
+                        title: results.section_name,
                         body: Templates.render('block_design_ideas/final_course_summary', results),
                         large: true
                     }).then(function (modal) {
@@ -47,13 +47,12 @@ export const init = async () => {
                             // When button with class block-design-ideas-btn-create-course-topics is clicked, get all
                             // checkboxes with class block-design-ideas-topic-select and get their data attributes, put
                             // them in an array and call the ajax function to create topics
-                            var saveFinalCourseSummaryButton = document.getElementById(
-                                'block-design-ideas-btn-save-course-summary');
-                            saveFinalCourseSummaryButton.addEventListener('click', function () {
+                            var createSummaryButton = document.querySelector('.block-design-ideas-btn-create-summary');
+                            createSummaryButton.addEventListener('click', function () {
                                 // Hide content modal;
                                 modal.hide();
                                 // Show loader modal
-                                Modal.create({
+                                ModalFactory.create({
                                     title: '',
                                     body: Templates.render('block_design_ideas/loader', {}),
                                     large: false

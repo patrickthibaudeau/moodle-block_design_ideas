@@ -1,5 +1,5 @@
-import Modal from 'core/modal';
-import {get_string as getString} from 'core/str';
+import ModalFactory from 'core/modal_factory';
+//import {get_string as getString} from 'core/str';
 import ajax from 'core/ajax';
 import Templates from 'core/templates';
 
@@ -12,7 +12,7 @@ export const init = async () => {
             var promptId = clickedElement.getAttribute('data-prompt_id');
             var courseId = clickedElement.getAttribute('data-course_id');
 
-            Modal.create({
+            ModalFactory.create({
                 title: '',
                 body: Templates.render('block_design_ideas/loader', {}),
                 large: false
@@ -20,7 +20,7 @@ export const init = async () => {
                 modal.show();
                 var loaderModal = modal;
 
-                var learning_outcomes = ajax.call([{
+                var get_learning_outcomes = ajax.call([{
                     methodname: 'block_design_ideas_get_learning_outcomes',
                     args: {
                         'courseid': courseId,
@@ -28,14 +28,14 @@ export const init = async () => {
                     }
                 }]);
 
-                learning_outcomes[0].done(function (results) {
+                get_learning_outcomes[0].done(function (results) {
 
                     // Close the modal
                     loaderModal.hide();
 
                     // Show results.generatedcontent in a modal
-                    Modal.create({
-                        title: getString('generated_learning_outcomes', 'block_design_ideas'),
+                    ModalFactory.create({
+                        title: results.section_name,
                         body: Templates.render('block_design_ideas/learning_outcomes', results),
                         large: true
                     }).then(function (modal) {
@@ -49,13 +49,12 @@ export const init = async () => {
                             // When button with class block-design-ideas-btn-create-course-topics is clicked, get all
                             // checkboxes with class block-design-ideas-topic-select and get their data attributes, put
                             // them in an array and call the ajax function to create topics
-                            var createLearningOutcomesButton = document.querySelector(
-                                '.block-design-ideas-btn-create-learning-outcomes');
+                            var createLearningOutcomesButton = document.querySelector('.block-design-ideas-btn-create-learning-outcomes');
                             createLearningOutcomesButton.addEventListener('click', function () {
                                 // Hide content modal;
                                 modal.hide();
                                 // Show loader modal
-                                Modal.create({
+                                ModalFactory.create({
                                     title: '',
                                     body: Templates.render('block_design_ideas/loader', {}),
                                     large: false
