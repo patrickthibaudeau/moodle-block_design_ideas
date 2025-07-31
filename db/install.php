@@ -34,7 +34,7 @@ function xmldb_block_design_ideas_install()
         'name' => 'Course Topics',
         'description' => 'Generates course topics based on the course description (summary).',
         'prompt' => "Based on the course description, create [number_of_topics] topics, no more! "
-            . "Include a description for each topic. "
+            . "Include a [institution] level description for each topic. "
             . "Return the results in JSON format as per this example:
 [
     {\"name\":\"Name of topic\",\"summary\":\"Description of topic\"},

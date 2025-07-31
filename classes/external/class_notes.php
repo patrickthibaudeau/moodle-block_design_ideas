@@ -166,7 +166,7 @@ class block_design_ideas_class_notes extends external_api
                 $educator = 'an elementary school teacher';
                 break;
         }
-        $system_message = 'You are ' & $educator . '. You are creating class notes for students. ' .
+        $system_message = 'You are ' . $educator . '. You are creating class notes for students. ' .
             'The notes must be in markdown format. The notes must be clear and easy to read. ';
         $prompt = 'Provide class notes on subject "[subject]". The notes must be include the following sections:' .
             'An overview, followed by highlights in point form, a paragraph on any other additional/relavent information and finally a conclusion.'

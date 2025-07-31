@@ -16,9 +16,9 @@ class course_topics extends gen_ai
     {
         global $CFG, $OUTPUT;
         // If block_idi_institution equals 3 or 4, then show button
-        if ($CFG->block_idi_institution == gen_ai::UNIVERSITY || $CFG->block_idi_institution == gen_ai::COLLEGE) {
-            return '';
-        }
+//        if ($CFG->block_idi_institution == gen_ai::UNIVERSITY || $CFG->block_idi_institution == gen_ai::COLLEGE) {
+//            return '';
+//        }
 
         $data = [
             'promptid' => $promptid,

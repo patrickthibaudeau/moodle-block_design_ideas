@@ -44,7 +44,7 @@ class block_design_ideas_course_topics extends external_api
      */
     public static function execute($course_id, $prompt_id, $number_of_topics = 13)
     {
-        global $DB, $USER;
+        global $CFG, $DB, $USER;
 
         //Parameter validation
         $params = self::validate_parameters(
@@ -72,6 +72,24 @@ class block_design_ideas_course_topics extends external_api
         $prompt .= $PROMPT->get_prompt();
         // Replace number of topics
         $prompt = str_replace('[number_of_topics]', $number_of_topics, $prompt);
+
+        $institution = $CFG->block_idi_institution;
+        switch ($institution) {
+            case gen_ai::UNIVERSITY:
+                $intitution_type = 'unviersity';
+                break;
+            case gen_ai::COLLEGE:
+                $intitution_type = 'college ';
+                break;
+            case gen_ai::HIGH_SCHOOL:
+                $intitution_type = 'high school';
+                break;
+            case gen_ai::ELEMENTARY:
+                $intitution_type = 'elementary school';
+                break;
+        }
+
+        $prompt = str_replace('[institution]', $intitution_type, $prompt);
 
         $content = gen_ai::make_call($context, $prompt, $course->lang, false);
 
