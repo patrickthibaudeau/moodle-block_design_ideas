@@ -70,6 +70,7 @@ $string['generate_questions'] = 'Generate Questions';
 $string['generated_content'] = 'Generated content';
 $string['generated_learning_outcomes'] = 'Generated learning outcomes';
 $string['generated_topics'] = 'AI Generated topics';
+$string['generated_with_ai'] = 'Content generated with the help of AI.';
 $string['instructions'] = 'Check out these cool AI tools!';
 $string['learning_outcomes'] = 'Learning Outcomes';
 $string['loading'] = 'Loading';

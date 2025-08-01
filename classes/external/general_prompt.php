@@ -70,6 +70,7 @@ class block_design_ideas_general_prompt extends external_api
         $prompt .= $PROMPT->get_prompt();
 
         $content = gen_ai::make_call($context, $prompt, $course->lang);
+        $content .= "\n\n" . get_string('generated_with_ai', 'block_design_ideas') . "\n\n";
 
         $response = [];
         $response['content'] = base::convert_string_to_html_list($content);

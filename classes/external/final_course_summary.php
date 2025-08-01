@@ -78,6 +78,7 @@ class block_design_ideas_final_course_summary extends external_api
         $prompt .= $PROMPT->get_prompt();
         // Make the call
         $content = gen_ai::make_call($context, strip_tags($prompt), $course->lang);
+        $content .= "\n\n" . get_string('generated_with_ai', 'block_design_ideas') . "\n\n";
         $content = markdown_to_html($content);
 
         $response = [];
