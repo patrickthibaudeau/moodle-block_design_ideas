@@ -227,6 +227,8 @@ class block_design_ideas_class_notes extends external_api
                 }
             }
 
+            $result .= "\n\n" . get_string('generated_with_ai', 'block_design_ideas') . "\n\n";
+
             $html .= $result;
             $i++;
         }

@@ -21,6 +21,8 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use block_ai_assistant\ai_policy;
+
 class block_design_ideas extends block_base
 {
 
@@ -71,6 +73,7 @@ class block_design_ideas extends block_base
             $has_course_summary = true;
         }
 
+        $this->page->requires->js_call_amd('block_design_ideas/ai_policy', 'init');
         $this->page->requires->js_call_amd('block_design_ideas/general_prompt', 'init');
         $this->page->requires->js_call_amd('block_design_ideas/course_topics', 'init');
         $this->page->requires->js_call_amd('block_design_ideas/class_notes', 'init');
@@ -88,7 +91,7 @@ class block_design_ideas extends block_base
             'course_contextid' => $course_context->id,
             'course_summary' => $has_course_summary,
             'block_buttons' => \block_design_ideas\gen_ai::render_buttons($this->page->course->id),
-            'ai_policy_status' => true, // Since we're using Azure OpenAI directly, assume policy is accepted
+            'ai_policy_status' => ai_policy::get_policy_status()
         );
 
         $this->content->text = $OUTPUT->render_from_template('block_design_ideas/block_design_ideas', $data);
