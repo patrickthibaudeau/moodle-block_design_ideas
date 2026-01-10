@@ -27,6 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['activity_artist'] = 'Activity Artist';
 $string['add_new_prompt'] = 'Add New Prompt';
+$string['addinstance'] = 'Add Instructional Design Ideas block to course';
+$string['design_ideas:addinstance'] = 'Add Instructional Design Ideas block to course';
+$string['design_ideas:edit_prompts'] = 'Edit prompts for Instructional Design Ideas';
 $string['ai_placement_editor_disabled'] = 'An AI Provider or text generation feature is not enabled. Please contact your administrator.';
 $string['ai_policy_not_accepted'] = 'You must accept the AI policy to use this feature.';
 $string['answer'] = 'Answer';

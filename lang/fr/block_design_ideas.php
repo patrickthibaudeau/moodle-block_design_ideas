@@ -27,6 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['activity_artist'] = 'Artiste d\'activité';
 $string['add_new_prompt'] = 'Ajouter une nouvelle invite';
+$string['addinstance'] = 'Ajouter le bloc Instructional Design Ideas au cours';
+$string['design_ideas:addinstance'] = 'Ajouter le bloc Instructional Design Ideas au cours';
+$string['design_ideas:edit_prompts'] = 'Modifier les invites pour Instructional Design Ideas';
 $string['ai_placement_editor_disabled'] = 'Un fournisseur d\'IA ou une fonctionnalité de génération de texte n\'est pas activé. Veuillez contacter votre administrateur.';
 $string['ai_policy_not_accepted'] = 'Vous devez accepter la politique d\'IA pour utiliser cette fonctionnalité.';
 $string['answer'] = 'Réponse';
